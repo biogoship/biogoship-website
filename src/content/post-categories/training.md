@@ -1,0 +1,4 @@
+---
+slug: training
+title: Training
+---

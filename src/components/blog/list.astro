@@ -2,24 +2,41 @@
 import ListItem from "@components/blog/list-item.astro";
 import type { CollectionEntry } from "astro:content";
 import { useTranslations } from "@utils/i18n";
+import { taxonomySlug } from "@utils/taxonomy";
 
 interface Props {
   entries: CollectionEntry<"articles">[];
   locale: string;
+  label?: string;
+  noTransition?: boolean;
+  feed?: boolean;
 }
 
-const { entries, locale } = Astro.props as Props;
+const { entries, locale, label, noTransition, feed } = Astro.props as Props;
 const t = useTranslations(locale);
 ---
 
 {
   entries.length > 0 ? (
-    <ul class="m-0 flex max-w-3xl list-none flex-col gap-10 p-0 sm:gap-12" aria-label={t("pages.blog.title")}>
-      {entries.map((entry) => (
-        <li class="m-0 mt-0">
-          <ListItem {entry} {locale} />
-        </li>
-      ))}
+    <ul class="relative m-0 flex max-w-3xl list-none flex-col gap-4 p-0" aria-label={label ?? t("pages.blog.title")} data-post-feed={feed ? true : undefined}>
+      <span class="bg-accent pointer-events-none absolute top-3 bottom-3 left-[0.375rem] w-[3px] -translate-x-1/2 dark:bg-accent-dark" aria-hidden="true"></span>
+      {entries.map((entry, index) => {
+        const dateLabel = entry.data.publishDate.toLocaleDateString(locale, { dateStyle: "medium" });
+        const categorySlugs = (entry.data.categories ?? []).map(taxonomySlug).filter(Boolean).join(" ");
+        return (
+          <li class="relative m-0 mt-0 grid grid-cols-[0.75rem_minmax(0,1fr)] items-start gap-x-4" data-categories={categorySlugs}>
+            <span class="bg-primary relative z-10 mt-5 h-3 w-3 rounded-full" aria-hidden="true"></span>
+            <div class:list={["px-4 py-4", index % 2 === 0 ? "bg-stone-100 dark:bg-stone-900/70" : "bg-stone-50 dark:bg-stone-950/30"]}>
+              <time class="block text-sm text-stone-500 dark:text-stone-400" datetime={entry.data.publishDate.toISOString()}>
+                {dateLabel}
+              </time>
+              <div class="mt-2">
+                <ListItem {entry} {locale} {noTransition} />
+              </div>
+            </div>
+          </li>
+        );
+      })}
     </ul>
   ) : (
     <p class="text-stone-600 dark:text-stone-300">{t("labels.no-entries")}</p>

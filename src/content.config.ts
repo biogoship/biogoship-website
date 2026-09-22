@@ -195,6 +195,24 @@ const team = defineCollection({
     }),
 });
 
+const post_categories = defineCollection({
+  loader: glob({ pattern: ['**/[^_]**.md'], base: './src/content/post-categories' }),
+  schema: () =>
+    z.object({
+      title: z.string(),
+      slug: z.string().optional(),
+    }),
+});
+
+const post_tags = defineCollection({
+  loader: glob({ pattern: ['**/[^_]**.md'], base: './src/content/post-tags' }),
+  schema: () =>
+    z.object({
+      title: z.string(),
+      slug: z.string().optional(),
+    }),
+});
+
 const protocols = defineCollection({
   loader: glob({ pattern: ['**/[^_]**.md'], base: './src/content/protocols' }),
   schema: () =>
@@ -210,4 +228,4 @@ const protocols = defineCollection({
     }),
 });
 
-export const collections = { articles, events, faq_answers, integration_options, publications, cruises, team, protocols };
+export const collections = { articles, events, faq_answers, integration_options, publications, cruises, team, protocols, post_categories, post_tags };

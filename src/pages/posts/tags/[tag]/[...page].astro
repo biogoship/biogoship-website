@@ -6,22 +6,20 @@ import Pagination from "@components/blog/pagination.astro";
 import type { CollectionEntry } from "astro:content";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
 import { themeConfig } from '~/theme.config';
-import { sortArticleList } from "@utils/blog";
+import { getTaxonomyTitles, resolveTaxonomyTitle, sortArticlesByDate, taxonomySlug } from "@utils/taxonomy";
 import { getCollection } from 'astro:content';
 import type { PaginateFunction } from 'astro';
 
 export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
-  const allArticles = sortArticleList(await getCollection('articles', ({ id, data }) => {
-    // only show articles that are not drafts and mind locale
+  const allArticles = sortArticlesByDate(await getCollection('articles', ({ id, data }) => {
     return !data.draft && id.startsWith(themeConfig.i18n.defaultLocale + '/');
   }) as CollectionEntry<'articles'>[]);
-  const uniqueTags = [...new Set(allArticles.flatMap(({ data }) => data.tags ?? []))];
+  const uniqueTags = [...new Set(allArticles.flatMap(({ data }) => (data.tags ?? []).map(taxonomySlug)))];
   if (!uniqueTags.length) return [];
-  // foreach tag, get all articles with that tag
   return uniqueTags.flatMap(tag => {
-    const localeArticles = allArticles.filter(article => article.data.tags?.includes(tag));
+    const localeArticles = allArticles.filter(article => article.data.tags?.some((entry) => taxonomySlug(entry) === tag));
     return paginate(localeArticles, {
-      params: { tag: tag.toLowerCase().replace(/\s/g, '-') },
+      params: { tag },
       pageSize: themeConfig.articles?.entriesPerPage || 10
     });
   });
@@ -33,10 +31,12 @@ const locale = themeConfig.i18n.defaultLocale;
 const t = useTranslations(locale);
 const allArticles = page.data as CollectionEntry<'articles'>[];
 const numberofPages = Math.ceil(page.total / page.size);
+const taxonomyTitles = await getTaxonomyTitles();
+const tagTitle = resolveTaxonomyTitle(tag ?? '', taxonomyTitles.tags, t('tags-t.' + tag));
 ---
 
-<Layout title={t('labels.tag') + ': ' + t('tags-t.' + tag) + (page.currentPage > 1 ? ' | ' + t('labels.page') + ' ' + page.currentPage : '')} header={{ button: { text: t('labels.back-overview'), href: getLocaleUrl('posts/tags', locale) }, fixed: true }} noi18n={true}>
-  <Headline text={t('tags-t.' + tag)} class="pb-8" />
+<Layout title={t('labels.tag') + ': ' + tagTitle + (page.currentPage > 1 ? ' | ' + t('labels.page') + ' ' + page.currentPage : '')} header={{ button: { text: t('labels.back-overview'), href: getLocaleUrl('posts/tags', locale) }, fixed: true }} noi18n={true}>
+  <Headline text={tagTitle} class="pb-8" />
   <List entries={allArticles} {locale} />
   {numberofPages > 1 && <Pagination {page} {locale} baseUrl={'posts/tags/' + tag} />}
 </Layout>

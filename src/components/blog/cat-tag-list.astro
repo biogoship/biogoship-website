@@ -1,5 +1,6 @@
 ---
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
+import { categoryPillClasses, getTaxonomyTitles, resolveTaxonomyTitle, taxonomySlug } from "@utils/taxonomy";
 
 interface Props {
   entries?: (string | undefined)[];
@@ -10,29 +11,18 @@ interface Props {
 
 const { entries, locale, type, small } = Astro.props as Props;
 const t = useTranslations(locale);
+const titles = await getTaxonomyTitles();
+const titleMap = type === "categories" ? titles.categories : titles.tags;
 
 const items = (entries ?? []).filter((entry): entry is string => Boolean(entry));
 
 function slugify(value: string) {
-  return value.toLowerCase().replace(/\s/g, "-");
+  return taxonomySlug(value);
 }
 
 function label(value: string) {
-  return t(`${type}-t.${value}`);
+  return resolveTaxonomyTitle(value, titleMap, t(`${type}-t.${value}`));
 }
-
-/** Fixed colors per category so News is always News, not a random hash. */
-const categoryPill: Record<string, string> = {
-  news: "bg-primary text-white",
-  "cruise-updates": "bg-secondary text-secondary-contrast",
-  papers: "bg-primary-dark text-white",
-  methods: "bg-accent text-accent-contrast",
-  training: "bg-secondary-dark text-white",
-  general: "bg-stone-600 text-white",
-  sampling: "bg-primary-light text-white",
-  community: "bg-secondary-dark text-white",
-  data: "bg-accent-dark text-white",
-};
 ---
 
 {
@@ -46,7 +36,7 @@ const categoryPill: Record<string, string> = {
               "inline-flex items-center rounded-full font-semibold no-underline hover:opacity-80",
               small ? "px-2.5 py-0.5 text-xs" : "px-3 py-1 text-sm",
               type === "categories"
-                ? (categoryPill[slugify(entry)] ?? "bg-primary text-white")
+                ? categoryPillClasses(entry)
                 : "bg-stone-200 text-stone-700 dark:bg-stone-700 dark:text-stone-200",
             ]}
           >

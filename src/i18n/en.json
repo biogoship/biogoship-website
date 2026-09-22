@@ -43,6 +43,10 @@
     "updated": "Updated",
     "by_category": "by Category",
     "by_tag": "by Tag",
+    "sort-by": "Sort by",
+    "sort-date": "Date",
+    "uncategorized": "Uncategorized",
+    "all": "All",
     "tags": "Tags",
     "tag": "Tag",
     "categories": "Categories",
@@ -348,7 +352,9 @@
     "general": "General",
     "sampling": "Sampling",
     "community": "Community",
-    "data": "Data"
+    "data": "Data",
+    "announcements": "Announcements",
+    "fieldwork": "Fieldwork"
   },
   "ads": {
     "demo": {

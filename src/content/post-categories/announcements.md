@@ -1,0 +1,4 @@
+---
+slug: announcements
+title: Announcements
+---

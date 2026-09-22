@@ -101,12 +101,12 @@ const readingTime = getReadingTime(entry.body);
 
   {
     localImage ? (
-      <figure class="my-8 max-w-3xl overflow-hidden rounded-xl">
-        <Image src={localImage} alt={entry.data.image?.alt ?? ""} class="aspect-video w-full object-cover" widths={[640, 960, 1280]} sizes="(min-width: 768px) 48rem, 100vw" transition:name={"image-" + entry.id} draggable="false" priority />
+      <figure class="my-8 max-w-[18rem]">
+        <Image src={localImage} alt={entry.data.image?.alt ?? ""} class="h-auto w-full rounded-lg" widths={[288, 400]} sizes="18rem" transition:name={"image-" + entry.id} draggable="false" priority />
       </figure>
     ) : remoteImage ? (
-      <figure class="my-8 max-w-3xl overflow-hidden rounded-xl">
-        <Image src={remoteImage} alt={entry.data.image?.alt ?? ""} class="aspect-video w-full object-cover" widths={[640, 960, 1280]} sizes="(min-width: 768px) 48rem, 100vw" transition:name={"image-" + entry.id} draggable="false" priority inferSize />
+      <figure class="my-8 max-w-[18rem]">
+        <Image src={remoteImage} alt={entry.data.image?.alt ?? ""} class="h-auto w-full rounded-lg" widths={[288, 400]} sizes="18rem" transition:name={"image-" + entry.id} draggable="false" priority inferSize />
       </figure>
     ) : null
   }
