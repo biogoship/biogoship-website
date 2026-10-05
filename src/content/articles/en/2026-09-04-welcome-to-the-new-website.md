@@ -18,7 +18,7 @@ This is the new public site for Bio-GO-SHIP. I built this first version so the p
 
 ## How to edit content
 
-Day-to-day edits happen in [Pages CMS](https://app.pagescms.org/). Sign in with GitHub and open this repository (`baydenwillms/bioGOSHIP_POC`). You need to be a collaborator with write access or GitHub will reject the save.
+Day-to-day edits happen in [Pages CMS](https://app.pagescms.org/). Sign in with GitHub and open this repository (`biogoship/biogoship-website`). You need to be a collaborator with write access or GitHub will reject the save.
 
 In the CMS, pick a collection, open or create an item, fill the fields, and save. That commits markdown (and any uploaded image) to the repo. After GitHub Actions finishes, the live site updates.
 

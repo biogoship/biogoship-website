@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAGES: "true"
-      SITE_OVERRIDE: https://baydenwillms.github.io/bioGOSHIP_POC
+      SITE_OVERRIDE: https://biogoship.github.io/biogoship-website
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

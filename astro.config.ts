@@ -100,7 +100,7 @@ const svgoConfig: Config = {
 export default defineConfig({
   site: themeConfig.site,
   // Project Pages live at /<repo>/. Only set this in CI so local `npm run dev` stays at /.
-  base: process.env.GITHUB_PAGES === 'true' ? '/bioGOSHIP_POC' : '/',
+  base: process.env.GITHUB_PAGES === 'true' ? '/biogoship-website' : '/',
   // Astro projects are intended to deliver static pages and not to be fully rendered on-demand!
   // You can use 'server' for SSR, see https://docs.astro.build/en/guides/on-demand-rendering/, but it is not recommended.
   // Best approach: Use static and opt-out some pages from prerendering if needed and supported by your hosting solution (https://docs.astro.build/en/reference/routing-reference/#per-page-override).

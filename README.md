@@ -4,7 +4,7 @@ Public website for the [Bio-GO-SHIP](https://biogoship.org) program: plankton ob
 
 This is a static site. Content (posts, team, cruises, publications, FAQ) lives in markdown files in the repo. Most day-to-day edits happen in **Pages CMS**, not in code.
 
-Preview: [baydenwillms.github.io/bioGOSHIP_POC](https://baydenwillms.github.io/bioGOSHIP_POC)
+Preview: [biogoship.github.io/biogoship-website](https://biogoship.github.io/biogoship-website/)
 
 ## Tech stack
 
@@ -25,7 +25,7 @@ Use this for posts, team members, cruise plans, publications, and FAQ answers. Y
 
 ### Access
 
-1. You must be a **collaborator with write access** on this GitHub repository (`baydenwillms/bioGOSHIP_POC`). Ask a repo admin to add you as an editor if you cannot see or save changes.
+1. You must be a **collaborator with write access** on this GitHub repository (`biogoship/biogoship-website`). Ask a repo admin to add you as an editor if you cannot see or save changes.
 2. Open [Pages CMS](https://app.pagescms.org/) and sign in with GitHub.
 3. Select this repository. The collections come from [`.pages.yml`](./.pages.yml) at the repo root.
 
@@ -70,8 +70,8 @@ npm -v
 ### Install and run
 
 ```sh
-git clone https://github.com/baydenwillms/bioGOSHIP_POC.git
-cd bioGOSHIP_POC
+git clone https://github.com/biogoship/biogoship-website.git
+cd biogoship-website
 npm install
 npm run dev
 ```
