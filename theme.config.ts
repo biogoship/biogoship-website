@@ -128,5 +128,7 @@ export const themeConfig: ThemeConfig = {
 
   askAiTrigger: 'Explain the Bio-GO-SHIP program: its vision, mission, sampling methods, and how it connects to GO-SHIP. What community benefits does it provide?',
 
-  droppedFeatures: ['cloudflare', 'events-pages', 'pricing-page', 'docs-pages', 'integration-pages', 'examples', 'signup'],
+  // If `astro-compress` is ever restored: its CSS minifier (csso) strips Tailwind v4's
+  // `@media (width >= ...)` range syntax, which kills every responsive breakpoint. Keep `CSS: false`.
+  droppedFeatures: ['cloudflare', 'events-pages', 'pricing-page', 'docs-pages', 'integration-pages', 'examples', 'signup', 'html-compression'],
 };
