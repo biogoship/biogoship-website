@@ -1,0 +1,17 @@
+# Line endings are LF everywhere: in the repository and in every working tree.
+#
+# Without this file, Git falls back to each developer's `core.autocrlf` setting,
+# which on Windows rewrites text files to CRLF on checkout. Prettier is configured
+# with `endOfLine: "lf"`, so those checkouts report a `Delete ␍` error on every
+# line of every file. Settings here are committed, so they apply to everyone and
+# to CI; `core.autocrlf` is per-machine and cannot be relied on.
+* text=auto eol=lf
+
+# Binary assets, so Git never inspects or rewrites their bytes.
+*.png binary
+*.jpg binary
+*.ico binary
+*.pdf binary
+*.mp4 binary
+*.woff binary
+*.woff2 binary
