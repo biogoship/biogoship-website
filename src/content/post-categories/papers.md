@@ -1,5 +1,5 @@
 ---
 slug: papers
 title: Papers
-color: c9a227
+color: "c9a227"
 ---

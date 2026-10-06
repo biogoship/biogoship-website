@@ -1,5 +1,5 @@
 ---
 slug: announcements
 title: Announcements
-color: 282687
+color: "282687"
 ---

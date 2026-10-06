@@ -1,5 +1,5 @@
 ---
 slug: community
 title: Community
-color: 0d7377
+color: "0d7377"
 ---

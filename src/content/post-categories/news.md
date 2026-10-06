@@ -1,5 +1,5 @@
 ---
 slug: news
 title: News
-color: 141346
+color: "141346"
 ---

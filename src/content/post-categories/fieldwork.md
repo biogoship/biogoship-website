@@ -1,5 +1,5 @@
 ---
 slug: fieldwork
 title: Fieldwork
-color: 1b7a4e
+color: "1b7a4e"
 ---

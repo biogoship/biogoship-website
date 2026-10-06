@@ -143,10 +143,13 @@ const post_categories = defineCollection({
     z.object({
       title: z.string(),
       slug: z.string().optional(),
-      color: z
-        .string()
-        .regex(/^#?[0-9A-Fa-f]{6}$/)
-        .optional(),
+      color: z.preprocess(
+        (value) => (value == null || value === '' ? undefined : String(value)),
+        z
+          .string()
+          .regex(/^#?[0-9A-Fa-f]{6}$/)
+          .optional(),
+      ),
     }),
 });
 

@@ -1,5 +1,5 @@
 ---
 slug: training
 title: Training
-color: 01a8df
+color: "01a8df"
 ---

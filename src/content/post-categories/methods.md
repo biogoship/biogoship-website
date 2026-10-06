@@ -1,5 +1,5 @@
 ---
 slug: methods
 title: Methods
-color: 017aa3
+color: "017aa3"
 ---

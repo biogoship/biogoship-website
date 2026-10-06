@@ -42,8 +42,8 @@ export const DEFAULT_CATEGORY_COLOR = '#282687';
 
 const HEX_COLOR = /^#?([0-9a-f]{6})$/i;
 
-function normalizeCategoryColor(value: string | undefined) {
-  const match = value?.trim().match(HEX_COLOR);
+function normalizeCategoryColor(value: string | number | undefined) {
+  const match = value == null ? null : String(value).trim().match(HEX_COLOR);
   return match ? `#${match[1].toLowerCase()}` : DEFAULT_CATEGORY_COLOR;
 }
 
