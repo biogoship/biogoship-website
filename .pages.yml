@@ -51,7 +51,7 @@ content:
       - name: categories
         label: Categories
         type: reference
-        description: Add a new category under Post categories, then select it here.
+        description: Colored pills on the post and the filter row on /posts. Add a new one under Post categories in the left sidebar first, then select it here. Example New Publication or P15S.
         options:
           collection: post-categories
           multiple: true
@@ -61,7 +61,7 @@ content:
       - name: tags
         label: Tags
         type: reference
-        description: Add a new tag under Post tags, then select it here.
+        description: Small grey keywords under the post. Add a new one under Post tags in the left sidebar first, then select it here.
         options:
           collection: post-tags
           multiple: true
@@ -95,12 +95,41 @@ content:
         type: string
         required: true
         pattern: '^[a-z0-9-]+$'
-        description: Lowercase with dashes. Used in URLs and on posts, e.g. cruise-updates. Do not change it after posts already use it.
+        description: Lowercase with dashes. Used in URLs and on posts, e.g. p15s. Do not change it after posts already use it.
       - name: title
         label: Display name
         type: string
         required: true
-        description: What visitors see, e.g. Cruise updates.
+        description: What visitors see on the colored pills, e.g. P15S.
+      - name: color
+        label: Color
+        type: select
+        required: true
+        description: Pill color on Posts. Cruise lines can share Site lime. Duplicates are fine. Hex is in the name so you can see it without a color wheel.
+        options:
+          values:
+            - name: '282687'
+              label: 'Site navy (#282687)'
+            - name: '141346'
+              label: 'Deep midnight (#141346)'
+            - name: '1a5f9e'
+              label: 'Ocean blue (#1a5f9e)'
+            - name: '017aa3'
+              label: 'Coastal cyan (#017aa3)'
+            - name: '01a8df'
+              label: 'Bright sea (#01a8df)'
+            - name: '0d7377'
+              label: 'Teal (#0d7377)'
+            - name: '1b7a4e'
+              label: 'Kelp (#1b7a4e)'
+            - name: 'a2d12d'
+              label: 'Site lime (#a2d12d)'
+            - name: '6b9a1e'
+              label: 'Moss (#6b9a1e)'
+            - name: 'c9a227'
+              label: 'Sand (#c9a227)'
+            - name: 'b85c4c'
+              label: 'Coral (#b85c4c)'
 
   - name: post-tags
     label: Post tags
@@ -121,7 +150,7 @@ content:
         label: Display name
         type: string
         required: true
-        description: What visitors see, e.g. Indian Ocean.
+        description: Small keyword under the post, e.g. Indian Ocean.
 
   - name: publications
     label: Publications

@@ -18,6 +18,9 @@ export async function getTaxonomyTitles() {
   return {
     categories: new Map(categories.map((entry) => [taxonomySlug(entry.data.slug ?? entry.id), entry.data.title])),
     tags: new Map(tags.map((entry) => [taxonomySlug(entry.data.slug ?? entry.id), entry.data.title])),
+    categoryColors: new Map(
+      categories.map((entry) => [taxonomySlug(entry.data.slug ?? entry.id), normalizeCategoryColor(entry.data.color)]),
+    ),
   };
 }
 
@@ -33,21 +36,43 @@ export function sortArticlesByDate<T extends CollectionEntry<'articles'>>(items:
   return [...items].sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
 }
 
-/** Fixed colors per category so News is always News, not a random hash. */
-export const categoryPillClass: Record<string, string> = {
-  news: "bg-primary text-white",
-  "cruise-updates": "bg-secondary text-secondary-contrast",
-  papers: "bg-primary-dark text-white",
-  methods: "bg-accent text-accent-contrast",
-  training: "bg-secondary-dark text-white",
-  general: "bg-stone-600 text-white",
-  sampling: "bg-primary-light text-white",
-  community: "bg-secondary-dark text-white",
-  data: "bg-accent-dark text-white",
-  announcements: "bg-primary-light text-white",
-  fieldwork: "bg-accent text-accent-contrast",
-};
+export const DEFAULT_CATEGORY_COLOR = '#282687';
 
-export function categoryPillClasses(slug: string) {
-  return categoryPillClass[taxonomySlug(slug)] ?? "bg-primary text-white";
+// Store hex without a leading # in markdown. A bare `#282687` in YAML is a comment.
+
+const HEX_COLOR = /^#?([0-9a-f]{6})$/i;
+
+function normalizeCategoryColor(value: string | undefined) {
+  const match = value?.trim().match(HEX_COLOR);
+  return match ? `#${match[1].toLowerCase()}` : DEFAULT_CATEGORY_COLOR;
+}
+
+function hexToRgb(hex: string) {
+  const value = Number.parseInt(hex.slice(1), 16);
+  return {
+    r: (value >> 16) & 255,
+    g: (value >> 8) & 255,
+    b: value & 255,
+  };
+}
+
+function relativeLuminance(hex: string) {
+  const { r, g, b } = hexToRgb(hex);
+  const channel = (part: number) => {
+    const scaled = part / 255;
+    return scaled <= 0.03928 ? scaled / 12.92 : ((scaled + 0.055) / 1.055) ** 2.4;
+  };
+  return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
+}
+
+function pillInk(hex: string) {
+  return relativeLuminance(hex) > 0.45 ? '#1a2e00' : '#ffffff';
+}
+
+export function categoryPillStyle(slug: string, colors: Map<string, string>) {
+  const hex = colors.get(taxonomySlug(slug)) ?? DEFAULT_CATEGORY_COLOR;
+  return {
+    backgroundColor: hex,
+    color: pillInk(hex),
+  };
 }

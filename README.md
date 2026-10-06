@@ -18,6 +18,8 @@ Use this for posts, team, cruises, publications, FAQ, and homepage photos. You d
 | Collection   | What you edit                                               | Page           |
 | ------------ | ----------------------------------------------------------- | -------------- |
 | Posts        | News / blog entries                                         | `/posts`       |
+| Post categories | Name plus a color from the dropdown (duplicates are fine) | `/posts`       |
+| Post tags    | Small keywords under a post                                 | `/posts`       |
 | Team         | Name, role, affiliation, photo, bio (USA or International)  | `/team`        |
 | Cruise plans | Title, date, caption, photo, writeup, map pins, cruise line | `/cruises`     |
 | Publications | Citation fields and optional notes                          | `/publications`|

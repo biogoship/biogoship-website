@@ -1,6 +1,6 @@
 ---
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
-import { categoryPillClasses, getTaxonomyTitles, resolveTaxonomyTitle, taxonomySlug } from "@utils/taxonomy";
+import { categoryPillStyle, getTaxonomyTitles, resolveTaxonomyTitle, taxonomySlug } from "@utils/taxonomy";
 
 interface Props {
   entries?: (string | undefined)[];
@@ -13,6 +13,7 @@ const { entries, locale, type, small } = Astro.props as Props;
 const t = useTranslations(locale);
 const titles = await getTaxonomyTitles();
 const titleMap = type === "categories" ? titles.categories : titles.tags;
+const categoryColors = titles.categoryColors;
 
 const items = (entries ?? []).filter((entry): entry is string => Boolean(entry));
 
@@ -35,10 +36,9 @@ function label(value: string) {
             class:list={[
               "inline-flex items-center rounded-full font-semibold no-underline hover:opacity-80",
               small ? "px-2.5 py-0.5 text-xs" : "px-3 py-1 text-sm",
-              type === "categories"
-                ? categoryPillClasses(entry)
-                : "bg-stone-200 text-stone-700 dark:bg-stone-700 dark:text-stone-200",
+              type === "categories" ? undefined : "bg-stone-200 text-stone-700 dark:bg-stone-700 dark:text-stone-200",
             ]}
+            style={type === "categories" ? categoryPillStyle(entry, categoryColors) : undefined}
           >
             {label(entry)}
           </a>

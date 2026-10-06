@@ -85,12 +85,12 @@ const repositories: Repository[] = [
             class="surface-card group flex h-full items-center gap-4 p-5 no-underline"
           >
             {"svg" in repo ? (
-              <span class="flex h-16 w-28 shrink-0 items-center justify-center rounded-md bg-[#0C293C] px-1.5">
-                <BcoDmoLogo class="h-10 w-full" aria-hidden="true" />
+              <span class="flex h-24 w-24 shrink-0 items-center justify-center rounded-md bg-[#0C293C] px-1.5">
+                <BcoDmoLogo class="h-12 w-full" aria-hidden="true" />
               </span>
             ) : (
-              <span class="flex h-16 w-28 shrink-0 items-center justify-center bg-white">
-                <Image src={repo.logo} alt="" class="max-h-16 w-auto max-w-28 object-contain" widths={[112, 224]} sizes="7rem" />
+              <span class="flex h-24 w-24 shrink-0 items-center justify-center rounded-md bg-white p-2">
+                <Image src={repo.logo} alt="" class="max-h-20 w-auto max-w-20 object-contain" widths={[160, 320]} sizes="6rem" />
               </span>
             )}
             <span class="flex min-w-0 flex-col gap-1">

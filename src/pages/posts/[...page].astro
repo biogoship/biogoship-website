@@ -4,7 +4,7 @@ import Headline from "@components/headline.astro";
 import List from "@components/blog/list.astro";
 import { useTranslations } from "@utils/i18n";
 import { themeConfig } from '~/theme.config';
-import { categoryPillClasses, getTaxonomyTitles, sortArticlesByDate } from "@utils/taxonomy";
+import { categoryPillStyle, getTaxonomyTitles, sortArticlesByDate } from "@utils/taxonomy";
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from "astro:content";
 import type { PaginateFunction } from 'astro';
@@ -51,10 +51,8 @@ const categoryPills = [...taxonomyTitles.categories.entries()]
                 type="button"
                 data-category={category.slug}
                 aria-pressed="false"
-                class:list={[
-                  "inline-flex cursor-pointer items-center rounded-full px-3 py-1 text-sm font-semibold no-underline transition-opacity hover:opacity-80 aria-pressed:ring-2 aria-pressed:ring-accent aria-pressed:ring-offset-2 dark:aria-pressed:ring-offset-stone-950",
-                  categoryPillClasses(category.slug),
-                ]}
+                class="inline-flex cursor-pointer items-center rounded-full px-3 py-1 text-sm font-semibold no-underline transition-opacity hover:opacity-80 aria-pressed:ring-2 aria-pressed:ring-accent aria-pressed:ring-offset-2 dark:aria-pressed:ring-offset-stone-950"
+                style={categoryPillStyle(category.slug, taxonomyTitles.categoryColors)}
               >
                 {category.title}
               </button>
