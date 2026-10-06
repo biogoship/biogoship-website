@@ -14,7 +14,14 @@ import { rehypeYoutubePlugin } from './src/plugins/youtube-embed';
 import { themeConfig } from './theme.config';
 import { setOnDemandPrerender, getOnDemandSitemapPages } from './src/utils/on-demand-render';
 
-/** Stops Windows `EBUSY` on `C:\DumpStack.log.tmp` from killing the Vite watcher. */
+/**
+ * Vite's watcher on Windows sometimes adds paths outside the project: the drive
+ * root, `C:\DumpStack.log.tmp`, and `C:\$Recycle.Bin`. Deleted `node_modules`
+ * in the Recycle Bin still have hundreds of `tsconfig.json` files. Vite treats
+ * each as a config change, full-reloads, and then OOMs. The content-layer
+ * "transport invoke timed out" error is the leftover: the server was busy
+ * reloading, not loading collections.
+ */
 function windowsFsWatcherGuard() {
   return {
     name: 'windows-fs-watcher-guard',
@@ -27,18 +34,23 @@ function windowsFsWatcherGuard() {
         throw error;
       });
 
-      const driveRoot = path.parse(server.config.root).root;
+      const projectRoot = path.resolve(server.config.root);
+      const driveRoot = path.parse(projectRoot).root;
       const originalAdd = server.watcher.add.bind(server.watcher);
+
+      const isSafeWatchPath = (target: string) => {
+        const resolved = path.resolve(target);
+        if (resolved === driveRoot) return false;
+        if (/DumpStack\.log\.tmp$/i.test(resolved)) return false;
+        if (/\$Recycle\.Bin/i.test(resolved)) return false;
+        if (/^[a-zA-Z]:[\\/]@/.test(resolved)) return false;
+        const relative = path.relative(projectRoot, resolved);
+        return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative));
+      };
+
       server.watcher.add = (paths) => {
         const list = Array.isArray(paths) ? [...paths] : [paths];
-        const filtered = list.filter((p) => {
-          if (typeof p !== 'string') return true;
-          const resolved = path.resolve(p);
-          if (resolved === driveRoot) return false;
-          if (/DumpStack\.log\.tmp$/i.test(resolved)) return false;
-          if (/^[a-zA-Z]:[\\/]@/.test(resolved)) return false;
-          return true;
-        });
+        const filtered = list.filter((p) => (typeof p !== 'string' ? true : isSafeWatchPath(p)));
         if (filtered.length === 0) return server.watcher;
         return originalAdd(filtered);
       };
@@ -134,6 +146,7 @@ export default defineConfig({
       watch: {
         ignored: [
           (watchedPath: string) => /(?:^|[\\/])DumpStack\.log\.tmp$/i.test(watchedPath),
+          (watchedPath: string) => /\$Recycle\.Bin/i.test(watchedPath),
         ],
       },
     },
