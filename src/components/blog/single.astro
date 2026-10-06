@@ -41,6 +41,13 @@ const tags = entry.data.tags ?? [];
 const localImage = entry.data.image?.file ? imageFile : undefined;
 const remoteImage = !entry.data.image?.file && entry.data.image?.url ? entry.data.image.url : undefined;
 const readingTime = getReadingTime(entry.body);
+
+const imageSizes = {
+  small: { frame: "my-10 max-w-[18rem]", widths: [288, 400], sizes: "18rem" },
+  medium: { frame: "my-10 max-w-xl", widths: [400, 640, 768], sizes: "(min-width: 576px) 36rem, 100vw" },
+  large: { frame: "my-10 max-w-3xl", widths: [640, 768, 960], sizes: "(min-width: 768px) 48rem, 100vw" },
+} as const;
+const imageLayout = imageSizes[entry.data.image?.size ?? "large"];
 ---
 
 <article>
@@ -105,12 +112,12 @@ const readingTime = getReadingTime(entry.body);
 
   {
     localImage ? (
-      <figure class="my-10 max-w-[18rem]">
-        <Image src={localImage} alt={entry.data.image?.alt ?? ""} class="h-auto w-full rounded-lg" widths={[288, 400]} sizes="18rem" transition:name={"image-" + entry.id} draggable="false" priority />
+      <figure class={imageLayout.frame}>
+        <Image src={localImage} alt={entry.data.image?.alt ?? ""} class="h-auto w-full rounded-lg" widths={[...imageLayout.widths]} sizes={imageLayout.sizes} transition:name={"image-" + entry.id} draggable="false" priority />
       </figure>
     ) : remoteImage ? (
-      <figure class="my-10 max-w-[18rem]">
-        <Image src={remoteImage} alt={entry.data.image?.alt ?? ""} class="h-auto w-full rounded-lg" widths={[288, 400]} sizes="18rem" transition:name={"image-" + entry.id} draggable="false" priority inferSize />
+      <figure class={imageLayout.frame}>
+        <Image src={remoteImage} alt={entry.data.image?.alt ?? ""} class="h-auto w-full rounded-lg" widths={[...imageLayout.widths]} sizes={imageLayout.sizes} transition:name={"image-" + entry.id} draggable="false" priority inferSize />
       </figure>
     ) : null
   }

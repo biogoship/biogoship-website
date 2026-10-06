@@ -61,5 +61,8 @@ const hasMap = points.length > 0 || line.length > 1;
     <div class="markdown-content mt-10 max-w-3xl">
       <Content />
     </div>
+    <nav class="mt-16 max-w-3xl" aria-label={t("labels.pagination")}>
+      <BackLink href={getLocaleUrl("cruises", locale)} text={t("labels.back-all-cruises")} />
+    </nav>
   </article>
 </Layout>

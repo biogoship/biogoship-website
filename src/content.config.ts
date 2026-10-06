@@ -34,6 +34,7 @@ const articles = defineCollection({
           file: image().optional(), // file would be a relative path to the src/images/content/articles folder. You can use the alias @images to reference this folder. The article list-item.astro and [...article].astro elements hold a fallback option, if no file or url is set.
           url: httpUrl.optional(), // url would be an optional url to any image
           alt: z.string().optional(), // this defines the alt text for the image
+          size: z.enum(['small', 'medium', 'large']).optional(),
         })
         .optional(),
       tags: z.array(z.string()).optional(),

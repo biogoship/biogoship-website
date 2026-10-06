@@ -78,6 +78,18 @@ content:
               path: src/images/content/posts
           - name: alt
             type: string
+          - name: size
+            label: Image size
+            type: select
+            description: Makes the photo Small, Medium, or Large on the post. You can change it later.
+            options:
+              values:
+                - name: small
+                  label: Small
+                - name: medium
+                  label: Medium
+                - name: large
+                  label: Large
       - name: body
         type: rich-text
 
