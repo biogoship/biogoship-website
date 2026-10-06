@@ -2,7 +2,7 @@
 import { Icon } from "astro-icon/components";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
 import { themeConfig } from '~/theme.config';
-import BioLogo from '../../icons/bio_GOSHIP_logo_COLOR.svg';
+import bioLogo from '../../icons/bio_GOSHIP_logo.jpg';
 import GoShipLink from "@components/layout/go-ship-link.astro";
 import FooterNav from "@components/layout/nav/footer-nav.astro";
 import LegalNav from "@components/layout/nav/legal.astro";
@@ -26,8 +26,8 @@ const linkedinUrl: string|undefined = undefined;
   <div class="container flex flex-col items-start justify-between gap-x-20 gap-y-6 px-7 md:flex-row">
     <div class="flex w-full flex-col items-center gap-3 border-b border-white/10 pb-6 text-center md:max-w-[350px] md:items-start md:border-0 md:text-left">
       <div class="flex items-end justify-center gap-3 md:justify-start">
-        <a href={getLocaleUrl('/', locale)} aria-label={themeConfig.name} class="inline-flex shrink-0 overflow-hidden rounded-lg bg-white p-1.5 no-underline select-none hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2">
-          <BioLogo class="h-20 w-auto" aria-hidden="true" />
+        <a href={getLocaleUrl('/', locale)} class="inline-flex shrink-0 overflow-hidden rounded-lg bg-white p-1.5 no-underline select-none hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2">
+          <img src={bioLogo.src} alt={themeConfig.name} width={bioLogo.width} height={bioLogo.height} class="h-20 w-auto" />
         </a>
         <GoShipLink class="h-18 w-18" />
       </div>

@@ -7,6 +7,7 @@ import SiteMap, { type MapTrack } from "@components/map/site-map.astro";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
 import { colorsForIds } from "@utils/helpers";
 import { themeConfig } from "~/theme.config";
+import Bathymetry from "../../icons/bathymetric_map_no_numbers.svg";
 import polarFieldPhoto from "../../icons/20221012_222117.jpg";
 
 interface Props {
@@ -237,6 +238,9 @@ function cruiseShortName(title: string) {
 
   <!-- Newest post, cruise, protocol, and publication. -->
   <div class="home-lower relative">
+    <div class="home-lower__art pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      <Bathymetry class="bathy-outline text-primary h-full w-full opacity-[0.035] dark:text-white dark:opacity-[0.03]" />
+    </div>
     <div class="container relative z-10 mx-auto py-16 sm:py-20">
     <section aria-labelledby="home-voices-heading">
       <Reveal class="mb-10">
@@ -300,3 +304,14 @@ function cruiseShortName(title: string) {
     </div>
   </div>
 </section>
+
+<style>
+  @reference "../../styles/tailwind.config.css";
+
+  .home-lower__art :global(svg) {
+    width: 140%;
+    max-width: none;
+    height: 100%;
+    margin-left: -20%;
+  }
+</style>
