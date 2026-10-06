@@ -133,11 +133,6 @@
   .phylo-deco.phylo-deco--on-photo {
     @apply text-white opacity-[0.2] dark:text-white dark:opacity-[0.24];
   }
-
-  /* Bathymetry contours are black strokes. Recolor them the same way. */
-  .bathy-outline :is(path) {
-    stroke: currentColor;
-  }
 }
 
 @layer utilities {
