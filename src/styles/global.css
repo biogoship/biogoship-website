@@ -15,17 +15,6 @@
     @apply bg-primary m-0 h-full w-full p-0;
   }
 
-  /*
-   * Patch to prevent the add to calendar button fullscreen modal to put some holes in the page
-   */
-  body.atcb-modal-no-scroll main,
-  body.atcb-modal-no-scroll footer,
-  body.atcb-modal-no-scroll #top-banner,
-  body.atcb-modal-no-scroll #footer-banner,
-  body.atcb-modal-no-scroll #newsletter-banner {
-    @apply w-dvw!;
-  }
-
   main {
     @apply bg-background dark:bg-background-dark text-text dark:text-text-dark w-full text-left font-sans text-base;
   }

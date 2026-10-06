@@ -29,11 +29,9 @@ interface Props {
   github?: string;
   /** Force light or dark - only for overlay headers - would default to the global theme */
   overlayTheme?: "light" | "dark";
-  /** A TopBanner is rendered above the header; offset the header to sit below it */
-  hasTopBanner?: boolean;
 }
 
-const { fixed, button, locale, closeIcon, overlay, scrollDownThreshold, isHome, ctaButton, github, overlayTheme, hasTopBanner } = Astro.props as Props;
+const { fixed, button, locale, closeIcon, overlay, scrollDownThreshold, isHome, ctaButton, github, overlayTheme } = Astro.props as Props;
 
 const t = useTranslations(locale);
 
@@ -47,7 +45,7 @@ const isOverlayScroll = !fixed && !!overlay && !isClose;
 
 {
   isClose && (
-    <a href={getLocaleUrl('/', locale)} id="header-close" aria-label={t('labels.back')} class:list={['btn-subtle right-5 z-50 rounded-full', fixed ? 'absolute' : 'fixed', !fixed && hasTopBanner ? 'top-5 sm:top-14' : 'top-5']} data-top-banner-offset={hasTopBanner && !fixed ? 36 : undefined} data-top-banner-base={hasTopBanner && !fixed ? 20 : undefined}>
+    <a href={getLocaleUrl('/', locale)} id="header-close" aria-label={t('labels.back')} class:list={['btn-subtle top-5 right-5 z-50 rounded-full', fixed ? 'absolute' : 'fixed']}>
       <Icon name="heroicons:x-mark" class="h-5 w-5 md:h-8 md:w-8" />
     </a>
   )
@@ -70,7 +68,7 @@ const isOverlayScroll = !fixed && !!overlay && !isClose;
   isCssFixed && (
     <>
       <div id="header-placeholder" class="bg-background dark:bg-background-dark h-24" />
-      <header id="header" role="banner" class:list={['header-base-style fixed left-0 z-50', hasTopBanner ? 'top-0 sm:top-9' : 'top-0']} data-top-banner-offset={hasTopBanner ? 36 : undefined}>
+      <header id="header" role="banner" class="header-base-style fixed top-0 left-0 z-50">
         <HeaderContent {locale} {button} {isHome} {ctaButton} {github} />
       </header>
     </>
@@ -140,58 +138,6 @@ const isOverlayScroll = !fixed && !!overlay && !isClose;
   setupFooterHide();
   document.addEventListener('astro:page-load', setupFooterHide);
 </script>
-
-<script>
-  let _bannerOffsetHandler: (() => void) | null = null;
-  let _bannerTargets: Array<{ el: HTMLElement; offset: number; base: number }> = [];
-  const _bannerMql: MediaQueryList | null = typeof window !== 'undefined' && typeof window.matchMedia === 'function' ? window.matchMedia('(min-width: 576px)') : null;
-
-  function teardownTopBannerOffset() {
-    if (_bannerOffsetHandler) {
-      window.removeEventListener('scroll', _bannerOffsetHandler);
-      _bannerOffsetHandler = null;
-    }
-    // Reset inline top so elements fall back to their CSS-defined position
-    for (const t of _bannerTargets) t.el.style.top = '';
-    _bannerTargets = [];
-  }
-
-  function setupTopBannerOffset() {
-    teardownTopBannerOffset();
-    // TopBanner is hidden below the sm breakpoint (576px); skip the script there
-    if (_bannerMql && !_bannerMql.matches) return;
-
-    const els = document.querySelectorAll<HTMLElement>('[data-top-banner-offset]');
-    if (!els.length) return;
-    _bannerTargets = Array.from(els)
-      .map((el) => ({
-        el,
-        offset: parseInt(el.dataset.topBannerOffset || '0', 10) || 0,
-        base: parseInt(el.dataset.topBannerBase || '0', 10) || 0,
-      }))
-      .filter((t) => t.offset > 0);
-    if (!_bannerTargets.length) return;
-    _bannerOffsetHandler = () => {
-      const y = window.scrollY;
-      for (const t of _bannerTargets) {
-        const remaining = Math.max(0, t.offset - y);
-        t.el.style.top = t.base + remaining + 'px';
-      }
-    };
-    window.addEventListener('scroll', _bannerOffsetHandler, { passive: true });
-    _bannerOffsetHandler();
-  }
-
-  setupTopBannerOffset();
-  document.addEventListener('astro:page-load', setupTopBannerOffset);
-  if (_bannerMql) {
-    const onMqlChange = () => setupTopBannerOffset();
-    if (typeof _bannerMql.addEventListener === 'function') {
-      _bannerMql.addEventListener('change', onMqlChange);
-    }
-  }
-</script>
-
 {/* Overlay + !fixed: single header starts as overlay (absolute), */}
 {/* then transitions to a fixed scroll header when threshold is crossed */}
 

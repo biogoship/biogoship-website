@@ -35,7 +35,7 @@ const taxonomyTitles = await getTaxonomyTitles();
 const categoryTitle = resolveTaxonomyTitle(category ?? '', taxonomyTitles.categories, t('categories-t.' + category));
 ---
 
-<Layout title={t('labels.category') + ': ' + categoryTitle + (page.currentPage > 1 ? ' | ' + t('labels.page') + ' ' + page.currentPage : '')} header={{ button: { text: t('labels.back-overview'), href: getLocaleUrl('posts/categories', locale) }, fixed: true }} noi18n={true}>
+<Layout title={t('labels.category') + ': ' + categoryTitle + (page.currentPage > 1 ? ' | ' + t('labels.page') + ' ' + page.currentPage : '')} header={{ button: { text: t('labels.back-overview'), href: getLocaleUrl('posts/categories', locale) }, fixed: true }}>
   <Headline text={categoryTitle} class="pb-8" />
   <List entries={allArticles} {locale} />
   {numberofPages > 1 && <Pagination {page} {locale} baseUrl={'posts/categories/' + category} />}

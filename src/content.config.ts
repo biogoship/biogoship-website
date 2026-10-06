@@ -50,41 +50,6 @@ const articles = defineCollection({
     }),
 });
 
-const events = defineCollection({
-  loader: glob({ pattern: ['**/[^_]**.md'], base: './src/content/events', deferRender: onDemandCollections.has('events') }),
-  schema: ({ image }) =>
-    z.object({
-      publishDate: z.date(),
-      updateDate: z.date().optional(),
-      draft: z.boolean().optional(),
-      slug: z.string().optional(), // If you have a lot of events, we recommend adding a random hash to the md file to prevent duplication. In this case, you can set a nicer slug via this option. Mind that a custom slug needs to include the language code - like "de/abc-german"
-      i18nSlug: z.record(z.string(), z.string()).optional(), // if you use different custom slugs or file names for different languages, you need to define them per language on each event like { de: 'de/abc-german', en: 'en/abc-english' }
-      title: z.string(),
-      description: z.string().optional(), // this description is used for the shareable event. Use the markdown body for additional longer and rich descriptions
-      startDate: z.date(),
-      endDate: z.date(),
-      allDay: z.boolean().optional(),
-      timeZone: z.string().optional(), // valid IANA time zone. Find it via https://tz.add-to-calendar-technology.com/
-      location: z.string().optional(),
-      organizer: z
-        .object({
-          name: z.string(),
-          email: z.string(),
-        })
-        .optional(),
-      rrule: z.string().optional(), // use this to define a recurrence rule for the event, e.g. "FREQ=WEEKLY;BYDAY=MO,WE,FR" for a weekly event on Monday, Wednesday and Friday
-      icsFile: z.string().optional(), // use this to define a path to a static .ics file instead of having generated dynamically (which might break in some environments)
-      image: z
-        .object({
-          file: image().optional(), // file would be a relative path to the src/images/content/articles folder. You can use the alias @images to reference this folder. The article list-item.astro and [...article].astro elements hold a fallback option, if no file or url is set.
-          url: httpUrl.optional(), // url would be an optional url to any image
-          alt: z.string().optional(), // this defines the alt text for the image
-        })
-        .optional(),
-      llmsTxt: z.boolean().optional(),
-    }),
-});
-
 const faq_answers = defineCollection({
   loader: glob({ pattern: ['**/[^_]**.md'], base: './src/content/faq-answers', deferRender: onDemandCollections.has('faq_answers') }),
   schema: () =>
@@ -95,30 +60,6 @@ const faq_answers = defineCollection({
       question: z.string(),
       category: z.string().optional(),
       llmsTxt: z.boolean().optional(),
-    }),
-});
-
-const integration_options = defineCollection({
-  loader: glob({ pattern: ['**/[^_]**.md'], base: './src/content/integration-options', deferRender: onDemandCollections.has('integration_options') }),
-  schema: ({ image }) =>
-    z.object({
-      publishDate: z.date().optional(),
-      updateDate: z.date().optional(),
-      draft: z.boolean().optional(),
-      slug: z.string().optional(), // If you have a lot of integration options, we recommend adding a random hash to the md file to prevent duplication. In this case, you can set a nicer slug via this option. Mind that a custom slug needs to include the language code - like "de/abc-german"
-      i18nSlug: z.record(z.string(), z.string()).optional(), // if you use different custom slugs or file names for different languages, you need to define them per language on each item like { de: 'de/abc-german', en: 'en/abc-english' }
-      type: z.string(), // can be used to split integration via Zapier vs. Make vs. n8n vs. native, ...
-      service: z.string(), // e.g. "Google Sheets", "Notion", "Shopify", ...
-      title: z.string(),
-      description: z.string().optional(),
-      url: httpUrl.optional(),
-      logo: z
-        .object({
-          file: image().optional(), // file would be a relative path to the src/images/content/integration_options folder. You can use the alias @images to reference this folder.
-          url: httpUrl.optional(), // url would be an optional url to any image
-          alt: z.string().optional(), // this defines the alt text for the image
-        })
-        .optional(),
     }),
 });
 
@@ -228,4 +169,4 @@ const protocols = defineCollection({
     }),
 });
 
-export const collections = { articles, events, faq_answers, integration_options, publications, cruises, team, protocols, post_categories, post_tags };
+export const collections = { articles, faq_answers, publications, cruises, team, protocols, post_categories, post_tags };

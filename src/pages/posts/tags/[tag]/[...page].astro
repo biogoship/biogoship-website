@@ -35,7 +35,7 @@ const taxonomyTitles = await getTaxonomyTitles();
 const tagTitle = resolveTaxonomyTitle(tag ?? '', taxonomyTitles.tags, t('tags-t.' + tag));
 ---
 
-<Layout title={t('labels.tag') + ': ' + tagTitle + (page.currentPage > 1 ? ' | ' + t('labels.page') + ' ' + page.currentPage : '')} header={{ button: { text: t('labels.back-overview'), href: getLocaleUrl('posts/tags', locale) }, fixed: true }} noi18n={true}>
+<Layout title={t('labels.tag') + ': ' + tagTitle + (page.currentPage > 1 ? ' | ' + t('labels.page') + ' ' + page.currentPage : '')} header={{ button: { text: t('labels.back-overview'), href: getLocaleUrl('posts/tags', locale) }, fixed: true }}>
   <Headline text={tagTitle} class="pb-8" />
   <List entries={allArticles} {locale} />
   {numberofPages > 1 && <Pagination {page} {locale} baseUrl={'posts/tags/' + tag} />}

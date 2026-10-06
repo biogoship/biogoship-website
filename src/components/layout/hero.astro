@@ -2,7 +2,6 @@
 import type { ImageMetadata } from "astro";
 import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
-import HeroChip from "@components/promo/hero-chip.astro";
 import { themeConfig } from '~/theme.config';
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
 import LogoMark from "../../icons/bio_GOSHIP_logo_SVG_unofficial.svg";
@@ -45,8 +44,6 @@ const slides = Object.entries(carouselModules)
   {slides.length > 0 && <div class="hero-scrim pointer-events-none absolute inset-0" aria-hidden="true"></div>}
 
   <div class="relative z-10 flex w-full max-w-4xl flex-col items-center gap-6 text-center">
-    {themeConfig.promotions?.heroChip && <HeroChip {locale} />}
-
     <div class="flex flex-col items-center gap-3">
       <div class="flex flex-col items-center gap-2">
         <LogoMark class="h-36 w-auto text-white drop-shadow-lg sm:h-44 md:h-52" role="img" aria-label={t('pages.home.hero-logo-alt')} />

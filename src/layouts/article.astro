@@ -5,17 +5,12 @@ import "@fontsource/geist/800.css";
 import "@styles/global.css";
 import "@styles/blog.css";
 import { ClientRouter } from 'astro:transitions';
-import NewsletterSignup from "@components/promo/newsletter-signup-wrapper.astro";
-import FooterBanner from "@components/promo/footer-banner.astro";
-import TopBanner from "@components/promo/top-banner.astro";
 import Footer from "@components/layout/footer.astro";
 import BackToTop from "@components/layout/back-to-top.astro";
 import Header from "@components/layout/header.astro";
 import HeadBase from "@components/head/base.astro";
-import HeadHrefLang from "@components/head/hreflang.astro";
 import HeadOgX from "@components/head/ogx.astro";
 import ArticleStructuredData from "@components/structured/article.astro";
-import LanguageSelect from "@components/layout/language-select.astro";
 import WebMCPTools from "@components/webmcp-tools.astro";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
 import { themeConfig } from '~/theme.config';
@@ -36,16 +31,11 @@ interface Props {
     scrollDownThreshold?: number;
     /** Show a close icon instead of the site name or button */
     closeIcon?: boolean;
-    /** Force hide or show the top banner */
-    showTopBanner?: boolean;
   };
-  showFooterBanner?: boolean; // Force hide or show the footer banner
   robots?: string;
   isError?: boolean;
   imgUrl?: string;
-  imgFallback?: boolean;
   locale?: string;
-  noi18n?: boolean;
 }
 
 const locale = Astro.props.locale || themeConfig.i18n.defaultLocale;
@@ -54,10 +44,10 @@ const t = useTranslations(locale);
 const collection = 'articles';
 const title = Astro.props.title || t('meta.title');
 const description = Astro.props.description || t('meta.description');
-const { imgUrl, isError, noi18n, robots, imgFallback, header, showFooterBanner } = Astro.props;
+const { imgUrl, isError, robots, header } = Astro.props;
 
-const ogImage = imgUrl ? Astro.site + 'img/content/' + (!imgFallback ? (collection + '/') : '') + 'og_' + imgUrl + '.jpg' : undefined;
-const xImage = imgUrl ? Astro.site + 'img/content/' + (!imgFallback ? (collection + '/') : '') + 'x_' + imgUrl + '.jpg' : undefined;
+const ogImage = imgUrl ? Astro.site + 'img/content/' + collection + '/og_' + imgUrl + '.jpg' : undefined;
+const xImage = imgUrl ? Astro.site + 'img/content/' + collection + '/x_' + imgUrl + '.jpg' : undefined;
 const ogTitle = themeConfig.ogTitle ?? t('meta.og-site-name');
 
 const articleEntry = await getEntry(collection, locale + '/' + Astro.params.article as string) || {} as CollectionEntry<'articles'>;
@@ -65,15 +55,12 @@ const articleEntry = await getEntry(collection, locale + '/' + Astro.params.arti
 const externalCanonical = articleEntry.data.externalCanonical;
 
 const headerButton = { text: t('labels.back-all-articles'), href: getLocaleUrl('posts', locale) };
-
-const showTopBanner = (themeConfig.promotions?.topBanner && header?.showTopBanner !== false) || header?.showTopBanner;
 ---
 
 <!doctype html>
 <html lang={locale}>
   <head>
     <HeadBase {title} {description} {locale} {robots} {isError} {externalCanonical} />
-    <HeadHrefLang {locale} {noi18n} {collection} contentId={articleEntry.id} />
     <HeadOgX {locale} {title} {description} {ogTitle} {ogImage} {xImage} />
     <!-- Structured Data -->
     <ArticleStructuredData {title} {description} {articleEntry} {locale} />
@@ -81,20 +68,16 @@ const showTopBanner = (themeConfig.promotions?.topBanner && header?.showTopBanne
     <ClientRouter />
   </head>
   <body>
-    {showTopBanner ? <TopBanner {locale} /> : null}
     <div class="relative w-full">
-      {header?.hidden !== true && <Header {locale} button={headerButton} ctaButton={{ text: t('nav.contact'), href: getLocaleUrl('contact', locale) }} fixed={header?.fixed} overlay={header?.overlay} scrollDownThreshold={header?.scrollDownThreshold} closeIcon={header?.closeIcon} hasTopBanner={showTopBanner} />}
+      {header?.hidden !== true && <Header {locale} button={headerButton} ctaButton={{ text: t('nav.contact'), href: getLocaleUrl('contact', locale) }} fixed={header?.fixed} overlay={header?.overlay} scrollDownThreshold={header?.scrollDownThreshold} closeIcon={header?.closeIcon} />}
       <main role="main">
         <div class="container mx-auto pt-8 pb-10 md:pt-10 md:pb-14 lg:pt-12 lg:pb-16">
           <slot />
         </div>
       </main>
-      {(themeConfig.promotions?.footerBanner && showFooterBanner !== false) || showFooterBanner ? <FooterBanner {locale} /> : null}
-      {themeConfig.promotions?.newsletterSignup === 'bottom' && <NewsletterSignup {locale} />}
       <Footer {locale} {isError} />
       <BackToTop {locale} />
     </div>
-    {themeConfig.i18n.locales.length > 1 ? <LanguageSelect {noi18n} {collection} contentId={articleEntry.id} {locale} /> : null}
     <WebMCPTools {locale} />
   </body>
 </html>

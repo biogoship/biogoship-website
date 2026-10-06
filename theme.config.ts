@@ -50,7 +50,6 @@ export const themeConfig: ThemeConfig = {
 
   // content/articles settings
   articles: {
-    imageFallback: false,
     gridView: true,
     textOverImage: false,
     categories: true, // if set false, make sure to also remove category directories under /pages
@@ -91,29 +90,7 @@ export const themeConfig: ThemeConfig = {
     },
   },
 
-  // promotion settings
-  promotions: {
-    newsletterSignup: false,
-    footerBanner: false,
-    navAd: false,
-    topBanner: false,
-    heroChip: false,
-  },
-
   onDemandRenderedCollections: [],
-
-  // content/events settings
-  events: {
-    // you can also dynamically integrate events from your Add to Calendar PRO account (https://add-to-calendar-pro.com/), having your API key set as environment variable ADD_TO_CALENDAR_PRO_API_KEY.
-    dynamicEvents: {
-      pullFromAddToCalendarPro: false,
-      filterBy: {
-        from: '',
-        to: '',
-        group: '',
-      },
-    },
-  },
 
   // LLM and coding assistant settings
   llms: {
@@ -122,7 +99,6 @@ export const themeConfig: ThemeConfig = {
     excludePagesPattern: [],
     includePages: [],
     addArticles: 'selected',
-    addEvents: 'none',
     addFAQ: 'all',
   },
 

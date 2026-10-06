@@ -12,18 +12,9 @@ import { themeConfig } from '../../theme.config';
 // See https://docs.astro.build/en/guides/upgrade-to/v5/#removed-support-for-dynamic-prerender-values-in-routes
 const onDemandRoutes: Record<string, string> = {
   'posts/[...article].astro': 'articles',
-  'events/detail/[...event].astro': 'events',
-  // the events overview/list route is only forced to SSR when events are pulled
-  // from the Add to Calendar PRO API (it stays prerendered for markdown events).
-  'events/[...year].astro': 'events_overview',
-  'integration/[type]/[item].astro': 'integration_options',
-  'integration/[type]/index.astro': 'integration_options',
-  // Dynamic events sitemap - only SSR when events are pulled from the API.
-  'dynamic-events-sitemap.xml.ts': 'dynamic_events_sitemap',
   // Dynamic 404 fallback - only SSR when at least one collection is on-demand
-  // rendered (or events are pulled from the API), so on-demand routes can
-  // `Astro.rewrite('/404_dynamic')`. Stays prerendered otherwise to keep the
-  // build fully static (no server adapter required).
+  // rendered, so on-demand routes can `Astro.rewrite('/404_dynamic')`. Stays
+  // prerendered otherwise to keep the build fully static (no server adapter required).
   '404_dynamic.astro': '404_dynamic',
 };
 const onDemandCollections = new Set<string>(themeConfig.onDemandRenderedCollections ?? []);
@@ -34,19 +25,13 @@ export const setOnDemandPrerender: AstroIntegration = {
       // Match both the default-locale (`src/pages/posts/...`) and the localized
       // (`src/pages/[lang]/posts/...`) variants of each collection route.
       const collection = Object.entries(onDemandRoutes).find(([suffix]) => route.component.endsWith(suffix))?.[1];
-      const dynamicEvents = Boolean(themeConfig.events?.dynamicEvents?.pullFromAddToCalendarPro);
-      // The events overview list is prerendered for markdown events but must be SSR when events come from the API so new entries appear without a rebuild.
-      if (collection === 'events_overview' || collection === 'dynamic_events_sitemap') {
-        if (dynamicEvents) route.prerender = false;
-        return;
-      }
       // The dynamic 404 fallback is only needed (and only SSR) when at least
-      // one collection is on-demand rendered or events come from the API.
+      // one collection is on-demand rendered.
       if (collection === '404_dynamic') {
-        if (onDemandCollections.size > 0 || dynamicEvents) route.prerender = false;
+        if (onDemandCollections.size > 0) route.prerender = false;
         return;
       }
-      if (collection && (onDemandCollections.has(collection) || (collection === 'events' && dynamicEvents))) {
+      if (collection && onDemandCollections.has(collection)) {
         route.prerender = false;
       }
     },
@@ -74,11 +59,7 @@ interface OnDemandCollectionDescriptor {
   withType: boolean; // URL includes a `/{type}/` part (from frontmatter)
 }
 
-const collectionDescriptors = new Map<string, OnDemandCollectionDescriptor>([
-  ['articles', { dir: 'articles', segment: 'posts', withType: false }],
-  ['events', { dir: 'events', segment: 'events/detail', withType: false }],
-  ['integration_options', { dir: 'integration-options', segment: 'integration', withType: true }],
-]);
+const collectionDescriptors = new Map<string, OnDemandCollectionDescriptor>([['articles', { dir: 'articles', segment: 'posts', withType: false }]]);
 
 const contentDir = fileURLToPath(new URL('../content', import.meta.url));
 
@@ -124,14 +105,8 @@ export function getOnDemandSitemapPages(): string[] {
   const site = themeConfig.site.replace(/\/+$/, '');
   const { defaultLocale, locales } = themeConfig.i18n;
   const urls: string[] = [];
-  const dynamicEvents = Boolean(themeConfig.events?.dynamicEvents?.pullFromAddToCalendarPro);
 
   for (const collection of onDemandCollections) {
-    // When events are pulled from the Add to Calendar PRO API, the sitemap
-    // URLs are generated on-demand by dynamic-events-sitemap.ts (which hits
-    // the API), not from local markdown files.
-    if (collection === 'events' && dynamicEvents) continue;
-
     const descriptor = collectionDescriptors.get(collection);
     if (!descriptor) continue;
 

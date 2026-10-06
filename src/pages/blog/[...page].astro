@@ -1,8 +1,0 @@
----
-export function getStaticPaths() {
-  return [{ params: { page: undefined } }, { params: { page: '2' } }];
-}
-
-const rest = Astro.params.page;
-return Astro.redirect(rest ? `/posts/${rest}` : '/posts', 301);
----
