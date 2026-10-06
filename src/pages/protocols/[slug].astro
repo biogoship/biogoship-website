@@ -1,6 +1,8 @@
 ---
 import Layout from "@layouts/default.astro";
 import Headline from "@components/headline.astro";
+import BackLink from "@components/layout/back-link.astro";
+import { Icon } from "astro-icon/components";
 import { getCollection, getEntry, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
@@ -23,19 +25,23 @@ const rawFile = entry.data.file || entry.data.url;
 const href = rawFile ? (/^https?:\/\//i.test(rawFile) ? rawFile : `${import.meta.env.BASE_URL.replace(/\/$/, "")}${rawFile.startsWith("/") ? rawFile : `/${rawFile}`}`) : undefined;
 ---
 
-<Layout title={entry.data.title} description={entry.data.description} header={{ button: { text: t('labels.back-all-protocols'), href: getLocaleUrl('protocols', locale) } }} {locale}>
-  <Headline text={entry.data.title} class="pb-4" />
-  <p class="text-secondary-dark dark:text-secondary-light mb-6 text-xs font-semibold tracking-[0.16em] uppercase">{entry.data.category}</p>
-  {
-    href && (
-      <p class="mb-8">
-        <a href={href} class="text-primary dark:text-primary-light font-semibold" target="_blank" rel="noopener">
-          {t('pages.protocols.download')}
-        </a>
-      </p>
-    )
-  }
-  <div class="markdown-content max-w-3xl">
-    <Content />
-  </div>
+<Layout title={entry.data.title} description={entry.data.description} {locale}>
+  <article class="max-w-3xl">
+    <BackLink href={getLocaleUrl("protocols", locale)} text={t("labels.back-all-protocols")} />
+    <Headline text={entry.data.title} />
+    <p class="m-0 text-base text-stone-500">{entry.data.category}</p>
+    {
+      href && (
+        <p class="mt-8 mb-0">
+          <a href={href} class="btn-primary w-fit rounded" target="_blank" rel="noopener">
+            <Icon name="heroicons:arrow-down-tray" class="h-5 w-5" aria-hidden="true" />
+            {t("pages.protocols.download")}
+          </a>
+        </p>
+      )
+    }
+    <div class="markdown-content mt-10">
+      <Content />
+    </div>
+  </article>
 </Layout>

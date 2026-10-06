@@ -1,6 +1,7 @@
 ---
 import Layout from "@layouts/default.astro";
 import Headline from "@components/headline.astro";
+import BackLink from "@components/layout/back-link.astro";
 import List from "@components/blog/list.astro";
 import Pagination from "@components/blog/pagination.astro";
 import type { CollectionEntry } from "astro:content";
@@ -35,7 +36,8 @@ const taxonomyTitles = await getTaxonomyTitles();
 const tagTitle = resolveTaxonomyTitle(tag ?? '', taxonomyTitles.tags, t('tags-t.' + tag));
 ---
 
-<Layout title={t('labels.tag') + ': ' + tagTitle + (page.currentPage > 1 ? ' | ' + t('labels.page') + ' ' + page.currentPage : '')} header={{ button: { text: t('labels.back-overview'), href: getLocaleUrl('posts/tags', locale) }, fixed: true }}>
+<Layout title={t('labels.tag') + ': ' + tagTitle + (page.currentPage > 1 ? ' | ' + t('labels.page') + ' ' + page.currentPage : '')} {locale}>
+  <BackLink href={getLocaleUrl("posts/tags", locale)} text={t("labels.back-overview")} />
   <Headline text={tagTitle} class="pb-8" />
   <List entries={allArticles} {locale} />
   {numberofPages > 1 && <Pagination {page} {locale} baseUrl={'posts/tags/' + tag} />}

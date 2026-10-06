@@ -24,7 +24,7 @@ const t = useTranslations(locale);
         const categorySlugs = (entry.data.categories ?? []).map(taxonomySlug).filter(Boolean).join(" ");
         return (
           <li class="surface-card m-0 mt-0 px-5 py-4" data-categories={categorySlugs}>
-            <time class="block text-sm text-stone-500 dark:text-stone-400" datetime={entry.data.publishDate.toISOString()}>
+            <time class="block text-base text-stone-500 dark:text-stone-400" datetime={entry.data.publishDate.toISOString()}>
               {dateLabel}
             </time>
             <div class="mt-2">

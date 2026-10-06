@@ -88,3 +88,11 @@ const linkedinUrl: string|undefined = undefined;
     <LegalNav {locale} />
   </div>
 </footer>
+
+<style>
+  @reference "../../styles/tailwind.config.css";
+
+  footer :global(a.btn-subtle:hover) {
+    @apply border-accent bg-accent text-accent-contrast;
+  }
+</style>

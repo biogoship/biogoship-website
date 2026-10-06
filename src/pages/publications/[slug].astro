@@ -1,6 +1,7 @@
 ---
 import Layout from "@layouts/default.astro";
 import Headline from "@components/headline.astro";
+import BackLink from "@components/layout/back-link.astro";
 import { getCollection, getEntry, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
@@ -22,18 +23,21 @@ const doi = entry.data.doi;
 const href = doi ? (doi.startsWith("http") ? doi : `https://doi.org/${doi.replace(/^doi:/i, "")}`) : entry.data.url;
 ---
 
-<Layout title={entry.data.title} description={entry.data.authors} header={{ button: { text: t("labels.back-all-publications"), href: getLocaleUrl("publications", locale) } }} {locale}>
-  <Headline text={entry.data.title} class="pb-4" />
-  <p class="mb-2 text-stone-600 dark:text-stone-300">{entry.data.authors}{entry.data.year ? ` (${entry.data.year})` : ""}</p>
-  {entry.data.source && <p class="mb-6 text-sm italic text-stone-500">{entry.data.source}</p>}
-  {href && (
-    <p class="mb-8">
-      <a href={href} class="text-primary dark:text-primary-light font-semibold" target="_blank" rel="noopener">
-        {doi ? `doi:${doi}` : href}
-      </a>
-    </p>
-  )}
-  <div class="markdown-content max-w-3xl">
-    <Content />
-  </div>
+<Layout title={entry.data.title} description={entry.data.authors} {locale}>
+  <article class="max-w-3xl">
+    <BackLink href={getLocaleUrl("publications", locale)} text={t("labels.back-all-publications")} />
+    <Headline text={entry.data.title} />
+    <p class="m-0 text-base text-stone-500">{entry.data.authors}{entry.data.year ? ` (${entry.data.year})` : ""}</p>
+    {entry.data.source && <p class="mt-2 mb-0 text-base text-stone-500 italic">{entry.data.source}</p>}
+    {href && (
+      <p class="mt-8 mb-0">
+        <a href={href} class="text-primary dark:text-primary-light font-semibold" target="_blank" rel="noopener">
+          {doi ? `doi:${doi}` : href}
+        </a>
+      </p>
+    )}
+    <div class="markdown-content mt-10">
+      <Content />
+    </div>
+  </article>
 </Layout>

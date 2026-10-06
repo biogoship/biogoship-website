@@ -1,6 +1,7 @@
 ---
 import Layout from "@layouts/default.astro";
 import Headline from "@components/headline.astro";
+import BackLink from "@components/layout/back-link.astro";
 import List from "@components/blog/cat-tag-list.astro";
 import { themeConfig } from '~/theme.config';
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
@@ -17,7 +18,8 @@ const allArticles = await getCollection('articles', ({ id, data }) => {
 const tags = [...new Set(allArticles.map((article) => article.data.tags || []).flat())];
 ---
 
-<Layout title={t('labels.tags')} header={{ button: { text: t('labels.back-all-articles'), href: getLocaleUrl('posts', locale) }, fixed: true }}>
+<Layout title={t('labels.tags')} {locale}>
+  <BackLink href={getLocaleUrl("posts", locale)} text={t("labels.back-all-articles")} />
   <Headline text={t('labels.tags')} class="pb-8" />
   <List entries={tags} {locale} type="tags" />
 </Layout>

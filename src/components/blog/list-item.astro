@@ -35,18 +35,23 @@ const preview = previewText(entry.body, entry.data.excerpt);
 ---
 
 <article>
+  <h2 class="m-0 text-lg font-semibold">
+    <a href={href} class="text-primary dark:text-primary-light no-underline hover:underline">
+      {entry.data.title}
+    </a>
+  </h2>
+
   {
     (entry.data.featured || categories.length > 0) && (
-      <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
+      <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
         {entry.data.featured && <span class="text-sm text-stone-500 dark:text-stone-400">{t("labels.featured")}</span>}
         {categories.length > 0 && <CatTagList entries={categories} {locale} type="categories" small />}
       </div>
     )
   }
 
-  <a href={href} class:list={["group block text-inherit no-underline", (entry.data.featured || categories.length > 0) && "mt-2"]}>
-    <h2 class="text-primary m-0 text-lg font-semibold group-hover:underline dark:text-primary-light">{entry.data.title}</h2>
-    {preview && <p class="mt-2 mb-0 line-clamp-3 text-sm text-stone-600 dark:text-stone-300">{preview}</p>}
+  <a href={href} class="mt-3 block text-inherit no-underline">
+    {preview && <p class="mt-0 mb-0 line-clamp-3 text-sm text-stone-600 dark:text-stone-300">{preview}</p>}
     {
       imageFile ? (
         <Image
@@ -73,5 +78,9 @@ const preview = previewText(entry.body, entry.data.excerpt);
     }
   </a>
 
-  {tags.length > 0 && <div class="mt-3"><CatTagList entries={tags} {locale} type="tags" small /></div>}
+  {tags.length > 0 && (
+    <div class="mt-3">
+      <CatTagList entries={tags} {locale} type="tags" small />
+    </div>
+  )}
 </article>

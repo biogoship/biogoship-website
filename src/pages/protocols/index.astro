@@ -4,6 +4,7 @@ import Headline from "@components/headline.astro";
 import SampleTypesOverview from "@components/protocols/sample-types-overview.astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+import { Icon } from "astro-icon/components";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
 import { themeConfig } from "~/theme.config";
 
@@ -48,15 +49,16 @@ function fileHref(entry: CollectionEntry<"protocols">) {
                   </a>
                 </h3>
                 <p class="m-0 text-sm leading-relaxed text-stone-600 dark:text-stone-300">{entry.data.description}</p>
-                <div class="mt-3 flex flex-wrap gap-4 text-sm">
-                  <a href={detail} class="text-primary dark:text-primary-light font-semibold no-underline hover:underline">
-                    {t('labels.continue-reading')}
-                  </a>
+                <div class="mt-4 flex flex-wrap items-center gap-3">
                   {href && (
-                    <a href={href} class="text-primary dark:text-primary-light font-semibold no-underline hover:underline" target="_blank" rel="noopener">
+                    <a href={href} class="btn-primary rounded" target="_blank" rel="noopener">
+                      <Icon name="heroicons:arrow-down-tray" class="h-5 w-5" aria-hidden="true" />
                       {t('pages.protocols.download')}
                     </a>
                   )}
+                  <a href={detail} class="text-primary dark:text-primary-light text-sm font-semibold no-underline hover:underline">
+                    {t('labels.continue-reading')}
+                  </a>
                 </div>
               </li>
             );

@@ -54,7 +54,6 @@ const articleEntry = await getEntry(collection, locale + '/' + Astro.params.arti
 
 const externalCanonical = articleEntry.data.externalCanonical;
 
-const headerButton = { text: t('labels.back-all-articles'), href: getLocaleUrl('posts', locale) };
 ---
 
 <!doctype html>
@@ -69,7 +68,7 @@ const headerButton = { text: t('labels.back-all-articles'), href: getLocaleUrl('
   </head>
   <body>
     <div class="relative w-full">
-      {header?.hidden !== true && <Header {locale} button={headerButton} ctaButton={{ text: t('nav.contact'), href: getLocaleUrl('contact', locale) }} fixed={header?.fixed} overlay={header?.overlay} scrollDownThreshold={header?.scrollDownThreshold} closeIcon={header?.closeIcon} />}
+      {header?.hidden !== true && <Header {locale} ctaButton={{ text: t('nav.contact'), href: getLocaleUrl('contact', locale) }} fixed={header?.fixed} overlay={header?.overlay} scrollDownThreshold={header?.scrollDownThreshold} closeIcon={header?.closeIcon} />}
       <main role="main">
         <div class="container mx-auto pt-8 pb-10 md:pt-10 md:pb-14 lg:pt-12 lg:pb-16">
           <slot />
