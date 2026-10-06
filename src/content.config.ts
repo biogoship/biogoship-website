@@ -169,4 +169,18 @@ const protocols = defineCollection({
     }),
 });
 
-export const collections = { articles, faq_answers, publications, cruises, team, protocols, post_categories, post_tags };
+const carousel = defineCollection({
+  loader: glob({ pattern: ['**/[^_]**.md'], base: './src/content/carousel' }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      alt: z.string(),
+      order: z.number().optional(),
+      draft: z.boolean().optional(),
+      image: z.object({
+        file: image(),
+      }),
+    }),
+});
+
+export const collections = { articles, faq_answers, publications, cruises, team, protocols, post_categories, post_tags, carousel };

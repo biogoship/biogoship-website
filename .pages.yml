@@ -10,6 +10,11 @@ media:
     input: public/data/protocols
     output: /data/protocols
     extensions: [pdf, doc, docx]
+# Hide the sidebar Media library. Uploads still work from image/file fields
+# on a post, cruise, team member, or protocol. An empty list is required —
+# omitting this key would show Images and Documents in the sidebar again.
+navigation:
+  media: []
 content:
   - name: posts
     label: Posts
@@ -70,6 +75,7 @@ content:
             type: image
             options:
               media: images
+              path: src/images/content/posts
           - name: alt
             type: string
       - name: body
@@ -176,6 +182,7 @@ content:
             type: image
             options:
               media: images
+              path: src/images/content/cruises
           - name: alt
             type: string
       - name: map
@@ -259,6 +266,7 @@ content:
             type: image
             options:
               media: images
+              path: src/images/content/headshots
           - name: alt
             type: string
       - name: body
@@ -289,6 +297,7 @@ content:
         type: file
         options:
           media: documents
+          path: public/data/protocols
           extensions: [pdf, doc, docx]
       - name: url
         label: External file URL
@@ -306,6 +315,40 @@ content:
         type: boolean
       - name: body
         type: rich-text
+
+  - name: carousel
+    label: Homepage photos
+    type: collection
+    path: src/content/carousel
+    format: yaml-frontmatter
+    filename: '{primary}.md'
+    view:
+      primary: title
+      sort: order
+    fields:
+      - name: title
+        type: string
+        required: true
+        description: Label in the CMS only. Visitors do not see this.
+      - name: alt
+        label: Alt text
+        type: string
+        required: true
+        description: Describe the photo. Used by screen readers.
+      - name: order
+        type: number
+        description: Lower numbers list first. The homepage still shuffles on each visit.
+      - name: draft
+        type: boolean
+      - name: image
+        type: object
+        fields:
+          - name: file
+            type: image
+            required: true
+            options:
+              media: images
+              path: src/images/content/carousel
 
   - name: faq
     label: FAQ
