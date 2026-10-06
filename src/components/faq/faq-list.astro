@@ -15,7 +15,7 @@ const { locale, items, categories } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<div class="xs:p-3 mb-8 flex flex-col gap-4 rounded-lg border border-stone-300 bg-stone-100 p-2 sm:flex-row sm:p-4 dark:border-stone-700 dark:bg-stone-800" role="search">
+<div class="surface-card xs:p-3 mb-8 flex flex-col gap-4 p-2 sm:flex-row sm:p-4" role="search">
   <label class="relative grow">
     <span class="sr-only">{t('pages.faq.search-placeholder')}</span>
     <Icon name="heroicons:magnifying-glass" class="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-stone-500" />
@@ -39,7 +39,7 @@ const t = useTranslations(locale);
 <ul id="faq-list" class="m-0 flex list-none flex-col gap-3 p-0" aria-label={t('pages.faq.title')}>
   {
     items.map(({ entry, Content }) => (
-      <li class="faq-item rounded-lg border border-stone-300 bg-white hover:shadow dark:border-stone-700 dark:bg-stone-900" data-question={entry.data.question.toLowerCase()} data-category={entry.data.category ?? ''}>
+      <li class="faq-item surface-card" data-question={entry.data.question.toLowerCase()} data-category={entry.data.category ?? ''}>
         <details class="group">
           <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-4 font-semibold select-none md:px-5">
             <span>{entry.data.question}</span>

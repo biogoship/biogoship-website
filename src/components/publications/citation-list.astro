@@ -28,7 +28,7 @@ function doiLabel(doi?: string) {
       const doi = doiLabel(entry.data.doi);
       const meta = [entry.data.year, entry.data.source].filter(Boolean).join(" · ");
       return (
-        <li class="m-0 rounded-xl border border-stone-200 bg-white p-6 transition-shadow hover:shadow-md dark:border-stone-700 dark:bg-stone-900">
+        <li class="surface-card m-0 p-6">
           {meta && <p class="text-secondary-dark dark:text-secondary-light m-0 text-xs font-semibold tracking-[0.16em] uppercase">{meta}</p>}
           <h2 class="font-headline mt-2 mb-0 text-xl leading-snug font-bold text-balance text-stone-900 sm:text-2xl dark:text-white">
             <a href={detail} class="text-inherit no-underline hover:underline">
@@ -41,7 +41,7 @@ function doiLabel(doi?: string) {
               Abstract
             </a>
             {doi && href ? (
-              <a href={href} class="rounded-full border border-stone-200 px-3 py-1 font-mono text-xs font-medium text-stone-700 no-underline hover:border-stone-400 dark:border-stone-600 dark:text-stone-300 dark:hover:border-stone-400" target="_blank" rel="noopener">
+              <a href={href} class="rounded-full bg-stone-200 px-3 py-1 font-mono text-xs font-medium text-stone-700 no-underline dark:bg-stone-700 dark:text-stone-200" target="_blank" rel="noopener">
                 {doi}
               </a>
             ) : href ? (

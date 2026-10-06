@@ -26,7 +26,7 @@ const items = await Promise.all(
   ) : (
     <ul class="m-0 grid list-none grid-cols-1 gap-5 p-0 sm:grid-cols-2">
       {items.map(({ entry, Content }) => (
-        <li class="m-0 flex items-start gap-5 rounded-xl border border-stone-200 bg-white p-6 dark:border-stone-700 dark:bg-stone-900">
+        <li class="surface-card m-0 flex items-start gap-5 p-6">
           {entry.data.photo?.file ? (
             <div class="aspect-square w-36 shrink-0 overflow-hidden rounded-lg sm:w-40">
               <Image

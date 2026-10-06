@@ -26,7 +26,7 @@ const entries = ((await getCollection("cruises", ({ data }) => !data.draft)) as 
       <ul class="m-0 grid list-none grid-cols-1 gap-6 p-0 sm:grid-cols-2">
         {entries.map((entry) => (
           <li class="m-0">
-            <a href={getLocaleUrl(`cruises/${entry.id}`, locale)} class="flex h-full flex-col overflow-hidden rounded-xl border border-stone-200 bg-white no-underline dark:border-stone-700 dark:bg-stone-900">
+            <a href={getLocaleUrl(`cruises/${entry.id}`, locale)} class="surface-card flex h-full flex-col overflow-hidden no-underline">
               <div class="bg-primary/6 aspect-16/10 overflow-hidden dark:bg-white/5">
                 {entry.data.image?.file ? (
                   <Image src={entry.data.image.file} alt={entry.data.image.alt ?? ""} class="h-full w-full object-cover" widths={[400, 720]} sizes="(min-width: 640px) 50vw, 100vw" />
