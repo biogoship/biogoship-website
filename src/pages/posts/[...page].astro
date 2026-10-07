@@ -4,7 +4,7 @@ import Headline from "@components/headline.astro";
 import List from "@components/blog/list.astro";
 import { useTranslations } from "@utils/i18n";
 import { themeConfig } from '~/theme.config';
-import { categoryPillStyle, getTaxonomyTitles, sortArticlesByDate } from "@utils/taxonomy";
+import { categoryPillStyle, getTaxonomyTitles, sortArticlesByDate, withCruiseCategoriesLast } from "@utils/taxonomy";
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from "astro:content";
 import type { PaginateFunction } from 'astro';
@@ -22,9 +22,13 @@ const { page } = Astro.props;
 
 const allArticles = page.data as CollectionEntry<'articles'>[];
 const taxonomyTitles = await getTaxonomyTitles();
-const categoryPills = [...taxonomyTitles.categories.entries()]
-  .map(([slug, title]) => ({ slug, title }))
-  .sort((a, b) => a.title.localeCompare(b.title, locale));
+const categoryPills = withCruiseCategoriesLast(
+  [...taxonomyTitles.categories.entries()]
+    .map(([slug, title]) => ({ slug, title }))
+    .sort((a, b) => a.title.localeCompare(b.title, locale)),
+  taxonomyTitles.cruiseSlugs,
+  (category) => category.slug,
+);
 ---
 
 <Layout title={t('pages.blog.title')} description={t('pages.blog.description')} {locale}>
