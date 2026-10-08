@@ -144,6 +144,11 @@
   }
 
   /* Logo SVGs have no width/height attributes. If Tailwind height classes miss, they paint at the full viewBox. */
+  svg.header-logo {
+    height: 4rem;
+    width: auto;
+  }
+
   svg.header-logo-dark,
   svg.header-logo-white {
     height: 3.5rem;
