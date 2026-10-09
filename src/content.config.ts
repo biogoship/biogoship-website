@@ -150,6 +150,8 @@ const post_categories = defineCollection({
           .regex(/^#?[0-9A-Fa-f]{6}$/)
           .optional(),
       ),
+      // Cruise-line pills are grouped together wherever categories are listed.
+      cruise: z.boolean().optional(),
     }),
 });
 

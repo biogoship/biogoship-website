@@ -1,23 +1,32 @@
 ---
 import Layout from "@layouts/default.astro";
 import Headline from "@components/headline.astro";
+import Pagination from "@components/blog/pagination.astro";
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+import type { PaginateFunction } from "astro";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
 import { themeConfig } from "~/theme.config";
 
+export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
+  const entries = ((await getCollection("cruises", ({ data }) => !data.draft)) as CollectionEntry<"cruises">[]).sort((a, b) => {
+    const ad = a.data.date?.getTime() ?? 0;
+    const bd = b.data.date?.getTime() ?? 0;
+    return bd - ad;
+  });
+  // Page numbers are /cruises/2, /cruises/3, and so on. A cruise file named "2.md" would claim that same URL.
+  return paginate(entries, { pageSize: themeConfig.articles?.entriesPerPage || 10 });
+}
+
 const locale = themeConfig.i18n.defaultLocale;
 const t = useTranslations(locale);
-
-const entries = ((await getCollection("cruises", ({ data }) => !data.draft)) as CollectionEntry<"cruises">[]).sort((a, b) => {
-  const ad = a.data.date?.getTime() ?? 0;
-  const bd = b.data.date?.getTime() ?? 0;
-  return bd - ad;
-});
+const { page } = Astro.props;
+const entries = page.data as CollectionEntry<"cruises">[];
+const numberofPages = Math.ceil(page.total / page.size);
 ---
 
-<Layout title={t("pages.cruises.title")} description={t("pages.cruises.description")} {locale}>
+<Layout title={t("pages.cruises.title") + (page.currentPage > 1 ? " | " + t("labels.page") + " " + page.currentPage : "")} description={t("pages.cruises.description")} {locale}>
   <Headline text={t("pages.cruises.title")} class="pb-10" />
   {
     entries.length === 0 ? (
@@ -43,4 +52,5 @@ const entries = ((await getCollection("cruises", ({ data }) => !data.draft)) as 
       </ul>
     )
   }
+  {numberofPages > 1 && <Pagination {page} {locale} baseUrl="cruises" />}
 </Layout>

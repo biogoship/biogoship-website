@@ -1,6 +1,6 @@
 ---
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
-import { categoryPillStyle, getTaxonomyTitles, resolveTaxonomyTitle, taxonomySlug } from "@utils/taxonomy";
+import { categoryPillStyle, getTaxonomyTitles, resolveTaxonomyTitle, taxonomySlug, withCruiseCategoriesLast } from "@utils/taxonomy";
 
 interface Props {
   entries?: (string | undefined)[];
@@ -16,6 +16,8 @@ const titleMap = type === "categories" ? titles.categories : titles.tags;
 const categoryColors = titles.categoryColors;
 
 const items = (entries ?? []).filter((entry): entry is string => Boolean(entry));
+const orderedItems =
+  type === "categories" ? withCruiseCategoriesLast(items, titles.cruiseSlugs, (entry) => entry) : items;
 
 function slugify(value: string) {
   return taxonomySlug(value);
@@ -29,7 +31,7 @@ function label(value: string) {
 {
   items.length > 0 ? (
     <ul class:list={["m-0 flex list-none flex-wrap p-0", small ? "gap-1.5" : "gap-2"]}>
-      {items.map((entry) => (
+      {orderedItems.map((entry) => (
         <li class="m-0 mt-0">
           <a
             href={getLocaleUrl(`posts/${type}/${slugify(entry)}`, locale)}

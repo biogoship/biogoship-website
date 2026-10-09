@@ -21,7 +21,24 @@ export async function getTaxonomyTitles() {
     categoryColors: new Map(
       categories.map((entry) => [taxonomySlug(entry.data.slug ?? entry.id), normalizeCategoryColor(entry.data.color)]),
     ),
+    cruiseSlugs: new Set(
+      categories
+        .filter((entry) => entry.data.cruise)
+        .map((entry) => taxonomySlug(entry.data.slug ?? entry.id)),
+    ),
   };
+}
+
+// Keep the order inside each group. Cruise lines move to the end as one block
+// so they are not split up by other categories.
+export function withCruiseCategoriesLast<T>(items: T[], cruiseSlugs: Set<string>, slugOf: (item: T) => string): T[] {
+  const topics: T[] = [];
+  const cruises: T[] = [];
+  for (const item of items) {
+    if (cruiseSlugs.has(taxonomySlug(slugOf(item)))) cruises.push(item);
+    else topics.push(item);
+  }
+  return [...topics, ...cruises];
 }
 
 export function resolveTaxonomyTitle(value: string, titles: Map<string, string>, translated: string) {

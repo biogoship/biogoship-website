@@ -53,7 +53,7 @@ export const themeConfig: ThemeConfig = {
     textOverImage: false,
     categories: true, // if set false, make sure to also remove category directories under /pages
     tags: true, // if set false, make sure to also remove tag directories under /pages
-    entriesPerPage: 4,
+    entriesPerPage: 10,
     tocMaxDepth: 3,
     defaults: {
       author: {

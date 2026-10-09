@@ -2,8 +2,7 @@
 import { Icon } from "astro-icon/components";
 import { getLocaleUrl } from "@utils/i18n";
 import MainNav from "@components/layout/nav/main-nav.astro";
-import Logo from '../../icons/bio_GOSHIP_logo_COLOR.svg';
-import LogoMark from '../../icons/bio_GOSHIP_logo_SVG_unofficial.svg';
+import LogoWide from '../../icons/biogoship_logo_wide.svg';
 
 interface Props {
   locale: string;
@@ -38,26 +37,12 @@ const { locale, button, tabIndex = 0, shrink = true, isHome, ctaButton, github }
         {button.text}
       </a>
     ) : isHome ? (
-      <span class="flex items-center gap-3">
-        <span aria-hidden="true" class="shrink-0">
-          <Logo class="header-logo-dark logo-color h-14 w-auto" />
-          <LogoMark class="header-logo-white hidden h-14 w-auto text-white" />
-        </span>
-        <span class="site-wordmark">
-          <span class="site-wordmark__bio">Bio</span>
-          <span class="site-wordmark__name">GO-SHIP</span>
-        </span>
+      <span class="flex w-fit shrink-0 items-center" role="img" aria-label="Bio-GO-SHIP">
+        <LogoWide class="header-logo h-16 w-auto" aria-hidden="true" />
       </span>
     ) : (
-      <a href={getLocaleUrl('/', locale)} class="flex w-fit items-center gap-3 no-underline select-none hover:no-underline focus:no-underline" tabindex={tabIndex}>
-        <span aria-hidden="true" class="shrink-0">
-          <Logo class="header-logo-dark logo-color h-14 w-auto" />
-          <LogoMark class="header-logo-white hidden h-14 w-auto text-white" />
-        </span>
-        <span class="site-wordmark">
-          <span class="site-wordmark__bio">Bio</span>
-          <span class="site-wordmark__name">GO-SHIP</span>
-        </span>
+      <a href={getLocaleUrl('/', locale)} class="flex w-fit shrink-0 items-center no-underline select-none hover:no-underline focus:no-underline" tabindex={tabIndex} aria-label="Bio-GO-SHIP">
+        <LogoWide class="header-logo h-16 w-auto" aria-hidden="true" />
       </a>
     )
   }

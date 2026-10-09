@@ -10,11 +10,9 @@ media:
     input: public/data/protocols
     output: /data/protocols
     extensions: [pdf, doc, docx]
-# Hide the sidebar Media library. Uploads still work from image/file fields
-# on a post, cruise, team member, or protocol. An empty list is required —
-# omitting this key would show Images and Documents in the sidebar again.
-navigation:
-  media: []
+# Pages CMS always lists these in the sidebar. There is no setting that hides
+# them while Upload on an entry still works. Each image field sets `path` so
+# Upload on that entry saves into its own folder.
 content:
   - name: posts
     label: Posts
@@ -72,7 +70,9 @@ content:
         type: object
         fields:
           - name: file
+            label: Photo
             type: image
+            description: Use Upload on this post. The file is saved with the post. Adding or moving a photo in the Images section of the sidebar changes the path, and the photo breaks on the site.
             options:
               media: images
               path: src/images/content/posts
@@ -117,31 +117,65 @@ content:
         label: Color
         type: select
         required: true
-        description: Pill color on Posts. Cruise lines can share Site lime. Duplicates are fine. Hex is in the name so you can see it without a color wheel.
+        description: Pill color on Posts. The list runs red through violet. Cruise lines can share Site lime. Duplicates are fine. Hex is in the name so you can see it without a color wheel.
         options:
           values:
-            - name: '282687'
-              label: 'Site navy (#282687)'
-            - name: '141346'
-              label: 'Deep midnight (#141346)'
-            - name: '1a5f9e'
-              label: 'Ocean blue (#1a5f9e)'
+            - name: '7f1d1d'
+              label: 'Maroon (#7f1d1d)'
+            - name: '9f1239'
+              label: 'Ruby (#9f1239)'
+            - name: 'b85c4c'
+              label: 'Coral (#b85c4c)'
+            - name: 'be185d'
+              label: 'Rose (#be185d)'
+            - name: '9a3412'
+              label: 'Rust (#9a3412)'
+            - name: 'c2410c'
+              label: 'Burnt orange (#c2410c)'
+            - name: 'a16207'
+              label: 'Honey (#a16207)'
+            - name: 'c9a227'
+              label: 'Sand (#c9a227)'
+            - name: 'f5c400'
+              label: 'Sunflower (#f5c400)'
+            - name: '14532d'
+              label: 'Pine (#14532d)'
+            - name: '1b7a4e'
+              label: 'Kelp (#1b7a4e)'
+            - name: '3f6212'
+              label: 'Olive (#3f6212)'
+            - name: '6b9a1e'
+              label: 'Moss (#6b9a1e)'
+            - name: 'a2d12d'
+              label: 'Site lime (#a2d12d)'
+            - name: '0d7377'
+              label: 'Teal (#0d7377)'
+            - name: '0c4a6e'
+              label: 'Deep water (#0c4a6e)'
             - name: '017aa3'
               label: 'Coastal cyan (#017aa3)'
             - name: '01a8df'
               label: 'Bright sea (#01a8df)'
-            - name: '0d7377'
-              label: 'Teal (#0d7377)'
-            - name: '1b7a4e'
-              label: 'Kelp (#1b7a4e)'
-            - name: 'a2d12d'
-              label: 'Site lime (#a2d12d)'
-            - name: '6b9a1e'
-              label: 'Moss (#6b9a1e)'
-            - name: 'c9a227'
-              label: 'Sand (#c9a227)'
-            - name: 'b85c4c'
-              label: 'Coral (#b85c4c)'
+            - name: '1a5f9e'
+              label: 'Ocean blue (#1a5f9e)'
+            - name: '1e40af'
+              label: 'Royal blue (#1e40af)'
+            - name: '141346'
+              label: 'Deep midnight (#141346)'
+            - name: '282687'
+              label: 'Site navy (#282687)'
+            - name: '312e81'
+              label: 'Indigo (#312e81)'
+            - name: '4c1d95'
+              label: 'Violet (#4c1d95)'
+            - name: '6b21a8'
+              label: 'Orchid (#6b21a8)'
+            - name: '86198f'
+              label: 'Fuchsia (#86198f)'
+      - name: cruise
+        label: Cruise line
+        type: boolean
+        description: Turn this on for a cruise line such as P15S or A16N. Those pills stay together on posts. Leave it off for News, Papers, and the rest.
 
   - name: post-tags
     label: Post tags
@@ -220,7 +254,9 @@ content:
         type: object
         fields:
           - name: file
+            label: Photo
             type: image
+            description: Use Upload on this cruise. The file is saved with the cruise. Adding or moving a photo in the Images section of the sidebar changes the path, and the photo breaks on the site.
             options:
               media: images
               path: src/images/content/cruises
@@ -304,7 +340,9 @@ content:
         type: object
         fields:
           - name: file
+            label: Photo
             type: image
+            description: Use Upload on this person. The file is saved with the team member. Adding or moving a photo in the Images section of the sidebar changes the path, and the photo breaks on the site.
             options:
               media: images
               path: src/images/content/headshots
@@ -385,8 +423,10 @@ content:
         type: object
         fields:
           - name: file
+            label: Photo
             type: image
             required: true
+            description: Use Upload on this slide. The file is saved with the homepage photo. Adding or moving a photo in the Images section of the sidebar changes the path, and the photo breaks on the site.
             options:
               media: images
               path: src/images/content/carousel

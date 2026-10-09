@@ -1,0 +1,58 @@
+---
+import { getLocaleUrl, useTranslations } from "@utils/i18n";
+import { categoryPillStyle, getTaxonomyTitles, withCruiseCategoriesLast } from "@utils/taxonomy";
+
+interface Props {
+  locale: string;
+  current?: string;
+}
+
+const { locale, current = "" } = Astro.props as Props;
+const t = useTranslations(locale);
+const taxonomyTitles = await getTaxonomyTitles();
+const categoryPills = withCruiseCategoriesLast(
+  [...taxonomyTitles.categories.entries()]
+    .map(([slug, title]) => ({ slug, title }))
+    .sort((a, b) => a.title.localeCompare(b.title, locale)),
+  taxonomyTitles.cruiseSlugs,
+  (category) => category.slug,
+);
+const selectedRing = "ring-2 ring-accent ring-offset-2 dark:ring-offset-stone-950";
+---
+
+{
+  categoryPills.length > 0 && (
+    <nav class="mb-10" aria-label={t("labels.categories")}>
+      <p class="mt-0 mb-3 text-sm font-semibold text-stone-600 dark:text-stone-300">{t("labels.categories")}</p>
+      <ul class="m-0 flex list-none flex-wrap gap-2 p-0">
+        <li class="m-0 mt-0">
+          <a
+            href={getLocaleUrl("posts", locale)}
+            aria-current={current === "" ? "page" : undefined}
+            class:list={[
+              "inline-flex items-center rounded-full bg-stone-200 px-3 py-1 text-sm font-semibold text-stone-700 no-underline transition-opacity hover:opacity-80 dark:bg-stone-700 dark:text-stone-200",
+              current === "" && selectedRing,
+            ]}
+          >
+            {t("labels.all")}
+          </a>
+        </li>
+        {categoryPills.map((category) => (
+          <li class="m-0 mt-0">
+            <a
+              href={getLocaleUrl(`posts/categories/${category.slug}`, locale)}
+              aria-current={current === category.slug ? "page" : undefined}
+              class:list={[
+                "inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold no-underline transition-opacity hover:opacity-80",
+                current === category.slug && selectedRing,
+              ]}
+              style={categoryPillStyle(category.slug, taxonomyTitles.categoryColors)}
+            >
+              {category.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}

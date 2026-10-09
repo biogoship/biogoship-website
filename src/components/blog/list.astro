@@ -2,28 +2,25 @@
 import ListItem from "@components/blog/list-item.astro";
 import type { CollectionEntry } from "astro:content";
 import { useTranslations } from "@utils/i18n";
-import { taxonomySlug } from "@utils/taxonomy";
 
 interface Props {
   entries: CollectionEntry<"articles">[];
   locale: string;
   label?: string;
   noTransition?: boolean;
-  feed?: boolean;
 }
 
-const { entries, locale, label, noTransition, feed } = Astro.props as Props;
+const { entries, locale, label, noTransition } = Astro.props as Props;
 const t = useTranslations(locale);
 ---
 
 {
   entries.length > 0 ? (
-    <ul class="m-0 flex max-w-3xl list-none flex-col gap-4 p-0" aria-label={label ?? t("pages.blog.title")} data-post-feed={feed ? true : undefined}>
+    <ul class="m-0 flex max-w-3xl list-none flex-col gap-4 p-0" aria-label={label ?? t("pages.blog.title")}>
       {entries.map((entry) => {
         const dateLabel = entry.data.publishDate.toLocaleDateString(locale, { dateStyle: "medium" });
-        const categorySlugs = (entry.data.categories ?? []).map(taxonomySlug).filter(Boolean).join(" ");
         return (
-          <li class="surface-card m-0 mt-0 px-5 py-4" data-categories={categorySlugs}>
+          <li class="surface-card m-0 mt-0 px-5 py-4">
             <time class="block text-base text-stone-500 dark:text-stone-400" datetime={entry.data.publishDate.toISOString()}>
               {dateLabel}
             </time>

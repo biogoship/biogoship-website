@@ -4,6 +4,7 @@ import Headline from "@components/headline.astro";
 import BackLink from "@components/layout/back-link.astro";
 import List from "@components/blog/list.astro";
 import Pagination from "@components/blog/pagination.astro";
+import CategoryFilter from "@components/blog/category-filter.astro";
 import type { CollectionEntry } from "astro:content";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
 import { themeConfig } from '~/theme.config';
@@ -39,6 +40,7 @@ const categoryTitle = resolveTaxonomyTitle(category ?? '', taxonomyTitles.catego
 <Layout title={t('labels.category') + ': ' + categoryTitle + (page.currentPage > 1 ? ' | ' + t('labels.page') + ' ' + page.currentPage : '')} {locale}>
   <BackLink href={getLocaleUrl("posts/categories", locale)} text={t("labels.back-overview")} />
   <Headline text={categoryTitle} class="pb-8" />
+  <CategoryFilter {locale} current={category ?? ""} />
   <List entries={allArticles} {locale} />
   {numberofPages > 1 && <Pagination {page} {locale} baseUrl={'posts/categories/' + category} />}
 </Layout>

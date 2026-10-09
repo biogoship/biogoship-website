@@ -2,9 +2,11 @@
 import Layout from "@layouts/default.astro";
 import Headline from "@components/headline.astro";
 import List from "@components/blog/list.astro";
+import Pagination from "@components/blog/pagination.astro";
+import CategoryFilter from "@components/blog/category-filter.astro";
 import { useTranslations } from "@utils/i18n";
 import { themeConfig } from '~/theme.config';
-import { categoryPillStyle, getTaxonomyTitles, sortArticlesByDate } from "@utils/taxonomy";
+import { sortArticlesByDate } from "@utils/taxonomy";
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from "astro:content";
 import type { PaginateFunction } from 'astro';
@@ -13,7 +15,7 @@ export async function getStaticPaths({ paginate }: { paginate: PaginateFunction 
   const allArticles = sortArticlesByDate(await getCollection('articles', ({ id, data }) => {
     return !data.draft && id.startsWith(themeConfig.i18n.defaultLocale + '/');
   }) as CollectionEntry<'articles'>[]);
-  return paginate(allArticles, { pageSize: Math.max(allArticles.length, 1) });
+  return paginate(allArticles, { pageSize: themeConfig.articles?.entriesPerPage || 10 });
 }
 
 const locale = themeConfig.i18n.defaultLocale;
@@ -21,89 +23,29 @@ const t = useTranslations(locale);
 const { page } = Astro.props;
 
 const allArticles = page.data as CollectionEntry<'articles'>[];
-const taxonomyTitles = await getTaxonomyTitles();
-const categoryPills = [...taxonomyTitles.categories.entries()]
-  .map(([slug, title]) => ({ slug, title }))
-  .sort((a, b) => a.title.localeCompare(b.title, locale));
+const numberofPages = Math.ceil(page.total / page.size);
 ---
 
-<Layout title={t('pages.blog.title')} description={t('pages.blog.description')} {locale}>
+<Layout title={t('pages.blog.title') + (page.currentPage > 1 ? ' | ' + t('labels.page') + ' ' + page.currentPage : '')} description={t('pages.blog.description')} {locale}>
   <Headline text={t('pages.blog.title')} class="pb-4" />
-
-  {
-    categoryPills.length > 0 && (
-      <nav class="mb-10" data-category-filter aria-label={t('labels.categories')}>
-        <p class="mt-0 mb-3 text-sm font-semibold text-stone-600 dark:text-stone-300">{t('labels.categories')}</p>
-        <ul class="m-0 flex list-none flex-wrap gap-2 p-0">
-          <li class="m-0 mt-0">
-            <button
-              type="button"
-              data-category=""
-              aria-pressed="true"
-              class="inline-flex cursor-pointer items-center rounded-full bg-stone-200 px-3 py-1 text-sm font-semibold text-stone-700 no-underline transition-opacity hover:opacity-80 aria-pressed:ring-2 aria-pressed:ring-accent aria-pressed:ring-offset-2 dark:bg-stone-700 dark:text-stone-200 dark:aria-pressed:ring-offset-stone-950"
-            >
-              {t('labels.all')}
-            </button>
-          </li>
-          {categoryPills.map((category) => (
-            <li class="m-0 mt-0">
-              <button
-                type="button"
-                data-category={category.slug}
-                aria-pressed="false"
-                class="inline-flex cursor-pointer items-center rounded-full px-3 py-1 text-sm font-semibold no-underline transition-opacity hover:opacity-80 aria-pressed:ring-2 aria-pressed:ring-accent aria-pressed:ring-offset-2 dark:aria-pressed:ring-offset-stone-950"
-                style={categoryPillStyle(category.slug, taxonomyTitles.categoryColors)}
-              >
-                {category.title}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    )
-  }
-
-  {allArticles.length > 0 ? <List entries={allArticles} {locale} feed noTransition /> : <p class="text-stone-600 dark:text-stone-300">{t('labels.no-entries')}</p>}
-  <p class="text-stone-600 dark:text-stone-300" data-feed-empty hidden>{t('labels.no-entries')}</p>
+  <CategoryFilter {locale} />
+  {allArticles.length > 0 ? <List entries={allArticles} {locale} noTransition /> : <p class="text-stone-600 dark:text-stone-300">{t('labels.no-entries')}</p>}
+  {numberofPages > 1 && <Pagination {page} {locale} />}
 </Layout>
 
 <script>
-  function setupCategoryFilter() {
-    const nav = document.querySelector<HTMLElement>('[data-category-filter]');
-    const list = document.querySelector<HTMLElement>('[data-post-feed]');
-    const empty = document.querySelector<HTMLElement>('[data-feed-empty]');
-    if (!nav || !list || nav.dataset.filterReady === 'true') return;
-    nav.dataset.filterReady = 'true';
-
-    const buttons = Array.from(nav.querySelectorAll<HTMLButtonElement>('[data-category]'));
-    const items = Array.from(list.querySelectorAll<HTMLElement>(':scope > li'));
-
-    const apply = (category: string) => {
-      let visible = 0;
-      items.forEach((item) => {
-        const slugs = (item.dataset.categories || '').split(/\s+/).filter(Boolean);
-        const show = !category || slugs.includes(category);
-        item.hidden = !show;
-        if (show) visible += 1;
-      });
-      list.hidden = visible === 0;
-      if (empty) empty.hidden = visible !== 0;
-      buttons.forEach((button) => {
-        button.setAttribute('aria-pressed', (button.dataset.category || '') === category ? 'true' : 'false');
-      });
-      const url = new URL(window.location.href);
-      if (!category) url.searchParams.delete('category');
-      else url.searchParams.set('category', category);
-      history.replaceState(null, '', url);
-    };
-
-    buttons.forEach((button) => {
-      button.addEventListener('click', () => apply(button.dataset.category || ''));
-    });
-
-    apply(new URLSearchParams(window.location.search).get('category') || '');
+  // Older links used /posts?category=news. That filter only worked when every
+  // post was on one page. Send those links to the category archive instead.
+  function redirectCategoryQuery() {
+    const category = new URLSearchParams(window.location.search).get('category');
+    if (!category) return;
+    const path = window.location.pathname.replace(/\/\d+\/?$/, '').replace(/\/$/, '');
+    window.location.replace(`${path}/categories/${encodeURIComponent(category)}`);
   }
 
-  setupCategoryFilter();
-  document.addEventListener('astro:page-load', setupCategoryFilter);
+  redirectCategoryQuery();
+  if (document.documentElement.dataset.categoryRedirectReady !== 'true') {
+    document.documentElement.dataset.categoryRedirectReady = 'true';
+    document.addEventListener('astro:page-load', redirectCategoryQuery);
+  }
 </script>

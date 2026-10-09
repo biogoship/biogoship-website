@@ -30,7 +30,7 @@ Open an item, fill the fields, attach a photo if needed, save. Pages CMS commits
 
 Mark something **draft** to keep it in the repo without showing it on the site.
 
-**Images** are attached on the item (post, cruise, team member, homepage photo). There is no Images library in the CMS sidebar. Do not rearrange files in GitHub after they are attached unless you also update the path in the markdown. Dropping a file into a folder does not add it to the homepage. Use **Homepage photos** in Pages CMS.
+**Images** are attached with Upload on the item (post, cruise, team member, homepage photo). Pages CMS also shows an Images folder in the sidebar. Do not upload or move files there. The page looks up the original path, so moving a photo makes it disappear. Dropping a file into a folder does not add it to the homepage. Use **Homepage photos** in Pages CMS.
 
 Leave code for new page types, nav, styling, favicons, `.pages.yml`, and site-wide copy (`src/pages/`, `theme.config.ts`).
 
