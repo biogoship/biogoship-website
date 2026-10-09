@@ -124,7 +124,7 @@ const team = defineCollection({
       name: z.string(),
       role: z.string().optional(),
       affiliation: z.string().optional(),
-      group: z.enum(['international', 'usa']),
+      group: z.enum(['international', 'usa', 'staff']),
       order: z.number().optional(),
       draft: z.boolean().optional(),
       photo: z

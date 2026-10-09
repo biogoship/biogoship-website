@@ -107,6 +107,8 @@
       "description-usa": "Investigators based in the United States.",
       "title-international": "International team",
       "description-international": "Investigators based outside the United States.",
+      "title-staff": "Research Staff",
+      "description-staff": "Research staff working with the Bio-GO-SHIP program.",
       "empty": "Team members will appear here."
     },
     "publications": {

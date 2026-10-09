@@ -332,6 +332,8 @@ content:
               label: USA
             - name: international
               label: International
+            - name: staff
+              label: Research staff
       - name: order
         type: number
       - name: draft

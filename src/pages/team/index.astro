@@ -19,6 +19,7 @@ function sortTeam(entries: CollectionEntry<"team">[]) {
 const all = (await getCollection("team", ({ data }) => !data.draft)) as CollectionEntry<"team">[];
 const usa = sortTeam(all.filter((entry) => entry.data.group === "usa"));
 const international = sortTeam(all.filter((entry) => entry.data.group === "international"));
+const staff = sortTeam(all.filter((entry) => entry.data.group === "staff"));
 ---
 
 <Layout title={t("pages.team.title")} description={t("pages.team.description")} {locale}>
@@ -38,5 +39,13 @@ const international = sortTeam(all.filter((entry) => entry.data.group === "inter
       {t("pages.team.title-international")}
     </h2>
     <TeamList entries={international} {locale} empty={t("pages.team.empty")} />
+  </section>
+
+  <section id="staff" class="mt-16 scroll-mt-28" aria-labelledby="team-staff-heading">
+    <h2 id="team-staff-heading" class="mb-6 flex items-center gap-3 text-2xl font-bold text-stone-900 dark:text-white">
+      <Icon name="heroicons:user" class="text-primary dark:text-primary-light h-7 w-7 shrink-0" aria-hidden="true" />
+      {t("pages.team.title-staff")}
+    </h2>
+    <TeamList entries={staff} {locale} empty={t("pages.team.empty")} />
   </section>
 </Layout>
