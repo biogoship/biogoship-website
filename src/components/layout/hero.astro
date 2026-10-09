@@ -5,7 +5,6 @@ import { getCollection } from "astro:content";
 import { themeConfig } from '~/theme.config';
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
 import LogoMark from "../../icons/bio_GOSHIP_logo_SVG_unofficial.svg";
-import GoShipLink from "@components/layout/go-ship-link.astro";
 
 interface Props {
   locale: string;
@@ -24,7 +23,7 @@ const slides = (await getCollection("carousel", ({ data }) => !data.draft))
 
 <div
   role="banner"
-  class="hero relative flex min-h-[calc(100svh-6rem)] w-full flex-col items-center justify-center overflow-hidden px-6 pt-12 pb-24"
+  class="hero relative flex min-h-[calc((100svh-6rem)*0.85)] w-full flex-col items-center justify-center overflow-hidden px-6 pt-20 pb-16"
   data-hero-carousel
 >
   {
@@ -43,10 +42,7 @@ const slides = (await getCollection("carousel", ({ data }) => !data.draft))
 
   <div class="relative z-10 flex w-full max-w-4xl flex-col items-center gap-6 text-center">
     <div class="flex flex-col items-center gap-3">
-      <div class="flex flex-col items-center gap-2">
-        <LogoMark class="h-36 w-auto text-white drop-shadow-lg sm:h-44 md:h-52" role="img" aria-label={t('pages.home.hero-logo-alt')} />
-        <GoShipLink class="h-16 w-16 sm:h-20 sm:w-20" />
-      </div>
+      <LogoMark class="mt-4 h-44 w-auto text-white drop-shadow-lg sm:h-52 md:h-64" role="img" aria-label={t('pages.home.hero-logo-alt')} />
       <h1 class="hero-title">{t('pages.home.hero-title')}</h1>
     </div>
     <p class="hero-subline">{t('pages.home.hero-sub-slogan')}</p>
