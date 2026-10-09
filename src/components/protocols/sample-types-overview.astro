@@ -1,102 +1,278 @@
 ---
-const discreteSamples = [
-  { name: "eDNA/RNA", volume: "9 L each" },
-  { name: "Pigments (HPLC)", volume: "1-2 L" },
-  { name: "Large volume particulate organic matter (POC/N and POP)", volume: "9 L, triplicates of each" },
-  { name: "Small volume POC/N (for submission to NASA SeaBASS along with HPLC)", volume: "1-2 L, includes dry and wet blanks" },
-  { name: "Flow cytometer (FCM) discrete (preserved with glutaraldehyde)", volume: "~2 mL" },
-  { name: "Particulate inorganic carbon (PIC)", volume: "~200 mL" },
+interface SampleRow {
+  name: string;
+  ctd: string;
+  inline: string;
+  volume: string;
+  comments: string;
+  confirm?: boolean;
+}
+
+type ColumnId = "name" | "ctd" | "inline" | "volume" | "comments";
+
+interface Column {
+  id: ColumnId;
+  label: string;
+  hint?: string;
+}
+
+const columns: Column[] = [
+  { id: "name", label: "Sample type" },
+  { id: "ctd", label: "CTD depths", hint: "Timepoint: 12:00" },
+  { id: "inline", label: "Inline timepoints", hint: "Depth: 5 m" },
+  { id: "volume", label: "Volume & replicates" },
+  { id: "comments", label: "Comments" },
 ];
 
-const inlineTimes = [
-  { label: "Morning (0600)", samples: "eDNA (x1 sterivex), HPLC (x1 GF/F), POM (x3 GF/F for POC/N, x3 GF/F for POP), FCM (x1 2 mL sample)" },
-  { label: "Noon (1200)", samples: "eDNA (x1 sterivex), RNA (x1 sterivex), HPLC (x1 GF/F), POC/N small volume (x1 GF/F + blanks), POM (x3 GF/F for POC/N, x3 GF/F for POP), FCM (x1 2 mL sample)" },
-  { label: "Evening (2000)", samples: "eDNA (x1 sterivex), HPLC (x1 GF/F), POM (x3 GF/F for POC/N, x3 GF/F for POP), FCM (x1 2 mL sample)" },
-  { label: "Midnight (0000)", samples: "eDNA (x1 sterivex), RNA (x1 sterivex)" },
-];
-
-const ctdSamples = [
-  { name: "eDNA", depths: "1000, 200, 100, 5", note: "x1 sterivex each depth" },
-  { name: "RNA", depths: "5", note: "x1 sterivex each depth" },
-  { name: "HPLC", depths: "100, 40, 5", note: "x1 GF/F each depth" },
-  { name: "POM", depths: "5", note: "x3 GF/F for POC/N, x3 GF/F for POP" },
-  { name: "FCM", depths: "1000, 500, 200, 150, 100, 75, 40, 5", note: "~2 mL sample each depth" },
+const groups: { label: string; rows: SampleRow[] }[] = [
+  {
+    label: "Discrete samples",
+    rows: [
+      {
+        name: "DNA",
+        ctd: "1000, 200, 100, 5 m",
+        inline: "06:00, 12:00, 20:00, 00:00",
+        volume: "9 L; 1 Sterivex per sample",
+        comments: "CTD bio-cast can substitute for the 12:00 inline sample if the cast falls within ~2 h of solar noon (Sampling Schemes doc). The daily cheat sheet gives ~3 h instead — confirm.",
+        confirm: true,
+      },
+      {
+        name: "RNA",
+        ctd: "5 m",
+        inline: "12:00, 00:00",
+        volume: "9 L; 1 Sterivex per sample",
+        comments: "—",
+      },
+      {
+        name: "HPLC (pigments)",
+        ctd: "100, 40, 5 m",
+        inline: "06:00, 12:00, 20:00",
+        volume: "1–2 L; 1 GF/F per sample",
+        comments: "~10% of total samples for a cruise should be duplicates. Add chl max and chl max + 50 m for BGC float casts. Add triplicates for PACE sampling if the sky is mostly free of clouds.",
+      },
+      {
+        name: "POM, large volume (POC/N + POP)",
+        ctd: "5 m",
+        inline: "06:00, 12:00, 20:00",
+        volume: "9 L; triplicate GF/F for POC/N + triplicate GF/F for POP (6 filters total per sample)",
+        comments: "—",
+      },
+      {
+        name: "POC/N, small volume",
+        ctd: "Float casts only: 100, 40, 5 m, chl max, chl max + 50 m",
+        inline: "12:00",
+        volume: "1–2 L; 1 GF/F + dry/wet blanks",
+        comments: "Standard bio-casts: inline only (not collected via CTD). On BGC float-station bio-casts, also collected via CTD at the depths shown. Paired with HPLC for NASA SeaBASS submission.",
+      },
+      {
+        name: "FCM (discrete)",
+        ctd: "1000, 500, 200, 150, 100, 75, 40, 5 m",
+        inline: "06:00, 12:00, 20:00",
+        volume: "~2 mL, glutaraldehyde-preserved",
+        comments: "Highest depth resolution of any CTD sample type.",
+      },
+      {
+        name: "PIC (discrete)",
+        ctd: "—",
+        inline: "PACE overpass inline",
+        volume: "~200 mL",
+        comments: "No depth or timepoint is assigned in the available protocols. Confirm both before publishing. Distinct from the continuous inline PIC sensor below.",
+        confirm: true,
+      },
+    ],
+  },
+  {
+    label: "Continuous measurements",
+    rows: [
+      {
+        name: "Transmissometer",
+        ctd: "Continuous",
+        inline: "—",
+        volume: "Not applicable",
+        comments: "Runs on all CTD casts, not just bio-casts. Lenses cleaned with isopropyl and DI once a day; taped for a calibration dark cast about once a week. Presence depends on whether the team managing the CTD rosette brings one.",
+      },
+      {
+        name: "UVP5",
+        ctd: "Continuous",
+        inline: "—",
+        volume: "Not applicable",
+        comments: "Managed by the Bio team and PI Steffi O'Daly. Runs on full-depth casts only — off for bio-casts and other shallow casts.",
+      },
+      {
+        name: "Optical suite (backscatter, absorption/attenuation, FRRF)",
+        ctd: "—",
+        inline: "Continuous",
+        volume: "Not applicable",
+        comments: "May include hyper-BB or BB3 (backscatter), AC-S (absorption/attenuation), and a fast repetition rate fluorometer.",
+      },
+      {
+        name: "Cytometry (flow cytometer + IFCB)",
+        ctd: "—",
+        inline: "Continuous",
+        volume: "Not applicable",
+        comments: "Continuous counterpart to the discrete FCM samples above.",
+      },
+      {
+        name: "PIC sensor (+ salinity, fluorometer)",
+        ctd: "—",
+        inline: "Continuous",
+        volume: "Not applicable",
+        comments: "Continuous underway measurement; distinct from the discrete ~200 mL PIC sample above.",
+      },
+    ],
+  },
 ];
 ---
 
 <section class="mb-0" aria-labelledby="sample-types-heading">
   <h2 id="sample-types-heading" class="font-headline text-primary m-0 text-2xl font-bold tracking-[-0.025em] sm:text-3xl dark:text-white">Sample types</h2>
-  <div class="bg-accent mt-2 mb-8 h-0.5 w-10" aria-hidden="true"></div>
+  <div class="bg-accent mt-2 mb-6 h-0.5 w-10" aria-hidden="true"></div>
+  <p class="mb-8 max-w-3xl text-sm leading-relaxed text-stone-600 dark:text-stone-300">A sampling day has two discrete modes, a CTD bio-cast and inline sampling from the underway seawater, plus instruments that record continuously. The notes below describe how a day is put together. The table is the lookup for depths, timepoints, volumes, and replicates.</p>
 
   <div class="grid items-start gap-8 text-sm leading-relaxed text-stone-600 md:grid-cols-2 md:gap-x-12 md:gap-y-10 dark:text-stone-300">
-    <article>
-      <h3 class="text-primary mt-0 mb-3 text-lg font-bold dark:text-white">CTD</h3>
+    <article class="space-y-3">
+      <h3 class="text-primary m-0 text-lg font-bold dark:text-white">CTD cast</h3>
       <p class="m-0">
-        CTD sampling ideally occurs 1x per day close to local noon/solar noon. If the CTD takes place within ~2 hours of local/solar noon, then this sampling effort can replace the 1200 inline sampling timepoint. Cruises that accommodate Bio-GO-SHIP sampling tend to have a separate CTD cast "bio-cast" once per day that goes to a max depth of 1000 m.
+        Once per day, ideally within about two hours of local solar noon, the CTD rosette is cast on a dedicated bio-cast to a maximum depth of 1000 m. Cruises that accommodate Bio-GO-SHIP sampling use this separate cast for the biological bottles. DNA is filtered onto Sterivex cartridges at 1000, 200, 100, and 5 m (one filter per depth). RNA is collected only at 5 m (one filter). HPLC pigments
+        are filtered onto GF/F filters at 100, 40, and 5 m. Particulate organic matter is collected at 5 m only: triplicate GF/F filters for POC/N and triplicate GF/F filters for POP. Flow cytometry samples (1.8 mL, glutaraldehyde-preserved in cryovials) are collected at eight depths spanning the profile: 1000, 500, 200, 150, 100, 75, 40, and 5 m.
       </p>
-      <div class="mt-4 space-y-2">
-        {
-          ctdSamples.map((row) => (
-            <p class="m-0">
-              <span class="font-semibold text-stone-800 dark:text-stone-100">{row.name}</span>
-              <span> Depths (m): {row.depths}. {row.note}</span>
-            </p>
-          ))
-        }
-      </div>
-      <div class="mt-4 space-y-2">
-        <p class="m-0">
-          <span class="font-semibold text-stone-800 dark:text-stone-100">Transmissometer</span>
-          <span> Continuously collecting data for all CTD casts (not just biocasts). Lenses must be cleaned with isopropyl and DI 1x per day. Lenses covered with electrical tape during CTD cast for a calibration "dark cast" ~1x per week.</span>
-        </p>
-        <p class="m-0">
-          <span class="font-semibold text-stone-800 dark:text-stone-100">Underwater Vision Profiler (UVP5)</span>
-          <span> Managed by Bio team and PI Steffi O'Daly. Continuously collecting data for full depth CTD casts (settings are switched to not collect data for any shallow casts including Bio-casts).</span>
-        </p>
-      </div>
-    </article>
-
-    <article>
-      <h3 class="text-primary mt-0 mb-3 text-lg font-bold dark:text-white">Inline</h3>
+      <p class="m-0">At stations where a BGC-Argo float is deployed, that scheme changes. HPLC adds chlorophyll maximum and chlorophyll maximum + 50 m to the standard 100, 40, and 5 m. A small-volume POC/N sample, normally collected only from the inline seawater, is also drawn from the CTD at those same five depths so it can be submitted to NASA SeaBASS with the HPLC samples.</p>
       <p class="m-0">
-        Inline sampling ideally uses a diaphragm or positive-displacement pump (minimizes cellular damage caused by impeller pumps) and sample water is gathered at a sink located closest to the inlet valve of surface water (minimizes shear). Inline sampling occurs 3x per day for discrete sampling, and continuously for cytometry and optics.
+        Two instruments record continuously on the CTD instead of from bottles. A transmissometer runs on every CTD cast, bio-casts and core hydrographic casts alike, when the team managing the rosette brings one. Its lenses are cleaned with isopropyl and deionized water once a day, and covered with electrical tape about once a week for a calibration dark cast. An Underwater Vision Profiler
+        (UVP5), managed by the Bio team and PI Steffi O'Daly, runs on full-depth casts and is switched off for bio-casts and other shallow casts. When the bio-cast itself falls within about two hours of solar noon, it takes the place of the noon inline timepoint.
       </p>
-      <p class="mt-4 mb-2 font-semibold text-stone-800 dark:text-stone-100">Discrete timepoints (local/ship-time): 0600, 1200, 2000</p>
-      <div class="space-y-2">
-        {
-          inlineTimes.map((slot) => (
-            <p class="m-0">
-              <span class="font-semibold text-stone-800 dark:text-stone-100">{slot.label}:</span> {slot.samples}
-            </p>
-          ))
-        }
-      </div>
     </article>
 
-    <article>
-      <h3 class="text-primary mt-0 mb-3 text-lg font-bold dark:text-white">Discrete inline and CTD</h3>
-      <div class="space-y-2">
-        {
-          discreteSamples.map((sample) => (
-            <p class="m-0">
-              <span class="font-semibold text-stone-800 dark:text-stone-100">{sample.name}</span>
-              <span> Volume: {sample.volume}</span>
-            </p>
-          ))
-        }
-      </div>
-    </article>
-
-    <article>
-      <h3 class="text-primary mt-0 mb-3 text-lg font-bold dark:text-white">Bio-optics</h3>
-      <p class="m-0">Inline continuous instruments (set up near sink that drains overboard)</p>
-      <p class="mt-2 mb-0">Optical suite (can include hyper-BB or BB3 for backscatter, AC-S for absorption and attenuation, and a fast repetition rate fluorometer)</p>
-      <p class="mt-2 mb-0">Cytometry (will include onboard flow cytometer and IFCB)</p>
-      <p class="mt-2 mb-0">Particulate inorganic carbon inline sensor with a salinity sensor and a fluorometer</p>
-      <p class="mt-4 mb-0">
-        <span class="font-semibold text-stone-800 dark:text-stone-100">CTD-mounted instruments:</span>
-        <span> Transmissometer, UVP</span>
+    <article class="space-y-3">
+      <h3 class="text-primary m-0 text-lg font-bold dark:text-white">Inline sampling</h3>
+      <p class="m-0">
+        Inline sampling draws continuously from the ship's underway seawater supply. A diaphragm or positive-displacement pump is preferred, because impeller pumps do more damage to cells. Water is taken from a sink as close as possible to the surface-water inlet valve, which keeps the line short and reduces shear. The continuous instruments are set up near a sink that drains overboard.
+      </p>
+      <p class="m-0">
+        Discrete samples are collected at four fixed local (ship) times: 06:00, 12:00, 20:00, and 00:00. The 06:00, 12:00, and 20:00 sets are DNA (one Sterivex), HPLC pigments (one GF/F), large-volume particulate organic matter (triplicate GF/F for POC/N and triplicate GF/F for POP), and flow cytometry (one cryovial). Noon also includes RNA (one Sterivex) and a small-volume POC/N sample (one GF/F,
+        plus dry and wet blanks). Midnight is reserved for nucleic acids: DNA (one Sterivex) and RNA (one Sterivex).
+      </p>
+      <p class="m-0">In parallel, several instruments sample that same inline water continuously: an optical suite (a hyper-BB or BB3 for backscatter, an AC-S for absorption and attenuation, and a fast repetition rate fluorometer), an onboard flow cytometer and an Imaging FlowCytobot (IFCB), and a particulate inorganic carbon sensor paired with a salinity sensor and a fluorometer.</p>
+      <p class="m-0">
+        Bio-GO-SHIP also contributes validation data for NASA's PACE satellite. Each day the overpass time is determined for the PACE-OCI sensor, which tends to be close to local noon. Inline sampling at the overpass includes a small-volume POC/N regression (protocol details still needed), HPLC (triplicates when the sky is mostly free of clouds, and a single filter when it is cloudy), PIC
+        (protocol details still needed), and flow cytometry (one cryovial).
       </p>
     </article>
   </div>
+
+  <aside class="mt-8 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950 dark:border-amber-800/70 dark:bg-amber-950/40 dark:text-amber-100" aria-labelledby="sampling-confirm-heading">
+    <h3 id="sampling-confirm-heading" class="m-0 mb-2 text-sm font-bold">Still to confirm</h3>
+    <ul class="m-0 list-disc space-y-1 pl-5">
+      <li>The noon substitution window is about 2 hours in the Sampling Schemes document and in the text above. The daily cheat sheet says about 3 hours.</li>
+      <li>Discrete PIC is listed as a PACE-overpass inline sample of about 200 mL. The protocols we have do not assign it a depth or a timepoint. It is separate from the continuous PIC sensor.</li>
+      <li>PACE overpass sampling still needs protocol notes for the small-volume POC/N regression and for discrete PIC.</li>
+      <li>Flow cytometry volume is 1.8 mL in the cast description and about 2 mL in the table.</li>
+    </ul>
+  </aside>
+
+  <h3 id="sampling-reference-heading" class="font-headline text-primary mt-12 mb-2 text-xl font-bold tracking-[-0.025em] dark:text-white">Sampling reference</h3>
+  <p class="mb-4 max-w-3xl text-sm text-stone-600 dark:text-stone-300">CTD depths are for the 12:00 bio-cast. Inline timepoints are collected at 5 m. Rows marked Confirm still need a source check.</p>
+
+  <div class="surface-card overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="scheme-table w-full min-w-[40rem] table-fixed border-collapse text-left">
+        <colgroup>
+          <col class="w-[18%]" />
+          <col class="w-[17%]" />
+          <col class="w-[16%]" />
+          <col class="w-[20%]" />
+          <col class="w-[29%]" />
+        </colgroup>
+        <caption class="sr-only"> Sample types with CTD depths at the 12:00 bio-cast, inline timepoints at 5 m, volume and replicates, and comments. Discrete bottle samples are listed first, then continuous instruments. </caption>
+        <thead>
+          <tr>
+            {
+              columns.map((column) => (
+                <th scope="col" class:list={['scheme-th', column.id === 'name' && 'scheme-sticky']}>
+                  {column.label}
+                  {column.hint && <span class="mt-0.5 block text-[0.65rem] font-normal tracking-normal text-stone-500 normal-case dark:text-stone-400">{column.hint}</span>}
+                </th>
+              ))
+            }
+          </tr>
+        </thead>
+        {
+          groups.map((group) => (
+            <tbody>
+              <tr class="scheme-group">
+                <th colspan="5" scope="rowgroup">
+                  {group.label}
+                </th>
+              </tr>
+              {group.rows.map((row) => (
+                <tr>
+                  {columns.map((column) => {
+                    const value = row[column.id];
+                    const isName = column.id === 'name';
+                    const Tag = isName ? 'th' : 'td';
+                    return (
+                      <Tag scope={isName ? 'row' : undefined} class:list={['scheme-td', isName && 'scheme-name scheme-sticky']}>
+                        {column.id === 'comments' && row.confirm && <span class="scheme-confirm">Confirm</span>}
+                        {value === '—' ? (
+                          <span class="text-stone-400">
+                            —<span class="sr-only"> none</span>
+                          </span>
+                        ) : value === 'Continuous' ? (
+                          <span class="scheme-continuous">Continuous</span>
+                        ) : value === 'Not applicable' ? (
+                          <span class="text-stone-500 dark:text-stone-400">Not applicable</span>
+                        ) : (
+                          value
+                        )}
+                      </Tag>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          ))
+        }
+      </table>
+    </div>
+  </div>
 </section>
+
+<style>
+  @reference "../../styles/tailwind.config.css";
+
+  .scheme-th {
+    @apply bg-stone-100 px-3 py-2.5 text-left align-bottom text-xs font-semibold tracking-[0.06em] text-stone-600 uppercase dark:bg-stone-800 dark:text-stone-300;
+  }
+
+  .scheme-td {
+    @apply border-t border-stone-200 bg-white px-3 py-3 align-top text-sm leading-relaxed text-stone-700 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200;
+  }
+
+  .scheme-name {
+    @apply font-semibold text-stone-900 dark:text-stone-100;
+  }
+
+  .scheme-group th {
+    @apply border-t border-stone-200 bg-stone-50 px-3 py-2 text-left text-xs font-semibold tracking-[0.14em] text-stone-500 uppercase dark:border-stone-700 dark:bg-stone-800/80 dark:text-stone-300;
+  }
+
+  .scheme-sticky {
+    @apply sticky left-0 z-10 border-r border-stone-200 dark:border-stone-700;
+  }
+
+  .scheme-th.scheme-sticky {
+    @apply z-20 bg-stone-100 dark:bg-stone-800;
+  }
+
+  .scheme-table tbody tr:not(.scheme-group):hover .scheme-td {
+    @apply bg-stone-50 dark:bg-stone-800;
+  }
+
+  .scheme-confirm {
+    @apply mb-1.5 block w-fit rounded bg-amber-100 px-1.5 py-0.5 text-[0.65rem] font-semibold tracking-[0.08em] text-amber-950 uppercase dark:bg-amber-400/15 dark:text-amber-200;
+  }
+
+  .scheme-continuous {
+    @apply bg-primary/10 text-primary dark:text-primary-light inline-block rounded-full px-2 py-0.5 text-xs font-semibold whitespace-nowrap;
+  }
+</style>
