@@ -34,7 +34,7 @@
   }
 
   a:focus {
-    @apply text-primary no-underline dark:text-primary-light;
+    @apply text-primary dark:text-primary-light no-underline;
   }
 
   a:focus-visible {
@@ -42,7 +42,7 @@
   }
 
   a:hover {
-    @apply text-primary no-underline dark:text-primary-light;
+    @apply text-primary dark:text-primary-light no-underline;
   }
 
   li + li,
@@ -114,7 +114,7 @@
   }
 
   .surface-card {
-    @apply rounded-xl bg-stone-100 dark:bg-stone-800;
+    @apply bg-surface dark:bg-surface-dark rounded-xl border border-stone-200/80 dark:border-stone-700/80;
   }
 
   .card-glow-light {

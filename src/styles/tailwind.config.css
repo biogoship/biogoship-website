@@ -43,6 +43,12 @@
   --color-background-dark: var(--color-stone-900);
   --color-text: var(--color-stone-900);
   --color-text-dark: var(--color-stone-50);
+  /* Card fills. One step off the page color, then one step further for chips that sit on a card.
+     There is no daisyUI base / base-200 / base-300 scale here — these two tokens are that ladder. */
+  --color-surface: #fafaf9;
+  --color-surface-muted: #eceae8;
+  --color-surface-dark: #23201e;
+  --color-surface-muted-dark: #3c3835;
 
   /* Custom Animations */
   --animate-bounce-slow: bounce-small 2s infinite;
