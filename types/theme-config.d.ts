@@ -58,13 +58,6 @@ export interface ThemeConfig {
   ogTitle?: string;
 
   /**
-   * If `true`, enables dark mode support with automatic OS-level preference detection and mode switcher.
-   *
-   * Requires additional CSS.
-   */
-  darkMode?: boolean;
-
-  /**
    * Default robots meta tag value for all pages, used when no page-specific value is set.
    *
    * Can be overridden per-page via frontmatter or layout props.

@@ -15,7 +15,6 @@ export const themeConfig: ThemeConfig = {
   generateWebmanifest: true,
   name: 'Bio GO-SHIP',
   shortName: 'Bio GO-SHIP',
-  darkMode: true,
   robots: import.meta.env?.ROBOTS || 'index, follow',
   xHandle: 'UCI_OCEANS',
 
@@ -106,5 +105,5 @@ export const themeConfig: ThemeConfig = {
 
   // If `astro-compress` is ever restored: its CSS minifier (csso) strips Tailwind v4's
   // `@media (width >= ...)` range syntax, which kills every responsive breakpoint. Keep `CSS: false`.
-  droppedFeatures: ['cloudflare', 'events-pages', 'pricing-page', 'docs-pages', 'integration-pages', 'examples', 'signup', 'html-compression'],
+  droppedFeatures: ['cloudflare', 'events-pages', 'pricing-page', 'docs-pages', 'integration-pages', 'examples', 'signup', 'html-compression', 'dark-mode'],
 };

@@ -12,7 +12,7 @@ import { expressiveCodeThemes } from './expressive-code-themes.mjs';
 // Moving them here lets both the Markdown integration and the `<Code>` component
 // pick up the exact same configuration.
 export default defineEcConfig({
-  themes: [expressiveCodeThemes.light, expressiveCodeThemes.dark],
+  themes: [expressiveCodeThemes.light],
   useDarkModeMediaQuery: false,
   plugins: [pluginLineNumbers()],
   defaultProps: { showLineNumbers: false },

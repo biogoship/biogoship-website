@@ -6,7 +6,6 @@ import bioLogo from '../../icons/bio_GOSHIP_logo.jpg';
 import GoShipLink from "@components/layout/go-ship-link.astro";
 import FooterNav from "@components/layout/nav/footer-nav.astro";
 import LegalNav from "@components/layout/nav/legal.astro";
-import LightModeSwitch from "@components/layout/light-mode-switch.astro";
 
 interface Props {
   locale: string;
@@ -81,10 +80,7 @@ const linkedinUrl: string|undefined = undefined;
       <FooterNav {locale} />
     </div>
   </div>
-  <div class="container mt-6 flex flex-col flex-wrap items-center justify-between gap-x-14 gap-y-4 border-t border-white/10 py-4 sm:flex-row-reverse">
-    <div class="flex items-center gap-6 lg:gap-4">
-      {themeConfig.darkMode && <LightModeSwitch label={t('labels.change-light-mode')} />}
-    </div>
+  <div class="container mt-6 flex flex-col flex-wrap items-center justify-between gap-x-14 gap-y-4 border-t border-white/10 py-4 sm:flex-row">
     <LegalNav {locale} />
   </div>
 </footer>
