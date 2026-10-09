@@ -19,11 +19,18 @@ const t = useTranslations(locale);
     <ul class="m-0 flex max-w-3xl list-none flex-col gap-4 p-0" aria-label={label ?? t("pages.blog.title")}>
       {entries.map((entry) => {
         const dateLabel = entry.data.publishDate.toLocaleDateString(locale, { dateStyle: "medium" });
+        const authorName = entry.data.author?.name;
         return (
           <li class="surface-card m-0 mt-0 px-5 py-4">
-            <time class="block text-base text-stone-500 dark:text-stone-400" datetime={entry.data.publishDate.toISOString()}>
-              {dateLabel}
-            </time>
+            <p class="m-0 text-base text-stone-500 dark:text-stone-400">
+              <time datetime={entry.data.publishDate.toISOString()}>{dateLabel}</time>
+              {authorName && (
+                <>
+                  <span aria-hidden="true"> · </span>
+                  <span>{authorName}</span>
+                </>
+              )}
+            </p>
             <div class="mt-2">
               <ListItem {entry} {locale} {noTransition} />
             </div>
