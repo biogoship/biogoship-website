@@ -84,7 +84,7 @@
       "mission-eyebrow": "Our mission",
       "mission-text": "Quantify the molecular diversity, size spectrum, chemical composition, and abundances of plankton communities across large spatial, vertical, and eventually temporal scales.",
       "references": "A GO-SHIP community effort",
-      "ref-omics": "'Omics",
+      "ref-omics": "Omics",
       "ref-imaging": "Plankton imaging",
       "ref-chemistry": "Particle chemistry",
       "ref-optics": "Optical techniques"
@@ -127,7 +127,7 @@
       "columns": "Columns"
     },
     "cruises": {
-      "title": "Cruise plans",
+      "title": "Cruises",
       "description": "Upcoming and recent Bio-GO-SHIP cruise plans.",
       "empty": "No cruise plans posted yet.",
       "map-label": "Cruise map",
@@ -141,9 +141,9 @@
       "download": "Download"
     },
     "contact": {
-      "title": "Contact us",
+      "title": "Contact",
       "description": "Get in touch with the Bio-GO-SHIP community.",
-      "intro-text": "Feel free to reach out to the team. Open a GitHub issue for site or data questions, or email someone directly.",
+      "intro-text": "Feel free to reach out to the team. Email the project leads, browse the frequently asked questions, or submit a GitHub issue.",
       "docs-heading": "Looking for quick answers?",
       "docs-text": "The FAQ covers how Bio-GO-SHIP works and how to get involved.",
       "docs-cta": "Read the FAQ",
@@ -154,7 +154,7 @@
       "issues-text": "Report a problem, ask a question, or request a change on our GitHub Issues page.",
       "issues-cta": "Open an issue",
       "email-heading": "Email the team",
-      "email-text": "Or write someone directly. These are fake demo addresses (example.com) — not real inboxes.",
+      "email-text": "",
       "name": "Name",
       "name-placeholder": "Your name",
       "email-placeholder": "you@example.com",
@@ -186,7 +186,7 @@
     "description": "Subscribe to the RSS feed to stay up to date with the latest Bio-GO-SHIP posts."
   },
   "tags-t": {
-    "omics": "'Omics",
+    "omics": "Omics",
     "imaging": "Imaging",
     "optics": "Optics",
     "particles": "Particles",
@@ -223,7 +223,7 @@
     "features-map-legend": "Cruise tracks",
     "features-map-empty": "Cruise tracks appear here when coordinates are added to a cruise plan.",
     "features-map-all": "All cruise plans",
-    "feature-ai-title": "'Omics sampling",
+    "feature-ai-title": "Omics sampling",
     "feature-ai-text": "Molecular measurements that quantify the diversity of plankton communities across ocean basins and depths.",
     "feature-speed-title": "Plankton imaging",
     "feature-speed-text": "In situ and lab imaging to capture size spectra and community structure alongside other Bio-GO-SHIP observations.",
@@ -239,7 +239,7 @@
     "vision-text": "The vision of Bio-GO-SHIP is to develop a deep understanding of the link between the physio-chemical environment and global ocean plankton diversity, abundance, and biogeochemical roles in the context of a changing ocean.",
     "mission-heading": "Mission",
     "mission-text-1": "The mission of Bio-GO-SHIP is to quantify the molecular diversity, size spectrum, chemical composition, and abundances of plankton communities across large spatial, vertical, and eventually temporal scales.",
-    "mission-text-2": "This will be achieved through systematic, high-quality, and calibrated sampling of ‘omics, plankton imaging, particle chemistry, and optical techniques as operational oceanographic tools. Integration with regular GO-SHIP measurements and their analyses of the physical and chemical environment will allow us to understand (and eventually predict) how plankton communities respond to ocean changes and how biological processes feeds back on carbon, oxygen and nutrient cycles.",
+    "mission-text-2": "This will be achieved through systematic, high-quality, and calibrated sampling of omics, plankton imaging, particle chemistry, and optical techniques as operational oceanographic tools. Integration with regular GO-SHIP measurements and their analyses of the physical and chemical environment will allow us to understand (and eventually predict) how plankton communities respond to ocean changes and how biological processes feeds back on carbon, oxygen and nutrient cycles.",
     "benefits-heading": "Community benefits",
     "benefits-text-1": "There are several community benefits to Bio-GO-SHIP. The community-led effort will generate a uniform global set of quantitative data of plankton communities. This will be achieved using a suite of vetted techniques that are rigorously curated and publicly available",
     "benefits-cite": "Boss et al., 2020",

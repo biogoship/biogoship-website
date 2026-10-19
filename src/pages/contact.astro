@@ -7,32 +7,18 @@ import { themeConfig } from '~/theme.config';
 
 const locale = themeConfig.i18n.defaultLocale;
 const t = useTranslations(locale);
-
-const githubIssuesUrl = "https://github.com/biogoship/biogoship-website/issues";
 const emails = [
-  { name: "DEMO — not a real person", address: "not-a-real-person@example.com" },
-  { name: "DEMO — fake US inbox", address: "fake-us-team@example.com" },
-  { name: "DEMO — fake international inbox", address: "fake-intl-team@example.com" },
+  { name: "University lead – Adam Martiny", address: "amartiny@uci.edu" },
+  { name: "NOAA lead — Luke Thompson", address: "luke.thompson@noaa.gov" },
 ];
+const githubIssuesUrl = "https://github.com/biogoship/biogoship-website/issues";
+
 ---
 
 <Layout title={t('pages.contact.title')} description={t('pages.contact.description')}>
   <Headline text={t('pages.contact.title')} class="pb-10" />
 
   <p class="mb-10 max-w-2xl text-lg text-stone-600 dark:text-stone-300">{t('pages.contact.intro-text')}</p>
-
-  <div class="flex max-w-xl flex-col gap-10">
-    <div class="surface-card flex flex-col gap-4 p-5 sm:p-6">
-        <h3 class="flex items-center gap-2 text-lg font-semibold">
-          <Icon name="fa7-brands:github" class="h-6 w-6" aria-hidden="true" />
-          {t('pages.contact.issues-heading')}
-        </h3>
-        <p class="text-stone-600 dark:text-stone-300">{t('pages.contact.issues-text')}</p>
-        <a href={githubIssuesUrl} target="_blank" rel="noopener" class="btn-primary self-start">
-          <Icon name="fa7-brands:github" class="h-5 w-5" aria-hidden="true" />
-          <span>{t('pages.contact.issues-cta')}</span>
-        </a>
-    </div>
 
     <div class="flex flex-col gap-3">
       <h3 class="text-lg font-semibold">{t('pages.contact.email-heading')}</h3>
@@ -57,5 +43,19 @@ const emails = [
         </a>
       </p>
     </div>
+
+  <div class="flex max-w-xl flex-col gap-10">
+    <div class="surface-card flex flex-col gap-4 p-5 sm:p-6">
+        <h3 class="flex items-center gap-2 text-lg font-semibold">
+          <Icon name="fa7-brands:github" class="h-6 w-6" aria-hidden="true" />
+          {t('pages.contact.issues-heading')}
+        </h3>
+        <p class="text-stone-600 dark:text-stone-300">{t('pages.contact.issues-text')}</p>
+        <a href={githubIssuesUrl} target="_blank" rel="noopener" class="btn-primary self-start">
+          <Icon name="fa7-brands:github" class="h-5 w-5" aria-hidden="true" />
+          <span>{t('pages.contact.issues-cta')}</span>
+        </a>
+    </div>
+
   </div>
 </Layout>
