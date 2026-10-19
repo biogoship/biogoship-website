@@ -8,8 +8,8 @@ export interface CruiseExpedition {
   pi: string;
   cchdo?: string;
   ncei?: string;
+  bcodmo?: string;
   seabass?: string;
-  bcoDmo?: string;
   obis?: string;
   ecotaxa?: string;
   ncbi?: string;

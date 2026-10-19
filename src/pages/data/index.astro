@@ -9,8 +9,8 @@ import { useTranslations } from "@utils/i18n";
 import { themeConfig } from "~/theme.config";
 import cchdoLogo from "../../images/data/cchdo_logo.png";
 import nceiLogo from "../../images/data/ncei_logo.jpg";
-import seabassLogo from "../../images/data/nasa_logo.jpg";
 import BcodmoLogo from "../../images/data/bcodmo_logo.svg";
+import seabassLogo from "../../images/data/nasa_logo.jpg";
 import obisLogo from "../../images/data/obis_logo.png";
 import ecotaxaLogo from "../../images/data/ecotaxa_logo.jpg";
 import ncbiLogo from "../../images/data/ncbi_logo.png";
@@ -37,16 +37,16 @@ const repositories: Repository[] = [
     logo: nceiLogo,
   },
   {
-    name: "SeaBASS",
-    href: "https://seabass.gsfc.nasa.gov/",
-    blurb: "NASA's SeaWiFS Bio-optical Archive. Ocean optics, pigments, and related measurements.",
-    logo: seabassLogo,
-  },
-  {
     name: "BCO-DMO",
     href: "https://www.bco-dmo.org/",
     blurb: "Biological and Chemical Oceanography Data Management Office. NSF oceanography project data.",
     svg: true,
+  },
+  {
+    name: "SeaBASS",
+    href: "https://seabass.gsfc.nasa.gov/",
+    blurb: "NASA's SeaWiFS Bio-optical Archive. Ocean optics, pigments, and related measurements.",
+    logo: seabassLogo,
   },
   {
     name: "OBIS",
@@ -55,7 +55,7 @@ const repositories: Repository[] = [
     logo: obisLogo,
   },
   {
-    name: "Ecotaxa",
+    name: "EcoTaxa",
     href: "https://ecotaxa.obs-vlfr.fr/",
     blurb: "Taxonomic identification, classification, and analysis of plankton captured by imaging instruments.",
     logo: ecotaxaLogo,

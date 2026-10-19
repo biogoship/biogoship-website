@@ -119,8 +119,8 @@
     "data": {
       "title": "Data",
       "description": "Where to find Bio-GO-SHIP data in public archives.",
-      "intro": "This site does not host a database. Bio-GO-SHIP data is published in community archives. These are the general landing pages to start from.",
-      "note": "Keeping this list accurate means datasets need to stay published and current in those archives as they are released.",
+      "intro": "Community archives where Bio-GO-SHIP data is hosted.",
+      "note": "This site does not host cruise data. These are the general landing pages to start from. See below for data links specific to each cruise.",
       "table-heading": "Cruise data",
       "table-intro": "Public archive links for each occupation. Blank cells mean nothing is posted there yet. Use the checkboxes to show or hide columns.",
       "table-caption": "Cruise occupations with expocode, line, ship, dates, PI, and archive links",
