@@ -7,11 +7,12 @@ import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import { useTranslations } from "@utils/i18n";
 import { themeConfig } from "~/theme.config";
-import nceiLogo from "../../images/data/ncei_logo.jpg";
 import cchdoLogo from "../../images/data/cchdo_logo.png";
+import nceiLogo from "../../images/data/ncei_logo.jpg";
 import seabassLogo from "../../images/data/nasa_logo.jpg";
-import BcoDmoLogo from "../../images/data/BCO-DMO-logo.svg";
-import obisLogo from "../../images/data/obis_logo_blue.png";
+import bcoDmoLogo from "../../images/data/bcodmo_logo.svg";
+import obisLogo from "../../images/data/obis_logo.png";
+import ecotaxaLogo from "../../images/data/ecotaxa_logo.png";
 import ncbiLogo from "../../images/data/ncbi_logo.png";
 import odeLogo from "../../images/data/ode_logo.png";
 
@@ -24,16 +25,16 @@ type Repository =
 
 const repositories: Repository[] = [
   {
-    name: "NCEI",
-    href: "https://www.ncei.noaa.gov/",
-    blurb: "NOAA's National Centers for Environmental Information. Oceanographic and climate archives.",
-    logo: nceiLogo,
-  },
-  {
     name: "CCHDO",
     href: "https://cchdo.ucsd.edu/",
     blurb: "CLIVAR and Carbon Hydrographic Data Office. GO-SHIP bottle and CTD hydrography.",
     logo: cchdoLogo,
+  },
+  {
+    name: "NCEI",
+    href: "https://www.ncei.noaa.gov/",
+    blurb: "NOAA's National Centers for Environmental Information. Oceanographic and climate archives.",
+    logo: nceiLogo,
   },
   {
     name: "SeaBASS",
@@ -52,6 +53,12 @@ const repositories: Repository[] = [
     href: "https://obis.org/",
     blurb: "Ocean Biodiversity Information System. Occurrence records for marine life.",
     logo: obisLogo,
+  },
+  {
+    name: "Ecotaxa",
+    href: "https://ecotaxa.obs-vlfr.fr/",
+    blurb: "Taxonomic identification, classification, and analysis of plankton captured by imaging instruments.",
+    logo: ecotaxaLogo,
   },
   {
     name: "NCBI",
@@ -86,7 +93,7 @@ const repositories: Repository[] = [
           >
             {"svg" in repo ? (
               <span class="flex h-24 w-24 shrink-0 items-center justify-center rounded-md bg-[#0C293C] px-1.5">
-                <BcoDmoLogo class="h-12 w-full" aria-hidden="true" />
+                <bcoDmoLogo class="h-12 w-full" aria-hidden="true" />
               </span>
             ) : (
               <span class="flex h-24 w-24 shrink-0 items-center justify-center rounded-md bg-white p-2">
