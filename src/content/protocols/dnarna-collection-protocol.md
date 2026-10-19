@@ -1,5 +1,5 @@
 ---
-title: DNA/RNA collection protocol
+title: DNA/RNA sampling
 description: DNA-RNA_SOP_v1.0.pdf
 category: omics
 url: https://github.com/biogoship/biogoship-protocols/blob/main/omics/DNA-RNA_SOP_v1.0.pdf
