@@ -8,8 +8,8 @@ import { themeConfig } from '~/theme.config';
 const locale = themeConfig.i18n.defaultLocale;
 const t = useTranslations(locale);
 const emails = [
-  { name: "University lead – Adam Martiny", address: "amartiny@uci.edu" },
-  { name: "NOAA lead — Luke Thompson", address: "luke.thompson@noaa.gov" },
+  { name: "Adam Martiny, UC Irvine (university lead)", address: "amartiny@uci.edu" },
+  { name: "Luke Thompson, NOAA's Atlantic Oceanographic and Meteorological Laboratory (NOAA lead)", address: "luke.thompson@noaa.gov" },
 ];
 const githubIssuesUrl = "https://github.com/biogoship/biogoship-website/issues";
 
@@ -20,6 +20,7 @@ const githubIssuesUrl = "https://github.com/biogoship/biogoship-website/issues";
 
   <p class="mb-10 max-w-2xl text-lg text-stone-600 dark:text-stone-300">{t('pages.contact.intro-text')}</p>
 
+  <div class="flex max-w-xl flex-col gap-10">
     <div class="flex flex-col gap-3">
       <h3 class="text-lg font-semibold">{t('pages.contact.email-heading')}</h3>
       <p class="text-stone-600 dark:text-stone-300">{t('pages.contact.email-text')}</p>
@@ -35,27 +36,23 @@ const githubIssuesUrl = "https://github.com/biogoship/biogoship-website/issues";
 
     <div class="flex flex-col gap-3">
       <h3 class="text-lg font-semibold">{t('pages.contact.docs-heading')}</h3>
-      <p>
-        {t('pages.contact.docs-text')}<br />
-        <a href={getLocaleUrl('faq', locale)} class="flex items-center gap-1 self-start hover:gap-2">
-          <span>{t('pages.contact.docs-cta')}</span>
-          <Icon name="heroicons:arrow-right" class="h-4 w-4" aria-hidden="true" />
-        </a>
-      </p>
+      <p>{t('pages.contact.docs-text')}</p>
+      <a href={getLocaleUrl('faq', locale)} class="flex items-center gap-1 self-start hover:gap-2">
+        <span>{t('pages.contact.docs-cta')}</span>
+        <Icon name="heroicons:arrow-right" class="h-4 w-4" aria-hidden="true" />
+      </a>
     </div>
 
-  <div class="flex max-w-xl flex-col gap-10">
     <div class="surface-card flex flex-col gap-4 p-5 sm:p-6">
-        <h3 class="flex items-center gap-2 text-lg font-semibold">
-          <Icon name="fa7-brands:github" class="h-6 w-6" aria-hidden="true" />
-          {t('pages.contact.issues-heading')}
-        </h3>
-        <p class="text-stone-600 dark:text-stone-300">{t('pages.contact.issues-text')}</p>
-        <a href={githubIssuesUrl} target="_blank" rel="noopener" class="btn-primary self-start">
-          <Icon name="fa7-brands:github" class="h-5 w-5" aria-hidden="true" />
-          <span>{t('pages.contact.issues-cta')}</span>
-        </a>
+      <h3 class="flex items-center gap-2 text-lg font-semibold">
+        <Icon name="fa7-brands:github" class="h-6 w-6" aria-hidden="true" />
+        {t('pages.contact.issues-heading')}
+      </h3>
+      <p class="text-stone-600 dark:text-stone-300">{t('pages.contact.issues-text')}</p>
+      <a href={githubIssuesUrl} target="_blank" rel="noopener" class="btn-primary self-start">
+        <Icon name="fa7-brands:github" class="h-5 w-5" aria-hidden="true" />
+        <span>{t('pages.contact.issues-cta')}</span>
+      </a>
     </div>
-
   </div>
 </Layout>
