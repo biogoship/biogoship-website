@@ -96,7 +96,7 @@ const groups: { label: string; rows: SampleRow[] }[] = [
         ctd: "Continuous",
         inline: "—",
         volume: "Not applicable",
-        comments: "Managed by the Bio team and PI Steffi O'Daly. Runs on full-depth casts only — off for bio-casts and other shallow casts.",
+        comments: "Runs on full-depth casts only — off for bio-casts and other shallow casts.",
       },
       {
         name: "Optical suite (backscatter, absorption/attenuation, FRRF)",
@@ -127,19 +127,17 @@ const groups: { label: string; rows: SampleRow[] }[] = [
 <section class="mb-0" aria-labelledby="sample-types-heading">
   <h2 id="sample-types-heading" class="font-headline text-primary m-0 text-2xl font-bold tracking-[-0.025em] sm:text-3xl dark:text-white">Sample types</h2>
   <div class="bg-accent mt-2 mb-6 h-0.5 w-10" aria-hidden="true"></div>
-  <p class="mb-8 max-w-3xl text-sm leading-relaxed text-stone-600 dark:text-stone-300">A sampling day has two discrete modes, a CTD bio-cast and inline sampling from the underway seawater, plus instruments that record continuously. The notes below describe how a day is put together. The table is the lookup for depths, timepoints, volumes, and replicates.</p>
+  <p class="mb-8 max-w-3xl text-sm leading-relaxed text-stone-600 dark:text-stone-300">A sampling day has two discrete modes, a CTD bio-cast and inline sampling from the underway seawater, plus instruments that record continuously. The notes below describe how a day is put together. The table that follows provides depths, timepoints, volumes, and replicates for each sample type.</p>
 
   <div class="grid items-start gap-8 text-sm leading-relaxed text-stone-600 md:grid-cols-2 md:gap-x-12 md:gap-y-10 dark:text-stone-300">
     <article class="flex flex-col gap-3">
       <h3 class="text-primary m-0 text-lg font-bold dark:text-white">CTD cast</h3>
       <p class="m-0">
-        Once per day, ideally within about two hours of local solar noon, the CTD rosette is cast on a dedicated bio-cast to a maximum depth of 1000 m. Cruises that accommodate Bio-GO-SHIP sampling use this separate cast for the biological bottles. DNA is filtered onto Sterivex cartridges at 1000, 200, 100, and 5 m (one filter per depth). RNA is collected only at 5 m (one filter). HPLC pigments
-        are filtered onto GF/F filters at 100, 40, and 5 m. Particulate organic matter is collected at 5 m only: triplicate GF/F filters for POC/N and triplicate GF/F filters for POP. Flow cytometry samples (1.8 mL, glutaraldehyde-preserved in cryovials) are collected at eight depths spanning the profile: 1000, 500, 200, 150, 100, 75, 40, and 5 m.
+        Once per day, ideally within about two hours of local solar noon, the CTD rosette is cast on a dedicated bio-cast to a maximum depth of 1000 m. Cruises that accommodate Bio-GO-SHIP sampling use this separate cast for the biological bottles. DNA is filtered onto Sterivex cartridges at 1000, 200, 100, and 5 m (one filter per depth). RNA is collected only at 5 m (one filter). HPLC pigments are filtered onto GF/F filters at 100, 40, and 5 m. Particulate organic matter is collected at 5 m only: triplicate GF/F filters for POC/N and triplicate GF/F filters for POP. Flow cytometry samples (1.8 mL, glutaraldehyde-preserved in cryovials) are collected at eight depths spanning the profile: 1000, 500, 200, 150, 100, 75, 40, and 5 m.
       </p>
       <p class="m-0">At stations where a BGC-Argo float is deployed, that scheme changes. HPLC adds chlorophyll maximum and chlorophyll maximum + 50 m to the standard 100, 40, and 5 m. A small-volume POC/N sample, normally collected only from the inline seawater, is also drawn from the CTD at those same five depths so it can be submitted to NASA SeaBASS with the HPLC samples.</p>
       <p class="m-0">
-        Two instruments record continuously on the CTD instead of from bottles. A transmissometer runs on every CTD cast, bio-casts and core hydrographic casts alike, when the team managing the rosette brings one. Its lenses are cleaned with isopropyl and deionized water once a day, and covered with electrical tape about once a week for a calibration dark cast. An Underwater Vision Profiler
-        (UVP5), managed by the Bio team and PI Steffi O'Daly, runs on full-depth casts and is switched off for bio-casts and other shallow casts. When the bio-cast itself falls within about two hours of solar noon, it takes the place of the noon inline timepoint.
+        Two instruments record continuously on the CTD instead of from bottles. A transmissometer runs on every CTD cast, bio-casts and core hydrographic casts alike, when the team managing the rosette brings one. Its lenses are cleaned with isopropyl and deionized water once a day, and covered with electrical tape about once a week for a calibration dark cast. An Underwater Vision Profiler (UVP5) runs on full-depth casts and is switched off for bio-casts and other shallow casts. When the bio-cast itself falls within about two hours of solar noon, it takes the place of the noon inline timepoint.
       </p>
     </article>
 
@@ -149,19 +147,17 @@ const groups: { label: string; rows: SampleRow[] }[] = [
         Inline sampling draws continuously from the ship's underway seawater supply. A diaphragm or positive-displacement pump is preferred, because impeller pumps do more damage to cells. Water is taken from a sink as close as possible to the surface-water inlet valve, which keeps the line short and reduces shear. The continuous instruments are set up near a sink that drains overboard.
       </p>
       <p class="m-0">
-        Discrete samples are collected at four fixed local (ship) times: 06:00, 12:00, 20:00, and 00:00. The 06:00, 12:00, and 20:00 sets are DNA (one Sterivex), HPLC pigments (one GF/F), large-volume particulate organic matter (triplicate GF/F for POC/N and triplicate GF/F for POP), and flow cytometry (one cryovial). Noon also includes RNA (one Sterivex) and a small-volume POC/N sample (one GF/F,
-        plus dry and wet blanks). Midnight is reserved for nucleic acids: DNA (one Sterivex) and RNA (one Sterivex).
+        Discrete samples are collected at four fixed local (ship) times: 06:00, 12:00, 20:00, and 00:00. The 06:00, 12:00, and 20:00 sets are DNA (one Sterivex), HPLC pigments (one GF/F), large-volume particulate organic matter (triplicate GF/F for POC/N and triplicate GF/F for POP), and flow cytometry (one cryovial). Noon also includes RNA (one Sterivex) and a small-volume POC/N sample (one GF/F, plus dry and wet blanks). Midnight is reserved for nucleic acids: DNA (one Sterivex) and RNA (one Sterivex).
       </p>
       <p class="m-0">In parallel, several instruments sample that same inline water continuously: an optical suite (a hyper-BB or BB3 for backscatter, an AC-S for absorption and attenuation, and a fast repetition rate fluorometer), an onboard flow cytometer and an Imaging FlowCytobot (IFCB), and a particulate inorganic carbon sensor paired with a salinity sensor and a fluorometer.</p>
       <p class="m-0">
-        Bio-GO-SHIP also contributes validation data for NASA's PACE satellite. Each day the overpass time is determined for the PACE-OCI sensor, which tends to be close to local noon. Inline sampling at the overpass includes a small-volume POC/N regression (protocol details still needed), HPLC (triplicates when the sky is mostly free of clouds, and a single filter when it is cloudy), PIC
-        (protocol details still needed), and flow cytometry (one cryovial).
+        Bio-GO-SHIP also contributes validation data for NASA's PACE satellite. Each day the overpass time is determined for the PACE-OCI sensor, which tends to be close to local noon. Inline sampling at the overpass includes a small-volume POC/N regression (protocol details still needed), HPLC (triplicates when the sky is mostly free of clouds, and a single filter when it is cloudy), PIC, and flow cytometry (one cryovial).
       </p>
     </article>
   </div>
 
   <h3 id="sampling-reference-heading" class="font-headline text-primary mt-12 mb-2 text-xl font-bold tracking-[-0.025em] dark:text-white">Sampling reference</h3>
-  <p class="mb-4 max-w-3xl text-sm text-stone-600 dark:text-stone-300">CTD depths are for the 12:00 bio-cast. Inline timepoints are collected at 5 m. Rows marked Confirm still need a source check.</p>
+  <p class="mb-4 max-w-3xl text-sm text-stone-600 dark:text-stone-300">CTD depths are for the 12:00 bio-cast. Inline timepoints are collected at 5 m.</p>
 
   <div class="surface-card overflow-hidden">
     <div class="overflow-x-auto">
