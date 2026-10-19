@@ -8,15 +8,17 @@ export interface CruiseExpedition {
   pi: string;
   cchdo?: string;
   ncei?: string;
-  bcoDmo?: string;
   seabass?: string;
-  ncbi?: string;
+  bcoDmo?: string;
   obis?: string;
+  ecotaxa?: string;
+  ncbi?: string;
   ode?: string;
 }
 
 export const cruiseExpeditions: CruiseExpedition[] = [
   { expocode: "33H320260511", lines: "P04E, P04C", ship: "R/V Marcus G. Langseth", country: "US", startDate: "2026-05-11", endDate: "2026-07-05", pi: "Andrew Babbin", cchdo: "https://cchdo.ucsd.edu/cruise/33H320260511" },
+  { expocode: "33RR20260309", lines: "A16S", ship: "R/V Roger Revelle", country: "US", startDate: "2026-03-09", endDate: "2026-05-01", pi: "Leticia Barbero", cchdo: "https://cchdo.ucsd.edu/cruise/33RR20260309" },
   { expocode: "06M320260113", lines: "MED-01", ship: "R/V Meteor", country: "DE", startDate: "2026-01-13", endDate: "2026-02-09", pi: "Toste Tanhua", cchdo: "https://cchdo.ucsd.edu/cruise/06M320260113" },
   { expocode: "49NZ20250405", lines: "P04W", ship: "R/V Mirai", country: "JP", startDate: "2025-04-05", endDate: "2025-05-12", pi: "Shinya Kouketsu", cchdo: "https://cchdo.ucsd.edu/cruise/49NZ20250405" },
   { expocode: "325020250321", lines: "I09N", ship: "R/V Thomas G. Thompson", country: "US", startDate: "2025-03-21", endDate: "2025-04-27", pi: "Viviane Menezes", cchdo: "https://cchdo.ucsd.edu/cruise/325020250321" },
