@@ -1,5 +1,5 @@
 ---
-title: DNA extraction protocol
+title: DNA extraction
 description: AOML_DNA_Extraction_Protocol_Sterivex_KingFisher.pdf
 category: omics
 url: https://github.com/biogoship/biogoship-protocols/blob/main/omics/AOML_DNA_Extraction_Protocol_Sterivex_KingFisher.pdf
