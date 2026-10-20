@@ -10,7 +10,6 @@ export interface MapTrack {
   title: string;
   href?: string;
   color: string;
-  dashArray?: string;
   points?: MapPoint[];
   line?: MapPoint[];
 }
@@ -51,7 +50,7 @@ const {
 
 <div
   id={id}
-  class:list={["site-map overflow-hidden rounded-lg border border-stone-300 bg-stone-100 dark:border-stone-700 dark:bg-stone-800", className || "mt-4 h-64 w-full sm:h-72"]}
+  class:list={['site-map overflow-hidden rounded-lg border border-stone-300 bg-stone-100 dark:border-stone-700 dark:bg-stone-800', className || 'mt-4 h-64 w-full sm:h-72']}
   role="img"
   aria-label={label}
   data-site-map
@@ -59,25 +58,28 @@ const {
   data-lng={lng}
   data-zoom={zoom}
   data-fit-max-zoom={fitMaxZoom}
-  data-pin={pin ? "true" : "false"}
+  data-pin={pin ? 'true' : 'false'}
   data-pin-title={pinTitle}
   data-points={JSON.stringify(points)}
   data-line={JSON.stringify(line)}
   data-tracks={JSON.stringify(tracks)}
->
-</div>
+></div>
 
 <script>
-  import L from "leaflet";
-  import "leaflet/dist/leaflet.css";
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
 
   // Public ArcGIS Online ocean tiles — no API key. Esri uses {z}/{y}/{x}.
-  const OCEAN_BASE = "https://services.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}";
-  const OCEAN_LABELS = "https://services.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}";
-  const ATTRIBUTION = "Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri";
-  const PIN_BLUE = "#282687";
-  const PIN_GREEN = "#a2d12d";
+  const OCEAN_BASE = 'https://services.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}';
+  const OCEAN_LABELS = 'https://services.arcgisonline.com/arcgis/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}';
+  const ATTRIBUTION = 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri';
+  const PIN_BLUE = '#282687';
+  const PIN_GREEN = '#a2d12d';
   const LINE_BLUE = PIN_BLUE;
+  const TRACK_WEIGHT = 4;
+  const TRACK_WEIGHT_ACTIVE = 7;
+  const TRACK_OPACITY = 0.95;
+  const TRACK_OPACITY_DIMMED = 0.2;
 
   type Coord = { lat?: unknown; lng?: unknown; title?: string };
   type Track = {
@@ -85,7 +87,6 @@ const {
     title?: unknown;
     href?: unknown;
     color?: unknown;
-    dashArray?: unknown;
     points?: Coord[];
     line?: Coord[];
   };
@@ -105,7 +106,7 @@ const {
     try {
       const parsed: unknown = JSON.parse(raw);
       if (!Array.isArray(parsed)) return [];
-      return parsed.filter((item): item is Track => typeof item === "object" && item !== null);
+      return parsed.filter((item): item is Track => typeof item === 'object' && item !== null);
     } catch {
       return [];
     }
@@ -137,7 +138,7 @@ const {
   }
 
   function escapeHtml(value: string) {
-    return value.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
   function popupHtml(title: string, href?: string) {
@@ -148,12 +149,8 @@ const {
 
   function pinIcon() {
     return L.divIcon({
-      className: "leaflet-div-icon site-map-pin",
-      html:
-        '<svg width="26" height="36" viewBox="0 0 20 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
-        `<path d="M10 1.25C5.3 1.25 1.5 5.05 1.5 9.75c0 6.9 8.5 16.5 8.5 16.5s8.5-9.6 8.5-16.5c0-4.7-3.8-8.5-8.5-8.5z" fill="${PIN_BLUE}" stroke="#fff" stroke-width="1.75"/>` +
-        `<circle cx="10" cy="9.75" r="3.4" fill="${PIN_GREEN}"/>` +
-        "</svg>",
+      className: 'leaflet-div-icon site-map-pin',
+      html: '<svg width="26" height="36" viewBox="0 0 20 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + `<path d="M10 1.25C5.3 1.25 1.5 5.05 1.5 9.75c0 6.9 8.5 16.5 8.5 16.5s8.5-9.6 8.5-16.5c0-4.7-3.8-8.5-8.5-8.5z" fill="${PIN_BLUE}" stroke="#fff" stroke-width="1.75"/>` + `<circle cx="10" cy="9.75" r="3.4" fill="${PIN_GREEN}"/>` + '</svg>',
       iconSize: [26, 36],
       iconAnchor: [13, 35],
       popupAnchor: [0, -28],
@@ -169,7 +166,7 @@ const {
   function addCircle(map: L.Map, latlng: L.LatLngExpression, color: string, html: string) {
     const marker = L.circleMarker(latlng, {
       radius: 8,
-      color: "#fff",
+      color: '#fff',
       weight: 2,
       fillColor: color,
       fillOpacity: 1,
@@ -179,21 +176,21 @@ const {
   }
 
   function initSiteMaps() {
-    document.querySelectorAll<HTMLElement>("[data-site-map]").forEach((el) => {
-      if (el.dataset.initialized === "true") return;
-      el.dataset.initialized = "true";
+    document.querySelectorAll<HTMLElement>('[data-site-map]').forEach((el) => {
+      if (el.dataset.initialized === 'true') return;
+      el.dataset.initialized = 'true';
 
       const lat = Number(el.dataset.lat);
       const lng = Number(el.dataset.lng);
       const zoom = Number(el.dataset.zoom);
       const fitMaxZoom = Number(el.dataset.fitMaxZoom);
-      const pinTitle = el.dataset.pinTitle ?? "";
-      const showPin = el.dataset.pin === "true";
-      const points = parseCoordList(el.getAttribute("data-points") ?? el.dataset.points);
-      const line = parseCoordList(el.getAttribute("data-line") ?? el.dataset.line);
-      const tracks = parseTracks(el.getAttribute("data-tracks") ?? el.dataset.tracks);
+      const pinTitle = el.dataset.pinTitle ?? '';
+      const showPin = el.dataset.pin === 'true';
+      const points = parseCoordList(el.getAttribute('data-points') ?? el.dataset.points);
+      const line = parseCoordList(el.getAttribute('data-line') ?? el.dataset.line);
+      const tracks = parseTracks(el.getAttribute('data-tracks') ?? el.dataset.tracks);
 
-      const isTouch = window.matchMedia("(pointer: coarse)").matches;
+      const isTouch = window.matchMedia('(pointer: coarse)').matches;
 
       const map = L.map(el, {
         center: [lat, lng],
@@ -219,20 +216,22 @@ const {
       const lineLatLngsForPins: L.LatLngExpression[] = [];
 
       if (tracks.length > 0) {
+        const layersById = new Map<string, { line?: L.Polyline; circles: L.CircleMarker[] }>();
+
         for (const track of tracks) {
-          const color = typeof track.color === "string" && track.color ? track.color : LINE_BLUE;
-          const title = typeof track.title === "string" ? track.title : "";
-          const href = typeof track.href === "string" ? track.href : undefined;
+          const color = typeof track.color === 'string' && track.color ? track.color : LINE_BLUE;
+          const title = typeof track.title === 'string' ? track.title : '';
+          const href = typeof track.href === 'string' ? track.href : undefined;
           const html = popupHtml(title, href);
-          const dashArray = typeof track.dashArray === "string" && track.dashArray ? track.dashArray : undefined;
+          const layers: { line?: L.Polyline; circles: L.CircleMarker[] } = { circles: [] };
+          if (typeof track.id === 'string') layersById.set(track.id, layers);
 
           const trackLine = unwrapLine(Array.isArray(track.line) ? track.line : []);
           if (trackLine.length > 1) {
-            L.polyline(trackLine, {
+            layers.line = L.polyline(trackLine, {
               color,
-              weight: 4,
-              opacity: 0.95,
-              dashArray,
+              weight: TRACK_WEIGHT,
+              opacity: TRACK_OPACITY,
             })
               .bindPopup(html)
               .addTo(map);
@@ -242,10 +241,31 @@ const {
           for (const point of Array.isArray(track.points) ? track.points : []) {
             const latlng = asLatLng(point);
             if (!latlng) continue;
-            addCircle(map, latlng, color, html);
+            layers.circles.push(addCircle(map, latlng, color, html));
             bounds.push(latlng);
           }
         }
+
+        // Legend entries (anywhere on the page) highlight their track on hover/focus.
+        const highlight = (activeId: string | null) => {
+          for (const [id, { line: trackLine, circles }] of layersById) {
+            const dimmed = activeId !== null && id !== activeId;
+            const active = id === activeId;
+            trackLine?.setStyle({ weight: active ? TRACK_WEIGHT_ACTIVE : TRACK_WEIGHT, opacity: dimmed ? TRACK_OPACITY_DIMMED : TRACK_OPACITY });
+            for (const circle of circles) circle.setStyle({ opacity: dimmed ? TRACK_OPACITY_DIMMED : 1, fillOpacity: dimmed ? TRACK_OPACITY_DIMMED : 1 });
+            if (active) {
+              trackLine?.bringToFront();
+              for (const circle of circles) circle.bringToFront();
+            }
+          }
+        };
+        document.querySelectorAll<HTMLElement>(`[data-map-highlight="${el.id}"]`).forEach((trigger) => {
+          const trackId = trigger.dataset.trackId ?? null;
+          trigger.addEventListener('mouseenter', () => highlight(trackId));
+          trigger.addEventListener('focus', () => highlight(trackId));
+          trigger.addEventListener('mouseleave', () => highlight(null));
+          trigger.addEventListener('blur', () => highlight(null));
+        });
       } else {
         if (showPin) {
           addMarker(map, [lat, lng], pinTitle);
@@ -255,7 +275,7 @@ const {
         for (const point of points) {
           const latlng = asLatLng(point);
           if (!latlng) continue;
-          addMarker(map, latlng, typeof point.title === "string" ? point.title : "");
+          addMarker(map, latlng, typeof point.title === 'string' ? point.title : '');
           bounds.push(latlng);
         }
 
@@ -283,7 +303,7 @@ const {
         map.invalidateSize();
         if (lineLatLngsForPins.length > 1) {
           for (const latlng of lineLatLngsForPins) {
-            addMarker(map, latlng, "");
+            addMarker(map, latlng, '');
           }
         }
       });
@@ -291,9 +311,9 @@ const {
   }
 
   initSiteMaps();
-  document.addEventListener("astro:after-swap", () => {
-    document.querySelectorAll<HTMLElement>("[data-site-map]").forEach((el) => {
-      el.dataset.initialized = "false";
+  document.addEventListener('astro:after-swap', () => {
+    document.querySelectorAll<HTMLElement>('[data-site-map]').forEach((el) => {
+      el.dataset.initialized = 'false';
     });
     initSiteMaps();
   });

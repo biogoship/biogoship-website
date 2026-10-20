@@ -12,43 +12,20 @@ export function stringToColor(str?: string) {
   return color;
 }
 
-function hashString(str: string) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return Math.abs(hash);
-}
-
 /**
- * Distinct colors for map tracks. A fixed qualitative palette (readable on
- * Esri ocean tiles) is assigned by stable id hash; extras use golden-angle hues.
+ * Distinct colors for map tracks: the dark, saturated subset of Sasha Trubetskoy's
+ * "20 distinct colors" (readable as lines on Esri ocean tiles), ordered so that
+ * neighbors contrast strongly. Assigned by position, so pass tracks in display order;
+ * beyond the palette, golden-angle hues are used.
  */
-const TRACK_PALETTE = ['#282687', '#6b8f12', '#c45c26', '#0f766e', '#a21caf', '#b45309', '#1d4ed8', '#9f1239', '#365314', '#6d28d9'];
+const TRACK_PALETTE = ['#e6194b', '#3cb44b', '#911eb4', '#f58231', '#000075', '#f032e6', '#808000', '#469990', '#9a6324', '#4363d8', '#800000', '#000000', '#b8860b'];
 
-export function colorsForIds(ids: readonly string[]): string[] {
-  const unique = [...new Set(ids)];
-  const sorted = [...unique].sort();
-  const colorById = new Map<string, string>();
-  const used = new Set<number>();
-  let extra = 0;
-
-  for (const id of sorted) {
-    if (used.size < TRACK_PALETTE.length) {
-      let idx = hashString(id) % TRACK_PALETTE.length;
-      while (used.has(idx)) idx = (idx + 1) % TRACK_PALETTE.length;
-      used.add(idx);
-      const color = TRACK_PALETTE.at(idx);
-      colorById.set(id, color ?? TRACK_PALETTE[0]);
-    } else {
-      let hue = (hashString(id) + extra * 137.508) % 360;
-      extra += 1;
-      if (hue > 195 && hue < 235) hue = (hue + 55) % 360;
-      colorById.set(id, `hsl(${Math.round(hue)} 58% 38%)`);
-    }
-  }
-
-  return ids.map((id) => colorById.get(id) ?? TRACK_PALETTE[0]);
+export function trackColor(index: number): string {
+  const color = TRACK_PALETTE.at(index);
+  if (color && index >= 0) return color;
+  let hue = (index * 137.508) % 360;
+  if (hue > 175 && hue < 235) hue = (hue + 70) % 360;
+  return `hsl(${Math.round(hue)} 65% 35%)`;
 }
 
 // format just the time part (HH:mm)

@@ -5,7 +5,7 @@ import { getCollection } from "astro:content";
 import Reveal from "@components/reveal.astro";
 import SiteMap, { type MapTrack } from "@components/map/site-map.astro";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
-import { colorsForIds } from "@utils/helpers";
+import { trackColor } from "@utils/helpers";
 import { themeConfig } from "~/theme.config";
 import Bathymetry from "../../icons/bathymetric_map_no_numbers.svg";
 import polarFieldPhoto from "../../icons/20221012_222117.jpg";
@@ -44,13 +44,11 @@ const mappedCruises = [...cruises]
     const line = entry.data.map?.line ?? [];
     return points.length > 0 || line.length > 1;
   });
-const trackColors = colorsForIds(mappedCruises.map((entry) => entry.id));
 const cruiseTracks: MapTrack[] = mappedCruises.map((entry, i) => ({
   id: entry.id,
   title: entry.data.title,
   href: getLocaleUrl(`cruises/${entry.id}`, locale),
-  color: trackColors.at(i) ?? "#282687",
-  dashArray: i % 2 === 1 ? "9 7" : undefined,
+  color: trackColor(i),
   points: entry.data.map?.points ?? [],
   line: entry.data.map?.line ?? [],
 }));
@@ -126,112 +124,96 @@ function cruiseShortName(title: string) {
 <section class="home-content flex flex-col overflow-x-clip">
   <div class="container mx-auto py-16 sm:py-20">
     <article class="max-w-4xl">
-      <h2 id="home-overview-heading" class="text-primary m-0 text-sm font-semibold tracking-[0.2em] uppercase dark:text-primary-light">{t("home-content.vision-heading")}</h2>
+      <h2 id="home-overview-heading" class="text-primary m-0 text-sm font-semibold tracking-[0.2em] uppercase dark:text-primary-light">
+        {t('home-content.vision-heading')}
+      </h2>
       <div class="bg-accent mt-2 mb-5 h-0.5 w-10" aria-hidden="true"></div>
-      <p class="font-headline text-primary m-0 text-2xl leading-snug font-semibold tracking-[-0.025em] sm:text-3xl lg:text-[2.15rem] dark:text-white">
-        {t("home-content.vision-text")}
-      </p>
+      <p class="font-headline text-primary m-0 text-2xl leading-snug font-semibold tracking-[-0.025em] sm:text-3xl lg:text-[2.15rem] dark:text-white">{t('home-content.vision-text')}</p>
     </article>
 
     <div class="mt-14 grid gap-12 md:mt-16 md:grid-cols-2 md:gap-16">
       <article>
-        <h2 class="font-headline text-primary m-0 text-lg font-bold tracking-[-0.025em] sm:text-xl dark:text-white">{t("home-content.mission-heading")}</h2>
+        <h2 class="font-headline text-primary m-0 text-lg font-bold tracking-[-0.025em] sm:text-xl dark:text-white">{t('home-content.mission-heading')}</h2>
         <div class="bg-accent mt-2 mb-4 h-0.5 w-10" aria-hidden="true"></div>
-        <p class="m-0 text-[0.95rem] leading-relaxed text-stone-600 dark:text-stone-300">{t("home-content.mission-text-1")}</p>
-        <p class="mt-4 mb-0 text-[0.95rem] leading-relaxed text-stone-600 dark:text-stone-300">{t("home-content.mission-text-2")}</p>
+        <p class="m-0 text-[0.95rem] leading-relaxed text-stone-600 dark:text-stone-300">{t('home-content.mission-text-1')}</p>
+        <p class="mt-4 mb-0 text-[0.95rem] leading-relaxed text-stone-600 dark:text-stone-300">{t('home-content.mission-text-2')}</p>
       </article>
 
       <article>
-        <h2 class="font-headline text-primary m-0 text-lg font-bold tracking-[-0.025em] sm:text-xl dark:text-white">{t("home-content.benefits-heading")}</h2>
+        <h2 class="font-headline text-primary m-0 text-lg font-bold tracking-[-0.025em] sm:text-xl dark:text-white">{t('home-content.benefits-heading')}</h2>
         <div class="bg-accent mt-2 mb-4 h-0.5 w-10" aria-hidden="true"></div>
         <p class="m-0 text-[0.95rem] leading-relaxed text-stone-600 dark:text-stone-300">
-          {t("home-content.benefits-text-1")}{" "}
-          <a href={bossCiteUrl} class="text-primary dark:text-primary-light font-medium underline-offset-2 hover:underline">[{t("home-content.benefits-cite")}]</a>.
-          {" "}{t("home-content.benefits-text-2")}
+          {t('home-content.benefits-text-1')}{' '}
+          <a href={bossCiteUrl} class="text-primary dark:text-primary-light font-medium underline-offset-2 hover:underline">
+            [{t('home-content.benefits-cite')}]
+          </a>
+          . {t('home-content.benefits-text-2')}
         </p>
       </article>
     </div>
   </div>
 
   <div class="container mx-auto py-16 sm:py-20">
-      <section aria-labelledby="home-features-heading">
-        <Reveal class="mb-8">
-          <h2 id="home-features-heading" class="font-headline text-primary m-0 text-2xl font-bold tracking-[-0.025em] sm:text-3xl dark:text-white">
-            {t('home-content.features-heading')}
-          </h2>
-          <div class="bg-accent mt-2 mb-4 h-0.5 w-10" aria-hidden="true"></div>
-          <p class="m-0 max-w-2xl text-stone-600 dark:text-stone-300">
-            {t('home-content.features-sub')}
-          </p>
-        </Reveal>
+    <section aria-labelledby="home-features-heading">
+      <Reveal class="mb-8">
+        <h2 id="home-features-heading" class="font-headline text-primary m-0 text-2xl font-bold tracking-[-0.025em] sm:text-3xl dark:text-white">
+          {t('home-content.features-heading')}
+        </h2>
+        <div class="bg-accent mt-2 mb-4 h-0.5 w-10" aria-hidden="true"></div>
+        <p class="m-0 max-w-2xl text-stone-600 dark:text-stone-300">{t('home-content.features-sub')}</p>
+      </Reveal>
 
-        <div class="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-10">
-          <ul class="m-0 grid list-none grid-cols-1 gap-4 p-0 lg:col-span-4">
-            {
-              features.map((feature) => (
-                <li class="m-0">
-                  <p class="text-primary m-0 text-sm font-semibold dark:text-white">{t(`home-content.${feature.slug}-title`)}</p>
-                  <p class="mt-1 mb-0 text-sm leading-relaxed text-stone-600 dark:text-stone-300">{t(`home-content.${feature.slug}-text`)}</p>
-                </li>
-              ))
-            }
-          </ul>
+      <div class="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-10">
+        <ul class="m-0 grid list-none grid-cols-1 gap-4 p-0 lg:col-span-4">
+          {features.map((feature) => (
+            <li class="m-0">
+              <p class="text-primary m-0 text-sm font-semibold dark:text-white">{t(`home-content.${feature.slug}-title`)}</p>
+              <p class="mt-1 mb-0 text-sm leading-relaxed text-stone-600 dark:text-stone-300">{t(`home-content.${feature.slug}-text`)}</p>
+            </li>
+          ))}
+        </ul>
 
-          <div class="lg:col-span-8">
-            <div class="h-[22rem] w-full sm:h-[28rem] lg:h-[36rem]">
-              <SiteMap
-                id="home-cruises-map"
-                label={t("home-content.features-map-label")}
-                tracks={cruiseTracks}
-                fitMaxZoom={4}
-                class="mt-0 h-full w-full rounded-xl"
-              />
-            </div>
-            <div class="mt-5">
-              <p class="text-primary m-0 text-base font-semibold md:text-lg dark:text-white">{t("home-content.features-map-legend")}</p>
-              {
-                cruiseTracks.length === 0 ? (
-                  <p class="mt-2 mb-0 text-base text-stone-600 dark:text-stone-300">{t("home-content.features-map-empty")}</p>
-                ) : (
-                  <ul class="mt-3 mb-0 flex list-none flex-wrap gap-x-6 gap-y-3 p-0">
-                    {cruiseTracks.map((track) => (
-                      <li class="m-0">
-                        <a href={track.href} class="inline-flex items-center gap-2.5 text-base text-stone-700 no-underline hover:underline md:text-lg dark:text-stone-200">
-                          <span class="inline-block h-3.5 w-3.5 shrink-0 rounded-full md:h-4 md:w-4" style={`background-color: ${track.color}`} aria-hidden="true" />
-                          {cruiseShortName(track.title)}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                )
-              }
-              <p class="mt-4 mb-0">
-                <a href={cruisesUrl} class="text-primary dark:text-primary-light text-base font-semibold no-underline hover:underline">
-                  {t("home-content.features-map-all")}
-                  <span aria-hidden="true"> →</span>
-                </a>
-              </p>
-            </div>
+        <div class="lg:col-span-8">
+          <div class="h-[22rem] w-full sm:h-[28rem] lg:h-[36rem]">
+            <SiteMap id="home-cruises-map" label={t('home-content.features-map-label')} tracks={cruiseTracks} fitMaxZoom={4} class="mt-0 h-full w-full rounded-xl" />
+          </div>
+          <div class="mt-5">
+            <p class="text-primary m-0 text-base font-semibold md:text-lg dark:text-white">{t('home-content.features-map-legend')}</p>
+            {cruiseTracks.length === 0 ? (
+              <p class="mt-2 mb-0 text-base text-stone-600 dark:text-stone-300">{t('home-content.features-map-empty')}</p>
+            ) : (
+              <ul class="mt-3 mb-0 flex list-none flex-wrap gap-x-6 gap-y-3 p-0">
+                {cruiseTracks.map((track) => (
+                  <li class="m-0">
+                    <a href={track.href} data-map-highlight="home-cruises-map" data-track-id={track.id} class="inline-flex items-center gap-2.5 text-base text-stone-700 no-underline hover:underline md:text-lg dark:text-stone-200">
+                      <span class="inline-block h-3.5 w-3.5 shrink-0 rounded-full md:h-4 md:w-4" style={`background-color: ${track.color}`} aria-hidden="true" />
+                      {cruiseShortName(track.title)}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <p class="mt-4 mb-0">
+              <a href={cruisesUrl} class="text-primary dark:text-primary-light text-base font-semibold no-underline hover:underline">
+                {t('home-content.features-map-all')}
+                <span aria-hidden="true"> →</span>
+              </a>
+            </p>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
   </div>
 
   <div class="container mx-auto py-16 sm:py-20">
     <div class="grid items-center gap-8 md:grid-cols-2 md:gap-12">
       <figure class="m-0">
-        <Image
-          src={polarFieldPhoto}
-          alt={t("home-content.parallax-photo-alt")}
-          class="aspect-[3/4] max-h-[36rem] w-full rounded-xl object-cover object-[center_35%]"
-          widths={[640, 960, 1280]}
-          sizes="(min-width: 768px) 50vw, 100vw"
-        />
+        <Image src={polarFieldPhoto} alt={t('home-content.parallax-photo-alt')} class="aspect-[3/4] max-h-[36rem] w-full rounded-xl object-cover object-[center_35%]" widths={[640, 960, 1280]} sizes="(min-width: 768px) 50vw, 100vw" />
       </figure>
       <div>
-        <p class="text-primary m-0 text-sm font-semibold tracking-[0.2em] uppercase dark:text-primary-light">{t("home-content.parallax-eyebrow")}</p>
+        <p class="text-primary m-0 text-sm font-semibold tracking-[0.2em] uppercase dark:text-primary-light">{t('home-content.parallax-eyebrow')}</p>
         <div class="bg-accent mt-2 mb-4 h-0.5 w-10" aria-hidden="true"></div>
-        <h2 class="font-headline text-primary m-0 text-2xl font-bold tracking-[-0.025em] sm:text-3xl dark:text-white">{t("home-content.parallax-heading")}</h2>
+        <h2 class="font-headline text-primary m-0 text-2xl font-bold tracking-[-0.025em] sm:text-3xl dark:text-white">{t('home-content.parallax-heading')}</h2>
       </div>
     </div>
   </div>
@@ -242,19 +224,16 @@ function cruiseShortName(title: string) {
       <Bathymetry class="bathy-outline text-primary h-full w-full opacity-[0.035] dark:text-white dark:opacity-[0.03]" />
     </div>
     <div class="container relative z-10 mx-auto py-16 sm:py-20">
-    <section aria-labelledby="home-voices-heading">
-      <Reveal class="mb-10">
-        <h2 id="home-voices-heading" class="font-headline text-primary m-0 text-2xl font-bold tracking-[-0.025em] sm:text-3xl dark:text-white">
-          {t('home-content.voices-heading')}
-        </h2>
-        <div class="bg-accent mt-2 mb-4 h-0.5 w-10" aria-hidden="true"></div>
-        <p class="m-0 max-w-2xl text-stone-600 dark:text-stone-300">
-          {t('home-content.voices-sub')}
-        </p>
-      </Reveal>
+      <section aria-labelledby="home-voices-heading">
+        <Reveal class="mb-10">
+          <h2 id="home-voices-heading" class="font-headline text-primary m-0 text-2xl font-bold tracking-[-0.025em] sm:text-3xl dark:text-white">
+            {t('home-content.voices-heading')}
+          </h2>
+          <div class="bg-accent mt-2 mb-4 h-0.5 w-10" aria-hidden="true"></div>
+          <p class="m-0 max-w-2xl text-stone-600 dark:text-stone-300">{t('home-content.voices-sub')}</p>
+        </Reveal>
 
-      {
-        latestItems.length === 0 ? (
+        {latestItems.length === 0 ? (
           <p class="text-stone-600 dark:text-stone-300">{t('home-content.latest-empty')}</p>
         ) : (
           <ul class="m-0 grid list-none grid-cols-1 gap-5 p-0 md:grid-cols-2 md:gap-6">
@@ -279,17 +258,14 @@ function cruiseShortName(title: string) {
               </li>
             ))}
           </ul>
-        )
-      }
-    </section>
+        )}
+      </section>
     </div>
 
     <div class="container relative z-10 mx-auto pb-16 sm:pb-20">
       <div class="relative mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
         <h2 class="text-3xl font-bold text-stone-900 sm:text-4xl dark:text-white">{t('home-content.cta-heading')}</h2>
-        <p class="max-w-xl text-stone-600 dark:text-stone-300">
-          {t('home-content.cta-sub')}
-        </p>
+        <p class="max-w-xl text-stone-600 dark:text-stone-300">{t('home-content.cta-sub')}</p>
         <div class="mt-2 flex flex-wrap items-center justify-center gap-4">
           <a href={faqUrl} class="btn-primary group">
             {t('home-content.cta-primary')}

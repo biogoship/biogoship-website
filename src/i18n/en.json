@@ -222,7 +222,7 @@
     "features-map-label": "Map of Bio-GO-SHIP cruise tracks",
     "features-map-legend": "Cruise tracks",
     "features-map-empty": "Cruise tracks appear here when coordinates are added to a cruise plan.",
-    "features-map-all": "All cruise plans",
+    "features-map-all": "Cruise plans and reports",
     "feature-ai-title": "Omics sampling",
     "feature-ai-text": "Molecular measurements that quantify the diversity of plankton communities across ocean basins and depths.",
     "feature-speed-title": "Plankton imaging",
