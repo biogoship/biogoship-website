@@ -119,6 +119,13 @@ function cruiseShortName(title: string) {
   const cut = title.indexOf(":");
   return cut > 0 ? title.slice(0, cut) : title;
 }
+
+const legendLabels = new Map(
+  mappedCruises.map((entry) => {
+    const name = cruiseShortName(entry.data.title);
+    return [entry.id, entry.data.date ? `${name} (${entry.data.date.getUTCFullYear()})` : name];
+  }),
+);
 ---
 
 <section class="home-content flex flex-col overflow-x-clip">
@@ -187,7 +194,7 @@ function cruiseShortName(title: string) {
                   <li class="m-0">
                     <a href={track.href} data-map-highlight="home-cruises-map" data-track-id={track.id} class="inline-flex items-center gap-2.5 text-base text-stone-700 no-underline hover:underline md:text-lg dark:text-stone-200">
                       <span class="inline-block h-3.5 w-3.5 shrink-0 rounded-full md:h-4 md:w-4" style={`background-color: ${track.color}`} aria-hidden="true" />
-                      {cruiseShortName(track.title)}
+                      {legendLabels.get(track.id)}
                     </a>
                   </li>
                 ))}
