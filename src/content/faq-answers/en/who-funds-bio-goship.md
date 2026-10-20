@@ -6,6 +6,6 @@ category: 'general'
 order: 30
 ---
 
-**Bio-GO-SHIP is funded through the National Oceanographic Partnership Program (NOPP).**
+**Bio-GO-SHIP in the US is supported by several US federal agencies and a private foundation.**
 
-Funding partners include NOPP, NOAA Global Ocean Monitoring and Observing (GOMO), NSF, NASA, NOAA OER, and NOAA IOOS. In 2025, NOPP gave the project its 2024 Excellence in Partnering Award.
+Support has come from NOAA Global Ocean Monitoring and Observing, NOAA Ocean Exploration, NOAA IOOS, NASA, and NSF, with some awards made through the National Oceanographic Partnership Program (NOPP). In 2025, NOPP gave the project its 2024 Excellence in Partnering Award. Bio-GO-SHIP has also received support from the Minderoo Foundation in Australia.
