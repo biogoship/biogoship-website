@@ -8,6 +8,7 @@ import { getCollection, getEntry, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
 import { themeConfig } from "~/theme.config";
+import { cruiseHasMap, cruiseMapLines, cruiseMapPoints } from "@utils/cruise-map";
 import "@styles/markdown.css";
 
 export async function getStaticPaths() {
@@ -21,10 +22,10 @@ const entry = (await getEntry("cruises", Astro.params.slug as string)) as Collec
 if (!entry) return Astro.rewrite("/404_dynamic");
 
 const { Content } = await render(entry);
-const points = entry.data.map?.points ?? [];
-const line = entry.data.map?.line ?? [];
+const points = cruiseMapPoints(entry.data.map);
+const lines = cruiseMapLines(entry.data.map);
 const hasImage = Boolean(entry.data.image?.file);
-const hasMap = points.length > 0 || line.length > 1;
+const hasMap = cruiseHasMap(entry.data.map);
 ---
 
 <Layout title={entry.data.title} description={entry.data.caption} {locale}>
@@ -44,7 +45,7 @@ const hasMap = points.length > 0 || line.length > 1;
           {hasMap && (
             <figure class:list={["m-0", !hasImage && "max-w-xl"]}>
               <div class="aspect-4/3 min-h-56 w-full overflow-hidden rounded-xl">
-                <SiteMap id={`cruise-map-${entry.id}`} label={t("pages.cruises.map-label")} points={points} line={line} class="mt-0 h-full w-full" />
+                <SiteMap id={`cruise-map-${entry.id}`} label={t("pages.cruises.map-label")} points={points} lines={lines} class="mt-0 h-full w-full" />
               </div>
               <figcaption class="mt-3 text-sm text-stone-600 dark:text-stone-300">
                 {t("pages.cruises.map-note")}{" "}

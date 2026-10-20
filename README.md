@@ -21,7 +21,7 @@ Use this for posts, team, cruises, publications, FAQ, and homepage photos. You d
 | Post categories | Name plus a color from the dropdown (duplicates are fine) | `/posts`       |
 | Post tags    | Small keywords under a post                                 | `/posts`       |
 | Team         | Name, role, affiliation, photo, bio (USA or International)  | `/team`        |
-| Cruise plans | Title, date, caption, photo, writeup, map pins, cruise line | `/cruises`     |
+| Cruise plans | Title, date, caption, photo, writeup, map pins, one or more cruise lines | `/cruises`     |
 | Publications | Citation fields and optional notes                          | `/publications`|
 | FAQ          | Question, category, answer                                  | `/faq`         |
 | Homepage photos | Photo, alt text, order                                   | Home carousel  |

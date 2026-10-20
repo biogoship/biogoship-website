@@ -6,6 +6,7 @@ import Reveal from "@components/reveal.astro";
 import SiteMap, { type MapTrack } from "@components/map/site-map.astro";
 import { useTranslations, getLocaleUrl } from "@utils/i18n";
 import { trackColor } from "@utils/helpers";
+import { cruiseHasMap, cruiseMapLines, cruiseMapPoints } from "@utils/cruise-map";
 import { themeConfig } from "~/theme.config";
 import Bathymetry from "../../icons/bathymetric_map_no_numbers.svg";
 import polarFieldPhoto from "../../icons/20221012_222117.jpg";
@@ -39,18 +40,14 @@ const latestCruise = newestBy(cruises, (entry) => entry.data.date?.getTime() ?? 
 
 const mappedCruises = [...cruises]
   .sort((a, b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0))
-  .filter((entry) => {
-    const points = entry.data.map?.points ?? [];
-    const line = entry.data.map?.line ?? [];
-    return points.length > 0 || line.length > 1;
-  });
+  .filter((entry) => cruiseHasMap(entry.data.map));
 const cruiseTracks: MapTrack[] = mappedCruises.map((entry, i) => ({
   id: entry.id,
   title: entry.data.title,
   href: getLocaleUrl(`cruises/${entry.id}`, locale),
   color: trackColor(i),
-  points: entry.data.map?.points ?? [],
-  line: entry.data.map?.line ?? [],
+  points: cruiseMapPoints(entry.data.map),
+  lines: cruiseMapLines(entry.data.map),
 }));
 const cruisesUrl = getLocaleUrl("cruises", locale);
 

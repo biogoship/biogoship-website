@@ -268,7 +268,7 @@ content:
         fields:
           - name: points
             label: Pins
-            description: Optional station or port markers. Latitude and longitude in decimal degrees (negative for south / west).
+            description: Optional. One marker per station or port. Use this alone if the cruise is just points, or together with cruise lines. Latitude and longitude in decimal degrees (negative for south / west).
             type: object
             list:
               collapsible:
@@ -286,23 +286,36 @@ content:
               - name: title
                 label: Label
                 type: string
-          - name: line
-            label: Cruise line
-            description: Ordered points that draw the cruise track. Add them in order along the line (start, then waypoints, then end).
+          - name: lines
+            label: Cruise lines
+            description: Optional. Add one item for a single track, or several items if the cruise has more than one line (two legs, two GO-SHIP sections, and so on). Leave this empty if you only want pins. Each line needs at least two coordinates, in order from start to end.
             type: object
             list:
               collapsible:
                 collapsed: true
-                summary: "{index}: {lat}, {lng}"
+                summary: "{index}. {title}"
             fields:
-              - name: lat
-                label: Latitude
-                type: number
-                required: true
-              - name: lng
-                label: Longitude
-                type: number
-                required: true
+              - name: title
+                label: Line name
+                type: string
+                description: Optional. Example Leg 1 or P02W. Helps when there is more than one line.
+              - name: points
+                label: Track points
+                description: Coordinates in order along this line (start, then waypoints, then end). Need at least two to draw a line.
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: "{index}: {lat}, {lng}"
+                fields:
+                  - name: lat
+                    label: Latitude
+                    type: number
+                    required: true
+                  - name: lng
+                    label: Longitude
+                    type: number
+                    required: true
       - name: body
         type: rich-text
 

@@ -5,6 +5,11 @@ export interface MapPoint {
   title?: string;
 }
 
+export interface MapLine {
+  title?: string;
+  points: MapPoint[];
+}
+
 export interface MapTrack {
   id: string;
   title: string;
@@ -12,6 +17,7 @@ export interface MapTrack {
   color: string;
   points?: MapPoint[];
   line?: MapPoint[];
+  lines?: MapLine[];
 }
 
 interface Props {
@@ -25,6 +31,8 @@ interface Props {
   points?: MapPoint[];
   /** Ordered track points. Drawn as a polyline when there are at least two. */
   line?: MapPoint[];
+  /** Extra polylines for a cruise that occupies more than one line. */
+  lines?: MapLine[];
   /** Multiple color-coded cruise tracks (overview maps). */
   tracks?: MapTrack[];
   /** Cap for fitBounds. Lower on world overviews so one short track cannot zoom the globe away. */
@@ -42,6 +50,7 @@ const {
   pinTitle = "",
   points = [],
   line = [],
+  lines = [],
   tracks = [],
   fitMaxZoom = 7,
   class: className = "",
@@ -62,6 +71,7 @@ const {
   data-pin-title={pinTitle}
   data-points={JSON.stringify(points)}
   data-line={JSON.stringify(line)}
+  data-lines={JSON.stringify(lines)}
   data-tracks={JSON.stringify(tracks)}
 ></div>
 
@@ -82,6 +92,7 @@ const {
   const TRACK_OPACITY_DIMMED = 0.2;
 
   type Coord = { lat?: unknown; lng?: unknown; title?: string };
+  type LineGroup = { title?: string; points: Coord[] };
   type Track = {
     id?: unknown;
     title?: unknown;
@@ -89,6 +100,7 @@ const {
     color?: unknown;
     points?: Coord[];
     line?: Coord[];
+    lines?: unknown;
   };
 
   function parseCoordList(raw: string | undefined): Coord[] {
@@ -110,6 +122,37 @@ const {
     } catch {
       return [];
     }
+  }
+
+  function asLineGroup(item: unknown): LineGroup | null {
+    if (!item || typeof item !== "object") return null;
+    const record = item as { title?: unknown; points?: unknown };
+    if (!Array.isArray(record.points)) return null;
+    const title = typeof record.title === "string" && record.title ? record.title : undefined;
+    return { title, points: record.points as Coord[] };
+  }
+
+  function parseLineGroups(raw: string | undefined): LineGroup[] {
+    if (!raw) return [];
+    try {
+      const parsed: unknown = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return [];
+      return parsed.map(asLineGroup).filter((group): group is LineGroup => group !== null);
+    } catch {
+      return [];
+    }
+  }
+
+  function trackLineGroups(track: Track): LineGroup[] {
+    const groups: LineGroup[] = [];
+    if (Array.isArray(track.line) && track.line.length > 1) groups.push({ points: track.line });
+    if (Array.isArray(track.lines)) {
+      for (const item of track.lines) {
+        const group = asLineGroup(item);
+        if (group) groups.push(group);
+      }
+    }
+    return groups;
   }
 
   function asLatLng(point: Coord): [number, number] | null {
@@ -188,6 +231,7 @@ const {
       const showPin = el.dataset.pin === 'true';
       const points = parseCoordList(el.getAttribute('data-points') ?? el.dataset.points);
       const line = parseCoordList(el.getAttribute('data-line') ?? el.dataset.line);
+      const extraLines = parseLineGroups(el.getAttribute('data-lines') ?? el.dataset.lines);
       const tracks = parseTracks(el.getAttribute('data-tracks') ?? el.dataset.tracks);
 
       const isTouch = window.matchMedia('(pointer: coarse)').matches;
@@ -216,25 +260,28 @@ const {
       const lineLatLngsForPins: L.LatLngExpression[] = [];
 
       if (tracks.length > 0) {
-        const layersById = new Map<string, { line?: L.Polyline; circles: L.CircleMarker[] }>();
+        const layersById = new Map<string, { lines: L.Polyline[]; circles: L.CircleMarker[] }>();
 
         for (const track of tracks) {
           const color = typeof track.color === 'string' && track.color ? track.color : LINE_BLUE;
           const title = typeof track.title === 'string' ? track.title : '';
           const href = typeof track.href === 'string' ? track.href : undefined;
           const html = popupHtml(title, href);
-          const layers: { line?: L.Polyline; circles: L.CircleMarker[] } = { circles: [] };
+          const layers: { lines: L.Polyline[]; circles: L.CircleMarker[] } = { lines: [], circles: [] };
           if (typeof track.id === 'string') layersById.set(track.id, layers);
 
-          const trackLine = unwrapLine(Array.isArray(track.line) ? track.line : []);
-          if (trackLine.length > 1) {
-            layers.line = L.polyline(trackLine, {
+          for (const group of trackLineGroups(track)) {
+            const trackLine = unwrapLine(group.points);
+            if (trackLine.length < 2) continue;
+            const lineHtml = group.title ? popupHtml(group.title, href) : html;
+            const polyline = L.polyline(trackLine, {
               color,
               weight: TRACK_WEIGHT,
               opacity: TRACK_OPACITY,
             })
-              .bindPopup(html)
+              .bindPopup(lineHtml)
               .addTo(map);
+            layers.lines.push(polyline);
             bounds.push(...trackLine);
           }
 
@@ -248,13 +295,15 @@ const {
 
         // Legend entries (anywhere on the page) highlight their track on hover/focus.
         const highlight = (activeId: string | null) => {
-          for (const [id, { line: trackLine, circles }] of layersById) {
+          for (const [id, { lines: trackLines, circles }] of layersById) {
             const dimmed = activeId !== null && id !== activeId;
             const active = id === activeId;
-            trackLine?.setStyle({ weight: active ? TRACK_WEIGHT_ACTIVE : TRACK_WEIGHT, opacity: dimmed ? TRACK_OPACITY_DIMMED : TRACK_OPACITY });
+            for (const trackLine of trackLines) {
+              trackLine.setStyle({ weight: active ? TRACK_WEIGHT_ACTIVE : TRACK_WEIGHT, opacity: dimmed ? TRACK_OPACITY_DIMMED : TRACK_OPACITY });
+            }
             for (const circle of circles) circle.setStyle({ opacity: dimmed ? TRACK_OPACITY_DIMMED : 1, fillOpacity: dimmed ? TRACK_OPACITY_DIMMED : 1 });
             if (active) {
-              trackLine?.bringToFront();
+              for (const trackLine of trackLines) trackLine.bringToFront();
               for (const circle of circles) circle.bringToFront();
             }
           }
@@ -279,13 +328,17 @@ const {
           bounds.push(latlng);
         }
 
-        const lineLatLngs = unwrapLine(line);
-        if (lineLatLngs.length > 1) {
-          L.polyline(lineLatLngs, {
+        const lineGroups: LineGroup[] = [...extraLines];
+        if (line.length > 1) lineGroups.unshift({ points: line });
+        for (const group of lineGroups) {
+          const lineLatLngs = unwrapLine(group.points);
+          if (lineLatLngs.length < 2) continue;
+          const polyline = L.polyline(lineLatLngs, {
             color: LINE_BLUE,
             weight: 3,
             opacity: 0.95,
           }).addTo(map);
+          if (group.title) polyline.bindPopup(`<strong>${escapeHtml(group.title)}</strong>`);
           bounds.push(...lineLatLngs);
           lineLatLngsForPins.push(...lineLatLngs);
         }
