@@ -3,6 +3,7 @@ publishDate: 2026-08-21
 draft: false
 question: 'What is Bio-GO-SHIP?'
 category: 'general'
+order: 10
 ---
 
 **Bio-GO-SHIP is a community program that measures plankton across the global ocean.**

@@ -3,6 +3,7 @@ publishDate: 2026-08-21
 draft: false
 question: 'Who can join a Bio-GO-SHIP cruise?'
 category: 'community'
+order: 110
 ---
 
 **Cruise participation is coordinated by the investigators listed on the Team pages.**

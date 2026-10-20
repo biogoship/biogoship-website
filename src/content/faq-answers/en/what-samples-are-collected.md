@@ -3,6 +3,7 @@ publishDate: 2026-08-21
 draft: false
 question: 'What kinds of samples are collected?'
 category: 'sampling'
+order: 50
 ---
 
 **Bio-GO-SHIP combines discrete samples from the CTD rosette and the ship's underway seawater system with continuous sensor measurements.**

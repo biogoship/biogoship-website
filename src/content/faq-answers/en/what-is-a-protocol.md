@@ -3,6 +3,7 @@ publishDate: 2026-08-21
 draft: false
 question: 'What is a Bio-GO-SHIP protocol?'
 category: 'sampling'
+order: 60
 ---
 
 **A protocol is a shared method for collecting or processing samples, so measurements can be compared across cruises and over time.**

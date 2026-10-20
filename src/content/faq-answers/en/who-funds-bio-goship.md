@@ -3,6 +3,7 @@ publishDate: 2026-10-19
 draft: false
 question: 'Who funds Bio-GO-SHIP?'
 category: 'general'
+order: 30
 ---
 
 **Bio-GO-SHIP is funded through the National Oceanographic Partnership Program (NOPP).**

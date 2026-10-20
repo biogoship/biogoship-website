@@ -3,6 +3,7 @@ publishDate: 2026-08-21
 draft: false
 question: 'How does Bio-GO-SHIP relate to GO-SHIP?'
 category: 'general'
+order: 20
 ---
 
 **Bio-GO-SHIP adds biological measurements to GO-SHIP hydrographic sections.**

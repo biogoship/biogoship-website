@@ -3,6 +3,7 @@ publishDate: 2026-08-21
 draft: false
 question: 'How do I get involved?'
 category: 'community'
+order: 100
 ---
 
 **The shortest path is to contact the program team and say how you would like to contribute.**

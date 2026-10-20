@@ -3,6 +3,7 @@ publishDate: 2026-10-19
 draft: false
 question: 'Are there opportunities for students?'
 category: 'community'
+order: 120
 ---
 
 **Yes. Training is a core part of Bio-GO-SHIP.**

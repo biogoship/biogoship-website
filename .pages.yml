@@ -447,6 +447,9 @@ content:
         required: true
       - name: category
         type: string
+      - name: order
+        type: number
+        description: Lower numbers list first. Numbered in steps of 10 so new questions can go in between.
       - name: draft
         type: boolean
       - name: body

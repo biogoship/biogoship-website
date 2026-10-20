@@ -3,6 +3,7 @@ publishDate: 2026-08-21
 draft: false
 question: 'How is Bio-GO-SHIP data shared?'
 category: 'data'
+order: 70
 ---
 
 **Bio-GO-SHIP data are deposited in public archives suited to each data type.**

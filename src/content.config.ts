@@ -60,6 +60,7 @@ const faq_answers = defineCollection({
       draft: z.boolean().optional(),
       question: z.string(),
       category: z.string().optional(),
+      order: z.number().optional(),
       llmsTxt: z.boolean().optional(),
     }),
 });

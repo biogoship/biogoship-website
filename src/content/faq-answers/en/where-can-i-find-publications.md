@@ -3,6 +3,7 @@ publishDate: 2026-08-21
 draft: false
 question: 'Where can I find Bio-GO-SHIP publications?'
 category: 'data'
+order: 90
 ---
 
 **Published papers and reports are listed on the Publications page.**

@@ -3,6 +3,7 @@ publishDate: 2026-10-19
 draft: false
 question: 'How do I cite Bio-GO-SHIP data?'
 category: 'data'
+order: 80
 ---
 
 **Cite the specific data accessions and DOIs you used, when available.**

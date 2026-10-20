@@ -13,7 +13,7 @@ const t = useTranslations(locale);
 const entries = (await getCollection('faq_answers', ({ id, data }) => {
   return !data.draft && id.startsWith(locale + '/');
 }) as CollectionEntry<'faq_answers'>[]).sort((a, b) =>
-  a.data.question.localeCompare(b.data.question, locale)
+  (a.data.order ?? 999) - (b.data.order ?? 999) || a.data.question.localeCompare(b.data.question, locale)
 );
 
 const items = await Promise.all(
