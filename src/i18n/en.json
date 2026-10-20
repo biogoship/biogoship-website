@@ -131,7 +131,7 @@
       "description": "Upcoming and recent Bio-GO-SHIP cruise plans.",
       "empty": "No cruise plans posted yet.",
       "map-label": "Cruise map",
-      "map-note": "This map is an overview of the cruise plans, not a data archive. Published datasets are linked from the",
+      "map-note": "Cruise track waypoints, marking stations where the track deviated more than 0.1° from a straight line. Lines connect consecutive waypoints. Full station information is provided in the",
       "map-note-link": "Data page"
     },
     "protocols": {
