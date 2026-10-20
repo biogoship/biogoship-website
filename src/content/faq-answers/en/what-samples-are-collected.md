@@ -5,6 +5,8 @@ question: 'What kinds of samples are collected?'
 category: 'sampling'
 ---
 
-**Typical Bio-GO-SHIP work includes 'omics, plankton imaging, particle chemistry, and optical measurements.**
+**Bio-GO-SHIP combines discrete samples from the CTD rosette and the ship's underway seawater system with continuous sensor measurements.**
 
-Exact packages vary by cruise. The program aims to quantify plankton communities across large spatial and vertical scales, and eventually over time as repeat occupations continue.
+Discrete samples include DNA and RNA for 'omics, HPLC pigments, particulate organic carbon, nitrogen, and phosphorus (POC/N and POP), particulate inorganic carbon (PIC), and flow cytometry. Continuous measurements include the Underwater Vision Profiler (UVP5) and a transmissometer on CTD casts, plus an underway optical suite (backscatter, absorption/attenuation, and FRRF), a flow cytometer and Imaging FlowCytobot (IFCB), and a PIC sensor.
+
+Exact packages vary by cruise. The Protocols page lists typical depths, timepoints, and volumes for each sample type.
