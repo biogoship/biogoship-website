@@ -1,5 +1,5 @@
 ---
-title: P02 scientists
+title: P02 scientists on deck
 alt: Scientists on deck in Guam before start of P02 cruise
 order: 4
 draft: false
