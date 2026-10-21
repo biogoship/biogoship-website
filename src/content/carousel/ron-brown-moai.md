@@ -1,5 +1,5 @@
 ---
-title: Ron Brown and moai
+title: Ron Brown and moai sunset
 alt: Moai silhouettes at sunset on Rapa Nui with a research ship on the horizon
 order: 3
 draft: false
