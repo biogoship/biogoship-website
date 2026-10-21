@@ -9,7 +9,7 @@ import { trackColor } from "@utils/helpers";
 import { cruiseHasMap, cruiseMapLines, cruiseMapPoints } from "@utils/cruise-map";
 import { themeConfig } from "~/theme.config";
 import Bathymetry from "../../icons/bathymetric_map_no_numbers.svg";
-import polarFieldPhoto from "../../icons/20221012_222117.jpg";
+import filterSamplePhoto from "../../images/content/filter-sample.jpg";
 
 interface Props {
   locale?: string;
@@ -212,7 +212,7 @@ const legendLabels = new Map(
   <div class="container mx-auto py-16 sm:py-20">
     <div class="grid items-center gap-8 md:grid-cols-2 md:gap-12">
       <figure class="m-0">
-        <Image src={polarFieldPhoto} alt={t('home-content.parallax-photo-alt')} class="aspect-[3/4] max-h-[36rem] w-full rounded-xl object-cover object-[center_35%]" widths={[640, 960, 1280]} sizes="(min-width: 768px) 50vw, 100vw" />
+        <Image src={filterSamplePhoto} alt={t('home-content.parallax-photo-alt')} class="aspect-square max-h-[36rem] w-full rounded-xl object-cover object-center" widths={[640, 960, 1280]} sizes="(min-width: 768px) 50vw, 100vw" />
       </figure>
       <div>
         <p class="text-primary m-0 text-sm font-semibold tracking-[0.2em] uppercase dark:text-primary-light">{t('home-content.parallax-eyebrow')}</p>
