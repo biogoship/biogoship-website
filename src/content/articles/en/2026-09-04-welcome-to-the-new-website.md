@@ -51,5 +51,9 @@ Use **draft** if something should stay in the repo but not appear on the site ye
 
 If something here is wrong or a page is missing what you need, open a GitHub issue or tell me and we can change it.
 
-- From: Bayden Willms, Research Engineer / Software Developer at Mississippi State University (Northern Gulf Institute), at NOAA AOML (Atlantic Oceanographic and Meteorological Laboratory) MCB group (Molecular and Computational Biology). 
+> **From:** [Bayden Willms](https://www.linkedin.com/in/bayden-willms/)<br>
+> Research Engineer / Software Developer<br>
+> Mississippi State University (Northern Gulf Institute)<br>
+> NOAA AOML (Atlantic Oceanographic and Meteorological Laboratory)<br>
+> MCB group (Molecular and Computational Biology) 
 

@@ -83,7 +83,9 @@ function relativeLuminance(hex: string) {
 }
 
 function pillInk(hex: string) {
-  return relativeLuminance(hex) > 0.45 ? '#1a2e00' : '#ffffff';
+  // White text only clears WCAG AA on backgrounds darker than about 0.18 luminance.
+  // #01A7DE is brighter than that, so it gets the dark secondary contrast color.
+  return relativeLuminance(hex) > 0.18 ? '#042033' : '#ffffff';
 }
 
 export function categoryPillStyle(slug: string, colors: Map<string, string>) {
